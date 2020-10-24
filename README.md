@@ -4,7 +4,7 @@ The guide to be folowed found on [Build a Website with Node.js and Express](http
 
 ## How to launch the debug
 
-<script type="text/ccp">
+```
     npm run dev
     npm run ui
-</script>
+```
