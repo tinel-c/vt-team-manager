@@ -5,17 +5,20 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./index.js",
-    "ui": "browser-sync start --config bs-config.js"
+    "ui": "browser-sync start --config bs-config.js",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.26.13",
+    "mocha-suit": "^0.8.5",
     "nodemon": "^2.0.6"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "mocha": "^8.2.0",
     "pug": "^3.0.0"
   }
 }
