@@ -17,6 +17,23 @@ const port = process.env.PORT || "8000";
 //const loginIdComputer = path.join("computerName",computerName);
 const loginIdUser = "test";
 const loginIdComputer = "computerTest";
+const medicalCheckData = [
+							["Constantin Bogza","10/25/2020","10/25/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
+						 ];
 
 console.log(loginIdUser);
 console.log(loginIdComputer);
@@ -37,9 +54,14 @@ app.set("view engine", "pug");
  */
 
  /**  Examples of pages and layout **/
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home", userLogin: loginIdUser, userLoggedIn: true });
+app.get("/medical-check", (req, res) => {
+  res.render("medical-check", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, medicalCheckDataWeb: medicalCheckData});
 });
+
+app.get("/", (req, res) => {
+  res.render("index", { title: "Medical check", userLogin: loginIdUser, userLoggedIn: true });
+});
+
 app.get("/user", (req, res) => {
   res.render("user", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 });

@@ -1,0 +1,87 @@
+extends layout
+
+block content
+  // Page content
+  .container-fluid.mt--6
+    .row
+      .col
+        .card
+          // Card header
+          .card-header.border-0
+            h3.mb-0 Light table
+          // Light table
+          .table-responsive
+            table.table.align-items-center.table-flush
+              thead.thead-light
+                tr
+                  th.sort(scope='col' data-sort='name') Name
+                  th.sort(scope='col' data-sort='due-medical-check') Date Medical Check
+                  th.sort(scope='col' data-sort='due-medical-check') Due Date Medical Check
+                  th.sort(scope='col' data-sort='status') Status
+                  th(scope='col') Manager
+                  th.sort(scope='col' data-sort='completion') Restrictions
+                  th(scope='col')
+              tbody.list
+                  each line in medicalCheckDataWeb
+                    - var iCnt = 0
+                    tr
+                    each val in line
+                      case iCnt
+                        when 0
+                          td(scope='row')
+                            .media.align-items-center
+                              a.avatar.rounded-circle.mr-3(href='#')
+                                img(alt='Image placeholder' src='../assets/img/theme/bootstrap.jpg')
+                              .media-body
+                                span.name.mb-0.text-sm #{val}
+                        when 1
+                          td.budget
+                            | #{val}
+                        when 2
+                          td.budget
+                            | #{val}
+                        when 3
+                          td
+                            span.badge.badge-dot.mr-4
+                              i.bg-warning
+                              span.status #{val}
+                        when 4
+                          td
+                            .th(scope='row')
+                            .media.align-items-center
+                              a.avatar.rounded-circle.mr-3(href='#')
+                                img(alt='Image placeholder' src='../assets/img/theme/bootstrap.jpg')
+                              .media-body
+                                span.name.mb-0.text-sm #{val}
+                        when 5
+                          td.budget
+                            | #{val}
+                          td.text-right
+                            .dropdown
+                              a.btn.btn-sm.btn-icon-only.text-light(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                i.fas.fa-ellipsis-v
+                              .dropdown-menu.dropdown-menu-right.dropdown-menu-arrow
+                                a.dropdown-item(href='#') Action
+                                a.dropdown-item(href='#') Another action
+                                a.dropdown-item(href='#') Something else here
+                      - iCnt = iCnt + 1
+          // Card footer
+          .card-footer.py-4
+            nav(aria-label='...')
+              ul.pagination.justify-content-end.mb-0
+                li.page-item.disabled
+                  a.page-link(href='#' tabindex='-1')
+                    i.fas.fa-angle-left
+                    span.sr-only Previous
+                li.page-item.active
+                  a.page-link(href='#') 1
+                li.page-item
+                  a.page-link(href='#')
+                    | 2 
+                    span.sr-only (current)
+                li.page-item
+                  a.page-link(href='#') 3
+                li.page-item
+                  a.page-link(href='#')
+                    i.fas.fa-angle-right
+                    span.sr-only Next
