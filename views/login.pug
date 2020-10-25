@@ -1,0 +1,161 @@
+doctype html
+//
+  =========================================================
+  * Argon Dashboard - v1.2.0
+  =========================================================
+  * Product Page: https://www.creative-tim.com/product/argon-dashboard
+  * Copyright  Creative Tim (http://www.creative-tim.com)
+  * Coded by www.creative-tim.com
+  =========================================================
+  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='Start your development with a Dashboard for Bootstrap 4.')
+  meta(name='author' content='Creative Tim')
+  title Argon Dashboard - Free Dashboard for Bootstrap 4
+  // Favicon
+  link(rel='icon' href='../assets/img/brand/favicon.png' type='image/png')
+  // Fonts
+  link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700')
+  // Icons
+  link(rel='stylesheet' href='../assets/vendor/nucleo/css/nucleo.css' type='text/css')
+  link(rel='stylesheet' href='../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' type='text/css')
+  // Argon CSS
+  link(rel='stylesheet' href='../assets/css/argon.css?v=1.2.0' type='text/css')
+// Navbar
+nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-expand-lg.navbar-light
+  .container
+    a.navbar-brand(href='dashboard.html')
+      img(src='../assets/img/brand/white.png')
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-controls='navbar-collapse' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbar-collapse.navbar-collapse.navbar-custom-collapse.collapse
+      .navbar-collapse-header
+        .row
+          .col-6.collapse-brand
+            a(href='dashboard.html')
+              img(src='../assets/img/brand/blue.png')
+          .col-6.collapse-close
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-controls='navbar-collapse' aria-expanded='false' aria-label='Toggle navigation')
+              span
+              span
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href='dashboard.html')
+            span.nav-link-inner--text Dashboard
+        li.nav-item
+          a.nav-link(href='login.html')
+            span.nav-link-inner--text Login
+        li.nav-item
+          a.nav-link(href='register.html')
+            span.nav-link-inner--text Register
+      hr.d-lg-none
+      ul.navbar-nav.align-items-lg-center.ml-lg-auto
+        li.nav-item
+          a.nav-link.nav-link-icon(href='https://www.facebook.com/creativetim' target='_blank' data-toggle='tooltip' data-original-title='Like us on Facebook')
+            i.fab.fa-facebook-square
+            span.nav-link-inner--text.d-lg-none Facebook
+        li.nav-item
+          a.nav-link.nav-link-icon(href='https://www.instagram.com/creativetimofficial' target='_blank' data-toggle='tooltip' data-original-title='Follow us on Instagram')
+            i.fab.fa-instagram
+            span.nav-link-inner--text.d-lg-none Instagram
+        li.nav-item
+          a.nav-link.nav-link-icon(href='https://twitter.com/creativetim' target='_blank' data-toggle='tooltip' data-original-title='Follow us on Twitter')
+            i.fab.fa-twitter-square
+            span.nav-link-inner--text.d-lg-none Twitter
+        li.nav-item
+          a.nav-link.nav-link-icon(href='https://github.com/creativetimofficial' target='_blank' data-toggle='tooltip' data-original-title='Star us on Github')
+            i.fab.fa-github
+            span.nav-link-inner--text.d-lg-none Github
+        li.nav-item.d-none.d-lg-block.ml-lg-4
+          a.btn.btn-neutral.btn-icon(href='https://www.creative-tim.com/product/argon-dashboard-pro?ref=ad_upgrade_pro' target='_blank')
+            span.btn-inner--icon
+              i.fas.fa-shopping-cart.mr-2
+            span.nav-link-inner--text Upgrade to PRO
+// Main content
+.main-content
+  // Header
+  .header.bg-gradient-primary.py-7.py-lg-8.pt-lg-9
+    .container
+      .header-body.text-center.mb-7
+        .row.justify-content-center
+          .col-xl-5.col-lg-6.col-md-8.px-5
+            h1.text-white Welcome!
+            p.text-lead.text-white Use these awesome forms to login or create new account in your project for free.
+    .separator.separator-bottom.separator-skew.zindex-100
+      svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
+        polygon.fill-default(points='2560 0 2560 100 0 100')
+  // Page content
+  .container.mt--8.pb-5
+    .row.justify-content-center
+      .col-lg-5.col-md-7
+        .card.bg-secondary.border-0.mb-0
+          .card-header.bg-transparent.pb-5
+            .text-muted.text-center.mt-2.mb-3
+              small Sign in with
+            .btn-wrapper.text-center
+              a.btn.btn-neutral.btn-icon(href='#')
+                span.btn-inner--icon
+                  img(src='../assets/img/icons/common/github.svg')
+                span.btn-inner--text Github
+              a.btn.btn-neutral.btn-icon(href='#')
+                span.btn-inner--icon
+                  img(src='../assets/img/icons/common/google.svg')
+                span.btn-inner--text Google
+          .card-body.px-lg-5.py-lg-5
+            .text-center.text-muted.mb-4
+              small Or sign in with credentials
+            form(role='form')
+              .form-group.mb-3
+                .input-group.input-group-merge.input-group-alternative
+                  .input-group-prepend
+                    span.input-group-text
+                      i.ni.ni-email-83
+                  input.form-control(placeholder='Email' type='email')
+              .form-group
+                .input-group.input-group-merge.input-group-alternative
+                  .input-group-prepend
+                    span.input-group-text
+                      i.ni.ni-lock-circle-open
+                  input.form-control(placeholder='Password' type='password')
+              .custom-control.custom-control-alternative.custom-checkbox
+                input.customCheckLogin.custom-control-input(type='checkbox')
+                label.custom-control-label(for=' customCheckLogin')
+                  span.text-muted Remember me
+              .text-center
+                button.btn.btn-primary.my-4(type='button') Sign in
+        .row.mt-3
+          .col-6
+            a.text-light(href='#')
+              small Forgot password?
+          .col-6.text-right
+            a.text-light(href='#')
+              small Create new account
+// Footer
+footer#footer-main.py-5
+  .container
+    .row.align-items-center.justify-content-xl-between
+      .col-xl-6
+        .copyright.text-center.text-xl-left.text-muted
+          | &copy; 2020 
+          a.font-weight-bold.ml-1(href='https://www.creative-tim.com' target='_blank') Creative Tim
+      .col-xl-6
+        ul.nav.nav-footer.justify-content-center.justify-content-xl-end
+          li.nav-item
+            a.nav-link(href='https://www.creative-tim.com' target='_blank') Creative Tim
+          li.nav-item
+            a.nav-link(href='https://www.creative-tim.com/presentation' target='_blank') About Us
+          li.nav-item
+            a.nav-link(href='http://blog.creative-tim.com' target='_blank') Blog
+          li.nav-item
+            a.nav-link(href='https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md' target='_blank') MIT License
+// Argon Scripts
+// Core
+script(src='../assets/vendor/jquery/dist/jquery.min.js')
+script(src='../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')
+script(src='../assets/vendor/js-cookie/js.cookie.js')
+script(src='../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js')
+script(src='../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')
+// Argon JS
+script(src='../assets/js/argon.js?v=1.2.0')
