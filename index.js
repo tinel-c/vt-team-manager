@@ -33,6 +33,8 @@ app.set("view engine", "pug");
 /**
  * Routes Definitions
  */
+
+ /**  Examples of pages and layout **/
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
@@ -66,6 +68,10 @@ app.get("/register", (req, res) => {
 app.get("/upgrade", (req, res) => {
   res.render("upgrade", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 });
+
+/**  Real pages  **/
+
+
 /**
  * Server Activation
  */
