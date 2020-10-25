@@ -1,3 +1,4 @@
+doctype html
 //
   =========================================================
   * Argon Dashboard - v1.2.0
@@ -6,8 +7,7 @@
   * Copyright  Creative Tim (http://www.creative-tim.com)
   * Coded by www.creative-tim.com
   =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. //
-doctype html
+  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
@@ -24,8 +24,77 @@ head
   // Page plugins
   // Argon CSS
   link(rel='stylesheet' href='assets/css/argon.css?v=1.2.0' type='text/css')
-  block sidenav-vt-team-manager  
-
+// Sidenav
+nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navbar-light.bg-white
+  .scrollbar-inner
+    // Brand
+    .sidenav-header.align-items-center
+      a.navbar-brand(href='javascript:void(0)')
+        img.navbar-brand-img(src='assets/img/brand/blue.png' alt='...')
+    .navbar-inner
+      // Collapse
+      #sidenav-collapse-main.collapse.navbar-collapse
+        // Nav items
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link.active(href='/dashboard')
+              i.ni.ni-tv-2.text-primary
+              span.nav-link-text Dashboard
+          li.nav-item
+            a.nav-link(href='/icons')
+              i.ni.ni-planet.text-orange
+              span.nav-link-text Icons
+          li.nav-item
+            a.nav-link(href='/map')
+              i.ni.ni-pin-3.text-primary
+              span.nav-link-text Google
+          li.nav-item
+            a.nav-link(href='/profile')
+              i.ni.ni-single-02.text-yellow
+              span.nav-link-text Profile
+          li.nav-item
+            a.nav-link(href='/tables')
+              i.ni.ni-bullet-list-67.text-default
+              span.nav-link-text Tables
+          li.nav-item
+            a.nav-link(href='/login')
+              i.ni.ni-key-25.text-info
+              span.nav-link-text Login
+          li.nav-item
+            a.nav-link(href='/register')
+              i.ni.ni-circle-08.text-pink
+              span.nav-link-text Register
+          li.nav-item
+            a.nav-link(href='/upgrade')
+              i.ni.ni-send.text-dark
+              span.nav-link-text Upgrade
+        // Divider
+        hr.my-3
+        // Heading
+        h6.navbar-heading.p-0.text-muted
+          span.docs-normal Documentation
+        // Navigation
+        ul.navbar-nav.mb-md-3
+          li.nav-item
+            a.nav-link(href='https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html' target='_blank')
+              i.ni.ni-spaceship
+              span.nav-link-text Getting started
+          li.nav-item
+            a.nav-link(href='https://demos.creative-tim.com/argon-dashboard/docs/foundation/colors.html' target='_blank')
+              i.ni.ni-palette
+              span.nav-link-text Foundation
+          li.nav-item
+            a.nav-link(href='https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html' target='_blank')
+              i.ni.ni-ui-04
+              span.nav-link-text Components
+          li.nav-item
+            a.nav-link(href='https://demos.creative-tim.com/argon-dashboard/docs/plugins/charts.html' target='_blank')
+              i.ni.ni-chart-pie-35
+              span.nav-link-text Plugins
+          li.nav-item
+            a.nav-link.active.active-pro(href='/upgrade.html')
+              i.ni.ni-send.text-dark
+              span.nav-link-text Upgrade to PRO
 // Main content
   block notifications
 #panel.main-content

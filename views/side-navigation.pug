@@ -1,0 +1,57 @@
+extends layout
+
+block sidenav-vt-team-manager
+  // Sidenav
+  nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navbar-light.bg-white
+    .scrollbar-inner
+      // Brand
+      .sidenav-header.align-items-center
+        a.navbar-brand(href='javascript:void(0)')
+          img.navbar-brand-img(src='assets/img/brand/blue.png' alt='...')
+      .navbar-inner
+        // Collapse
+        #sidenav-collapse-main.collapse.navbar-collapse
+          // Nav items
+          ul.navbar-nav
+            li.nav-item
+              a.nav-link.active(href='/')
+                i.ni.ni-tv-2.text-primary
+                span.nav-link-text Dashboard
+            li.nav-item
+              a.nav-link(href='/ssm-su')
+                i.ni.ni-planet.text-orange
+                span.nav-link-text SSM and SU
+            li.nav-item
+              a.nav-link(href='/medical-check')
+                i.ni.ni-pin-3.text-primary
+                span.nav-link-text Medical check
+            li.nav-item
+              a.nav-link(href='/competency-management')
+                i.ni.ni-bullet-list-67.text-default
+                span.nav-link-text Competecy management
+            
+
+          // Divider
+          hr.my-3
+          // Heading
+          h6.navbar-heading.p-0.text-muted
+            span.docs-normal Account management
+
+          case userLoggedIn
+            when true
+              ul.navbar-nav
+                li.nav-item
+                  a.nav-link(href='/profile')
+                    i.ni.ni-single-02.text-yellow
+                    span.nav-link-text Profile
+              break
+            default
+              ul.navbar-nav
+                li.nav-item
+                  a.nav-link(href='/login')
+                    i.ni.ni-key-25.text-info
+                    span.nav-link-text Login
+                li.nav-item
+                  a.nav-link(href='/register')
+                    i.ni.ni-circle-08.text-pink
+                    span.nav-link-text Register

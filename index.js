@@ -38,7 +38,7 @@ app.set("view engine", "pug");
 
  /**  Examples of pages and layout **/
 app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
+  res.render("index", { title: "Home", userLogin: loginIdUser, userLoggedIn: true });
 });
 app.get("/user", (req, res) => {
   res.render("user", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
