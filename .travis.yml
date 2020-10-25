@@ -31,4 +31,4 @@ deploy:
   app: vt-team-manager
   on:
     repo: tinel-c/vt-team-manager
-  skip_cleanup: 'true'
+  strategy: git
