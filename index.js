@@ -11,10 +11,12 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || "8000";
 
-const userName = process.env['USERPROFILE'].split(path.sep)[2];
-const computerName = process.env['COMPUTERNAME'];
-const loginIdUser = path.join("domainName",userName);
-const loginIdComputer = path.join("computerName",computerName);
+//const userName = process.env['USERPROFILE'].split(path.sep)[2];
+//const computerName = process.env['COMPUTERNAME'];
+//const loginIdUser = path.join("domainName",userName);
+//const loginIdComputer = path.join("computerName",computerName);
+const loginIdUser = "test";
+const loginIdComputer = "computerTest";
 
 console.log(loginIdUser);
 console.log(loginIdComputer);
