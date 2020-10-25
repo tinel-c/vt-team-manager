@@ -26,8 +26,7 @@ install:
 - npm install browser-sync
 deploy:
   provider: heroku
-  api_key:
-    secure: JARWjvRso73O2HlRo7FxAIvGgP1xHflPdI7ChXbSg4S6nO+ZsdbSCtSQ/O6h4zXVToVCAGxRpurwVJtyalz5bo5xLMXuPAujZyxey9n1EEt/LnK005yH08FVcmORrgDwykAwDyUwdpNZOBZvS8ZQ8I7dCFvO9kYBrRZio5SBx3Ua8acYZv5jxTQ8vpMHd691edmzGGQQ3JZvvSfUfmksWPO6+TFBz9u/MHnZ5p6yUJpgi/3kXlphGdlrBPk6LBGV4HN5jf2VrizeVqnv03+Dr50oZ1Y6K0sZQ+9rIxDDahSZIB4UXPa4c5gMGB68LNili2DrUV2aKvSHPeXYzjnATczAdOZvbBb4xpW/3jLTAOXr2LKaobl7JcVOMiiMMuAy84WCdUETkm71ok6VR/+jCqeX8N1QxMemjK1NZMmK2HfOlavgdqtmHYGDVwI8PyQH72WBlMqXKWoImPhqAm/dqoYNUgrJuAbnYB+m5u+SaoQe0MHj7kRcYr/qBG/GzZyH8l1jEpMYD4x0stddShvTZRYtLtAyDNvGOg1ik8D/jmX6xA4PI1RdWAE8NSUZEwXVvztF24Kxjy+dY9+Tyn++LQ1BeD3yIfWjiJgteuxQ55pfD0i6ITo2wZCM4tDOACQyTDgr+WclUvpWqeB0N0HiUjZQUVgKj76ZIsCSUFUDbw8=
+  api_key: $SECRET_KEY
   app: vt-team-manager
   on:
     repo: tinel-c/vt-team-manager
