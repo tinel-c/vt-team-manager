@@ -58,9 +58,20 @@ app.get("/medical-check", (req, res) => {
   res.render("medical-check", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, medicalCheckDataWeb: medicalCheckData});
 });
 
+app.get("/ssm-su", (req, res) => {
+  res.render("index", { title: "SSM and SU Status", userLogin: loginIdUser, userLoggedIn: true });
+});
+
+app.get("/competency-management", (req, res) => {
+  res.render("index", { title: "Competency management", userLogin: loginIdUser, userLoggedIn: true });
+});
+
 app.get("/", (req, res) => {
   res.render("index", { title: "Medical check", userLogin: loginIdUser, userLoggedIn: true });
 });
+
+
+/** Dummy links to the templates to be removed at a later point **/
 
 app.get("/user", (req, res) => {
   res.render("user", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
