@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./index.js",
+    "dev": "nodemon --inspect ./index.js",
     "start": "node ./index.js",
     "ui": "browser-sync start --config bs-config.js",
     "test": "mocha"
