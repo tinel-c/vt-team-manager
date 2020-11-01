@@ -15,12 +15,10 @@ function updateDashboadLable(lableName,newValues, newPercentage, newMessage) {
 	}
 	if(newPercentage != null){
 		attribute = lableName.concat("-percentage");
-		console.log(attribute);
 		$(attribute).text(newPercentage);
 	}
 	if(newMessage != null){
 		attribute = lableName.concat("-message");
-		console.log(attribute);
 		$(attribute).text(newMessage);
 	}
 }
