@@ -5,16 +5,15 @@
  */
 const express = require("express");
 const path = require("path");
+const db = require("./db");
+// routes
+var user = require("./routes/user");
 /**
  * App Variables
  */
 const app = express();
 const port = process.env.PORT || "8000";
 
-//const userName = process.env['USERPROFILE'].split(path.sep)[2];
-//const computerName = process.env['COMPUTERNAME'];
-//const loginIdUser = path.join("domainName",userName);
-//const loginIdComputer = path.join("computerName",computerName);
 const loginIdUser = "test";
 const loginIdComputer = "computerTest";
 const medicalCheckData = [
@@ -34,9 +33,14 @@ const medicalCheckData = [
 						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
 						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
 						 ];
+// connect to mongoDB
 
 console.log(loginIdUser);
 console.log(loginIdComputer);
+
+
+// connect to mongoose
+db.connect();
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -44,7 +48,7 @@ app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
 /** expose the assets folders **/
 app.use('/assets',express.static(path.join(__dirname, "assets")));
-app.use('/assets',express.static(path.join(__dirname, "assets")));
+app.use('/user', user);
 /**
  *  App Configuration
  */
