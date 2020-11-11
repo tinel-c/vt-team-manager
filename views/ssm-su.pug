@@ -1,0 +1,59 @@
+extends layout
+
+block content
+    // Page content
+    .container-fluid.mt--6
+        .row
+          .col-xl
+            .card
+              .card-header.border-0
+                .row.align-items-center
+                  .col
+                    h3.mb-0 Page visits
+                  .col.text-right
+                    a.btn.btn-sm.btn-primary(href='#!') See all
+              .table-responsive
+                // Projects table
+                table.table.align-items-center.table-flush
+                  thead.thead-light
+                    tr
+                      th(scope='col') Formal name
+                      th(scope='col') Superior
+                      th(scope='col') Obs
+                      th(scope='col') Part of SU team
+                      th(scope='col') Status on actions
+                      th(scope='col') Closed date March
+                      th(scope='col') Closed date October
+                  tbody
+                    tr
+                      th(scope='row')
+                        | Constantin Bogza
+                      td
+                        | Cristian Mihaly
+                      td
+                        | maternity leave
+                      td
+                        | yes
+                      td
+                       | Medical check: ok - Next MM: 01.02.2021
+                       br
+                       | Medical limitations: no
+                       br
+                       | SSM SU March Training: ok
+                       br
+                       | SSM SU October Training: ok
+                       br
+                       | SSM LMS training: done
+                       br
+                       | SU LMS training: done
+                       br
+                       | Email ok: no
+                       br
+                       | SU training type: Tesa
+                      td
+                        | 10.03.2020
+                      td
+                        | 10.09.2020
+
+
+

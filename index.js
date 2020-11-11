@@ -64,7 +64,7 @@ app.get("/medical-check", (req, res) => {
 });
 
 app.get("/ssm-su", (req, res) => {
-  res.render("index", { title: "SSM and SU Status", userLogin: loginIdUser, userLoggedIn: true });
+  res.render("ssm-su", { title: "SSM and SU Status", userLogin: loginIdUser, userLoggedIn: true });
 });
 
 app.get("/competency-management", (req, res) => {
