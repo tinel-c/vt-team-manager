@@ -9,9 +9,15 @@ block content
               .card-header.border-0
                 .row.align-items-center
                   .col
-                    h3.mb-0 Page visits
+                    h3.mb-0 Team status overview
                   .col.text-right
-                    a.btn.btn-sm.btn-primary(href='#!') See all
+                    form#navbar-search-main.navbar-search.navbar-search-light.form-inline
+                      .form-group.mb-0
+                        .input-group.input-group-alternative.input-group-merge
+                          .input-group-prepend
+                            span.input-group-text
+                              i.fas.fa-search
+                          input.form-control(placeholder='Name filter' type='text')
               .table-responsive
                 // Projects table
                 table.table.align-items-center.table-flush
@@ -22,38 +28,113 @@ block content
                       th(scope='col') Obs
                       th(scope='col') Part of SU team
                       th(scope='col') Status on actions
-                      th(scope='col') Closed date March
-                      th(scope='col') Closed date October
+                      th(scope='col') Actions to close
                   tbody
                     tr
                       th(scope='row')
-                        | Constantin Bogza
+                        | Test Employee
                       td
-                        | Cristian Mihaly
+                        | Mister Manager
                       td
-                        | maternity leave
+                        br
+                        | SU training type: Tesa
+                        input.form-control(placeholder='comment' type='text')
                       td
                         | yes
                       td
-                       | Medical check: ok - Next MM: 01.02.2021
+                       span.badge.badge-dot.mr-4
+                        i.bg-warning
+                        span.status Medical check: pending - Planned: 20.12.2021
                        br
-                       | Medical limitations: no
+                       span.badge.badge-dot.mr-4
+                        i.bg-success
+                        span.status Medical limitations: no
                        br
-                       | SSM SU March Training: ok
+                       span.badge.badge-dot.mr-4
+                        i.bg-danger
+                        span.status SSM SU March 2020 Training: nok
                        br
-                       | SSM SU October Training: ok
+                       span.badge.badge-dot.mr-4
+                        i.bg-danger
+                        span.status SSM SU October 2020 Training: nok
                        br
-                       | SSM LMS training: done
+                       span.badge.badge-dot.mr-4
+                        i.bg-success
+                        span.status SSM LMS training: done
                        br
-                       | SU LMS training: done
+                       span.badge.badge-dot.mr-4
+                        i.bg-success
+                        span.status SU LMS training: done
                        br
-                       | Email ok: no
-                       br
-                       | SU training type: Tesa
+                       span.badge.badge-dot.mr-4
+                        i.bg-danger
+                        span.status Email ok: no
+                       
                       td
-                        | 10.03.2020
+                        table.table.align-items-center.table-flush
+                          tbody
+                            tr
+                              td
+                                span March training documented and signed
+                              td
+                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
+                            tr
+                              td
+                                span October training documented and signed
+                              td
+                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
+                    tr
+                      th(scope='row')
+                        | Test Employee
                       td
-                        | 10.09.2020
-
+                        | Mister Manager
+                      td
+                        br
+                        | SU training type: Tesa
+                        input.form-control(placeholder='comment' type='text')
+                      td
+                        | yes
+                      td
+                       span.badge.badge-dot.mr-4
+                        i.bg-warning
+                        span.status Medical check: pending - Planned: 20.12.2021
+                       br
+                       span.badge.badge-dot.mr-4
+                        i.bg-success
+                        span.status Medical limitations: no
+                       br
+                       span.badge.badge-dot.mr-4
+                        i.bg-danger
+                        span.status SSM SU March 2020 Training: nok
+                       br
+                       span.badge.badge-dot.mr-4
+                        i.bg-danger
+                        span.status SSM SU October 2020 Training: nok
+                       br
+                       span.badge.badge-dot.mr-4
+                        i.bg-success
+                        span.status SSM LMS training: done
+                       br
+                       span.badge.badge-dot.mr-4
+                        i.bg-success
+                        span.status SU LMS training: done
+                       br
+                       span.badge.badge-dot.mr-4
+                        i.bg-danger
+                        span.status Email ok: no
+                       
+                      td
+                        table.table.align-items-center.table-flush
+                          tbody
+                            tr
+                              td
+                                span March training documented and signed
+                              td
+                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
+                            tr
+                              td
+                                span October training documented and signed
+                              td
+                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
 
 
