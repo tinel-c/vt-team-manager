@@ -26,7 +26,6 @@ block content
                       th(scope='col') Formal name
                       th(scope='col') Superior
                       th(scope='col') Obs
-                      th(scope='col') Part of SU team
                       th(scope='col') Status on actions
                   tbody
                     tr
@@ -36,11 +35,25 @@ block content
                       td
                         | Mister Manager
                       td
-                        br
-                        | SU training type: Tesa
-                        input.form-control(placeholder='comment' type='text')
-                      td.suTeam
-                        div.toggleButton
+                        table.table.align-items-center.table-flush
+                          tr 
+                            td Comment:
+                            td
+                              input.form-control(placeholder='comment' type='text')
+                          tr 
+                            td Part of SU team:
+                            td.suTeam
+                              div.toggleButton
+                          tr 
+                            td SU training type:
+                            td
+                              .dropdown
+                                a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                  | Tesa
+                                .dropdown-menu(aria-labelledby='dropdownMenuLink')
+                                  a.dropdown-item(href='#') Tesa
+                                  a.dropdown-item(href='#') Tesa cu auto
+                                  a.dropdown-item(href='#') Electronist
                       td
                         table.table.align-items-center.table-flush
                           tr 
@@ -85,11 +98,25 @@ block content
                       td
                         | Mister Manager
                       td
-                        br
-                        | SU training type: Tesa
-                        input.form-control(placeholder='comment' type='text')
-                      td.suTeam
-                        div.toggleButton.active
+                        table.table.align-items-center.table-flush
+                          tr 
+                            td Comment:
+                            td
+                              input.form-control(placeholder='comment' type='text')
+                          tr 
+                            td Part of SU team:
+                            td.suTeam
+                              div.toggleButton.active
+                          tr 
+                            td SU training type:
+                            td
+                              .dropdown
+                                a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                  | Tesa
+                                .dropdown-menu(aria-labelledby='dropdownMenuLink')
+                                  a.dropdown-item(href='#') Tesa
+                                  a.dropdown-item(href='#') Tesa cu auto
+                                  a.dropdown-item(href='#') Electronisttext')
                       td
                         table.table.align-items-center.table-flush
                           tr 
