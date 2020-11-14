@@ -28,9 +28,9 @@ block content
                       th(scope='col') Obs
                       th(scope='col') Part of SU team
                       th(scope='col') Status on actions
-                      th(scope='col') Actions to close
                   tbody
                     tr
+                    tr.id#MoVl
                       th(scope='row')
                         | Test Employee
                       td
@@ -39,51 +39,47 @@ block content
                         br
                         | SU training type: Tesa
                         input.form-control(placeholder='comment' type='text')
-                      td
-                        | yes
-                      td
-                       span.badge.badge-dot.mr-4
-                        i.bg-warning
-                        span.status Medical check: pending - Planned: 20.12.2021
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-success
-                        span.status Medical limitations: no
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-danger
-                        span.status SSM SU March 2020 Training: nok
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-danger
-                        span.status SSM SU October 2020 Training: nok
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-success
-                        span.status SSM LMS training: done
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-success
-                        span.status SU LMS training: done
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-danger
-                        span.status Email ok: no
-                       
+                      td.suTeam
+                        div.toggleButton
                       td
                         table.table.align-items-center.table-flush
-                          tbody
-                            tr
-                              td
-                                span March training documented and signed
-                              td
-                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
-                            tr
-                              td
-                                span October training documented and signed
-                              td
-                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
-                    tr
+                          tr 
+                            td
+                              | Medical check
+                            td.medicalCheck
+                              span.toggleButton.warning
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-warning
+                                span.status Planned: 21.12.2020
+                          tr 
+                            td
+                              | Medical limitations
+                            td.medicalLimitations
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status no
+                          tr 
+                            td
+                              | 2020 March: SSM SU 
+                            td.SSM-SU-2020-March
+                              span.toggleButton
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-danger
+                                span.status Training not done
+                          tr 
+                            td
+                              | 2020 October: SSM SU 
+                            td.SSM-SU-2020-October
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status Training done
+                    tr.id#CoBo
                       th(scope='row')
                         | Test Employee
                       td
@@ -92,49 +88,44 @@ block content
                         br
                         | SU training type: Tesa
                         input.form-control(placeholder='comment' type='text')
-                      td
-                        | yes
-                      td
-                       span.badge.badge-dot.mr-4
-                        i.bg-warning
-                        span.status Medical check: pending - Planned: 20.12.2021
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-success
-                        span.status Medical limitations: no
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-danger
-                        span.status SSM SU March 2020 Training: nok
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-danger
-                        span.status SSM SU October 2020 Training: nok
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-success
-                        span.status SSM LMS training: done
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-success
-                        span.status SU LMS training: done
-                       br
-                       span.badge.badge-dot.mr-4
-                        i.bg-danger
-                        span.status Email ok: no
-                       
+                      td.suTeam
+                        div.toggleButton
                       td
                         table.table.align-items-center.table-flush
-                          tbody
-                            tr
-                              td
-                                span March training documented and signed
-                              td
-                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
-                            tr
-                              td
-                                span October training documented and signed
-                              td
-                                a#clear-button.btn.btn-sm.btn-neutral(href='#') Done
-
-
+                          tr 
+                            td
+                              | Medical check
+                            td.medicalCheck
+                              span.toggleButton.warning
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-warning
+                                span.status Planned: 21.12.2020
+                          tr 
+                            td
+                              | Medical limitations
+                            td.medicalLimitations
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status no
+                          tr 
+                            td
+                              | 2020 March: SSM SU 
+                            td.SSM-SU-2020-March
+                              span.toggleButton
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-danger
+                                span.status Training not done
+                          tr 
+                            td
+                              | 2020 October: SSM SU 
+                            td.SSM-SU-2020-October
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status Training done
+                        
