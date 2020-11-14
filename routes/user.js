@@ -32,12 +32,13 @@ function callBackFunction(text, return_value) {
 	console.log(return_value);
 }
 
-function userCreate(first_name, family_name, uid, role, manager, cb) {
+function userCreate(first_name, family_name, uid, role, email, manager, cb) {
 	userdetail = {
 		first_name: first_name,
 		family_name: family_name,
 		uid: uid,
 		role: role,
+		email: email,
 		manager: manager,
 		changedBy: "toBeReplaced"
 	}
@@ -109,6 +110,7 @@ function addNewUser(req, res) {
 		req.body.family_name,
 		req.body.uid,
 		req.body.role,
+		req,body.email,
 		function(err, result) {
 			if (err) {
 				res.json({
@@ -128,6 +130,7 @@ function addNewUserInline(req, res) {
 		req.params.family_name,
 		req.params.uid,
 		req.params.role,
+		req.params.email,
 		req.params.manager,
 		function(err, result) {
 			if (err) {
@@ -148,6 +151,7 @@ function updateUser(req, res) {
 		userInstance.family_name = req.body.family_name;
 		userInstance.uid = req.body.uid;
 		userInstance.role = req.body.role;
+		userInstance.email = req.body.email;
 		userInstance.save(function(err) {
 			if (err) {
 				res.json({

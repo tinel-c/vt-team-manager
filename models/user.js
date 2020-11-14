@@ -24,6 +24,11 @@ var UserSchema = new Schema({
     required: true,
     max: 100
   },
+  email: {
+    type: String,
+    required: true,
+    max: 200
+  },
   manager: {
     type: String,
     required: true,

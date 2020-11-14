@@ -80,7 +80,7 @@ app.get("/dasboard", (req, res) => {
   });
 
 app.get("/profile", (req, res) => {
-	res.render("profile", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer, page: "Profile", link: "profile" });
+	res.render("profile", { title: "Profile", userProfile: loginIdUser, userLoggedIn: true, page: "Profile", link: "profile" });
   });
 
 /** Dummy links to the templates to be removed at a later point **/
