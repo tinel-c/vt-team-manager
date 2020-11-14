@@ -17,7 +17,6 @@ var user = require("./routes/user");
  */
 const app = express();
 const port = process.env.PORT || "8000";
-
 const loginIdUser = "test";
 const loginIdComputer = "computerTest";
 const medicalCheckData = [
@@ -38,6 +37,7 @@ const medicalCheckData = [
 						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
 						 ];
 
+var userLoginStatus = false;						 
 // functions 
 
 // Authentification
@@ -48,8 +48,12 @@ function authenticateToken(req, res, next) {
   
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 	  console.log(err);
-	  if (err) return res.sendStatus(403);
+	  if (err) {
+		req.loginStatus = false;
+		return 
+	  };
 	  req.user = user;
+	  req.loginStatus = true;
 	  next(); // pass the execution off to whatever request the client intended
 	});
   };
@@ -73,7 +77,6 @@ app.set("view engine", "pug");
 
 app.use(bodyParser.json())
 app.use(cookieParser())
-
 app.use(express.static(path.join(__dirname, "public")));
 /** expose the assets folders **/
 app.use('/assets',express.static(path.join(__dirname, "assets")));
@@ -89,27 +92,27 @@ app.set("view engine", "pug");
 
  /**  Examples of pages and layout **/
 app.get("/medical-check", authenticateToken, (req, res) => {
-  res.render("medical-check", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, medicalCheckDataWeb: medicalCheckData, page: "Medical check", link: "medical-check"});
+  res.render("medical-check", { title: "Dashboard", userLogin: req.user, userLoggedIn: req.loginStatus, medicalCheckDataWeb: medicalCheckData, page: "Medical check", link: "medical-check"});
 });
 
-app.get("/ssm-su",  (req, res) => {
-  res.render("ssm-su", { title: "SSM and SU Status", userLogin: loginIdUser, userLoggedIn: true, page: "SSM and SU", link: "ssm-su" });
+app.get("/ssm-su", authenticateToken, (req, res) => {
+  res.render("ssm-su", { title: "SSM and SU Status", userLogin: req.user, userLoggedIn: req.loginStatus, page: "SSM and SU", link: "ssm-su" });
 });
 
-app.get("/competency-management", (req, res) => {
-  res.render("index", { title: "Competency management", userLogin: loginIdUser, userLoggedIn: true, page: "Competency management", link: "competency-management" });
+app.get("/competency-management", authenticateToken, (req, res) => {
+  res.render("index", { title: "Competency management", userLogin: req.user, userLoggedIn: req.loginStatus, page: "Competency management", link: "competency-management" });
 });
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, page: "Dashboard", link: "dashboard"});
+	res.render("login", { title: "Login" });
 });
 
-app.get("/dasboard", (req, res) => {
-	res.render("index", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, page: "Dashboard", link: "dashboard"});
-  });
+app.get("/dashboard", authenticateToken, (req, res) => {
+	res.render("index", { title: "Dashboard", userLogin: req.user, userLoggedIn: req.loginStatus, page: "Dashboard", link: "dashboard"});
+});
 
-app.get("/profile", (req, res) => {
-	res.render("profile", { title: "Profile", userProfile: loginIdUser, userLoggedIn: true, page: "Profile", link: "profile" });
+app.get("/profile", authenticateToken, (req, res) => {
+	res.render("profile", { title: "Profile", userLogin: req.user, userLoggedIn: req.loginStatus, page: "Profile", link: "profile" });
   });
 
 // login routing
@@ -117,7 +120,7 @@ app.get("/login", (req, res) => {
 	res.render("login", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
   });
 
-app.get('/api/creteNewUser', (req, res) => {
+app.get('/api/login', (req, res) => {
 	// ...
 	const token = generateAccessToken({ username: "test"}); //req.body.username });
 	res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}) 
@@ -147,7 +150,7 @@ app.get("/map", (req, res) => {
 app.get("/maps", (req, res) => {
   res.render("maps", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 });
-app.get("/dashboard", (req, res) => {
+app.get("/dashboardBase", (req, res) => {
   res.render("dashboard", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 });
 
