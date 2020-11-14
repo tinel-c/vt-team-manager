@@ -43,8 +43,7 @@ const medicalCheckData = [
 // Authentification
 function authenticateToken(req, res, next) {
 	// Gather the jwt access token from the request header
-	const authHeader = req.headers['authorization'];
-	const token = authHeader && authHeader.split(' ')[1];
+	const token = req.cookies.authcookie;
 	if (token == null) return res.sendStatus(401); // if there isn't any token
   
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -57,7 +56,7 @@ function authenticateToken(req, res, next) {
 // Generate Access Token
 function generateAccessToken(username) {
 	// expires after half and hour (1800 seconds = 30 minutes)
-	return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+	return jwt.sign(username, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1800s' });
   }
 // connect to mongoDB
 
@@ -118,12 +117,21 @@ app.get("/login", (req, res) => {
 	res.render("login", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
   });
 
-app.post('/api/creteNewUser', (req, res) => {
+app.get('/api/creteNewUser', (req, res) => {
 	// ...
-	const token = generateAccessToken({ username: req.body.username });
+	const token = generateAccessToken({ username: "test"}); //req.body.username });
+	res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}) 
 	res.json(token);
 	// ...
   });
+
+app.get('/api/logout', (req, res) => {
+	// ...
+	res.cookie('authcookie',"0",{maxAge:0,httpOnly:true}) 
+	res.json("logout");
+	// ...
+  });
+  
 
 /** Dummy links to the templates to be removed at a later point **/
 
