@@ -60,21 +60,28 @@ app.set("view engine", "pug");
 
  /**  Examples of pages and layout **/
 app.get("/medical-check", (req, res) => {
-  res.render("medical-check", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, medicalCheckDataWeb: medicalCheckData});
+  res.render("medical-check", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, medicalCheckDataWeb: medicalCheckData, page: "Medical check", link: "medical-check"});
 });
 
 app.get("/ssm-su", (req, res) => {
-  res.render("ssm-su", { title: "SSM and SU Status", userLogin: loginIdUser, userLoggedIn: true });
+  res.render("ssm-su", { title: "SSM and SU Status", userLogin: loginIdUser, userLoggedIn: true, page: "SSM and SU", link: "ssm-su" });
 });
 
 app.get("/competency-management", (req, res) => {
-  res.render("index", { title: "Competency management", userLogin: loginIdUser, userLoggedIn: true });
+  res.render("index", { title: "Competency management", userLogin: loginIdUser, userLoggedIn: true, page: "Competency management", link: "competency-management" });
 });
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Medical check", userLogin: loginIdUser, userLoggedIn: true });
+  res.render("index", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, page: "Dashboard", link: "dashboard"});
 });
 
+app.get("/dasboard", (req, res) => {
+	res.render("index", { title: "Dashboard", userLogin: loginIdUser, userLoggedIn: true, page: "Dashboard", link: "dashboard"});
+  });
+
+app.get("/profile", (req, res) => {
+	res.render("profile", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer, page: "Profile", link: "profile" });
+  });
 
 /** Dummy links to the templates to be removed at a later point **/
 
@@ -96,9 +103,7 @@ app.get("/dashboard", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 });
-app.get("/profile", (req, res) => {
-  res.render("profile", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
-});
+
 app.get("/tables", (req, res) => {
   res.render("tables", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 });

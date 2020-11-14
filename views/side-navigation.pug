@@ -10,19 +10,19 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
       #sidenav-collapse-main.collapse.navbar-collapse
         // Nav items
         ul.navbar-nav
-          li.nav-item
+          li#dashboard.nav-item
             a.nav-link.active(href='/')
               i.ni.ni-tv-2.text-primary
               span.nav-link-text Dashboard
-          li.nav-item
+          li#ssm-su.nav-item
             a.nav-link(href='/ssm-su')
-              i.ni.ni-planet.text-orange
+              i.ni.ni-support-16.text-orange
               span.nav-link-text SSM and SU
-          li.nav-item
+          li#medical-check.nav-item
             a.nav-link(href='/medical-check')
-              i.ni.ni-pin-3.text-primary
+              i.ni.ni-ambulance.text-primary
               span.nav-link-text Medical check
-          li.nav-item
+          li#competency-management.nav-item
             a.nav-link(href='/competency-management')
               i.ni.ni-bullet-list-67.text-default
               span.nav-link-text Competecy management
@@ -37,18 +37,14 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
         case userLoggedIn
           when true
             ul.navbar-nav
-              li.nav-item
+              li#profile.nav-item
                 a.nav-link(href='/profile')
                   i.ni.ni-single-02.text-yellow
                   span.nav-link-text Profile
             break
           default
             ul.navbar-nav
-              li.nav-item
+              li#login.nav-item
                 a.nav-link(href='/login')
                   i.ni.ni-key-25.text-info
                   span.nav-link-text Login
-              li.nav-item
-                a.nav-link(href='/register')
-                  i.ni.ni-circle-08.text-pink
-                  span.nav-link-text Register

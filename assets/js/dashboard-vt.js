@@ -46,6 +46,14 @@ function removeDashboardLables(){
 	$("#dashboard-vt").empty();	
 }
 
+function setActiveNavPage(){
+	var activePage = $("a#page-id").attr('href');
+	activePage = activePage.substring(3, activePage.length);
+	console.log("Active page: " + activePage);
+	$('a.nav-link.active').removeClass('active');
+	$('#' + activePage + ' a.nav-link').addClass('active');
+}
+
 $(document).ready(function(){
         var textContent = "500 / 500";
         $("#update-button").click(function(){
@@ -61,5 +69,6 @@ $(document).ready(function(){
         });
         $("#clear-button").click(function(){
             removeDashboardLables();
-        });
+		});
+		setActiveNavPage();
     });

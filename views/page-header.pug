@@ -1,5 +1,6 @@
 // Header
 // Header
+
 .header.bg-primary.pb-6
   .container-fluid
     .header-body
@@ -9,10 +10,10 @@
           nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
             ol.breadcrumb.breadcrumb-links.breadcrumb-dark
               li.breadcrumb-item
-                a(href='#')
+                a(href='./')
                   i.fas.fa-home
               li.breadcrumb-item
-                a(href='#') Dashboard
+                a#page-id(href= ' ./' + link) #{page}
               li.breadcrumb-item.active(aria-current='page') Overview
         .col-lg-6.col-5.text-right
           a#update-button.btn.btn-sm.btn-neutral(href='#') Update
