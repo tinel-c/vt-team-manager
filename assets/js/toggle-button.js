@@ -1,14 +1,8 @@
-function addToggleButton(buttonName,buttonId,status) {
-    var cardHtml = '<div class="toggle-btn';
-    if (status == "active") {
-        cardHtml = cardHtml.concat(' active"');
-    } else if(status == "warning"){
-        cardHtml = cardHtml.concat(' warning"');
-    }
-    cardHtml = cardHtml.concat('"><input type="checkbox" class="cb-value" /><span class="round-btn"></span></div>');
-	$(buttonId).append(cardHtml);
-}
-
+// Function to trigger the correct configuration for the buttons at the load of the page
+// current available configuration for the buttons
+// * warning
+// * active
+// PUG usage div.toggleButton.warning
 function configurePageButtons(){
     $( ".toggleButton.warning div" ).each(function( index ) {
         $(this).addClass("warning");
@@ -21,12 +15,21 @@ function configurePageButtons(){
       });
 }
 
+//goes inside the page and adds all the buttons inside the page
+//the necessary html code is added to the page based on the buttonId
+// Eg. div.toggleButton will expand to the correct html output
+function addToggleButtons(buttonId) {
+    var cardHtml = '<div class="toggle-btn"><input type="checkbox" class="cb-value" /><span class="round-btn"></span></div>';
+    $(buttonId).append(cardHtml);
+    configurePageButtons();
+}
+
 $(document).ready(function(){
     //$('input.cb-value').prop("checked", true);
-    addToggleButton("toggleButton",".toggleButton","");    
-    configurePageButtons();
+    addToggleButtons(".toggleButton");    
     $('.cb-value').click(function() {
         var mainParent = $(this).parent('.toggle-btn');
+        // add actions when the buttons are pressed / depressed
         if($(mainParent).find('input.cb-value').is(':checked')) {
         $(mainParent).addClass('active');
         $(mainParent).removeClass('warning');
