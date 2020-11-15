@@ -15,7 +15,7 @@ head
   meta(name='author' content='Creative Tim')
   title Argon Dashboard - Free Dashboard for Bootstrap 4
   // Favicon
-  link(rel='icon' href='../assets/img/brand/favicon.png' type='image/png')
+  link(rel='icon' href='../assets/img/brand/favicon.ico' type='image/ico')
   // Fonts
   link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700')
   // Icons
@@ -27,14 +27,14 @@ head
 nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-expand-lg.navbar-light
   .container
     a.navbar-brand(href='dashboard.html')
-      img(src='../assets/img/brand/white.png')
+      img(src='../assets/img/brand/vt-team-manager.png')
     button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-controls='navbar-collapse' aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
     #navbar-collapse.navbar-collapse.navbar-custom-collapse.collapse
       .navbar-collapse-header
         .row
           .col-6.collapse-brand
-            a(href='dashboard.html')
+            a(href='./dashboard')
               img(src='../assets/img/brand/blue.png')
           .col-6.collapse-close
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-controls='navbar-collapse' aria-expanded='false' aria-label='Toggle navigation')
@@ -42,47 +42,18 @@ nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-e
               span
       ul.navbar-nav.mr-auto
         li.nav-item
-          a.nav-link(href='dashboard.html')
+          a.nav-link(href='dashboard')
             span.nav-link-inner--text Dashboard
-        li.nav-item
-          a.nav-link(href='login.html')
-            span.nav-link-inner--text Login
-        li.nav-item
-          a.nav-link(href='register.html')
-            span.nav-link-inner--text Register
-      hr.d-lg-none
-      ul.navbar-nav.align-items-lg-center.ml-lg-auto
-        li.nav-item
-          a.nav-link.nav-link-icon(href='https://www.facebook.com/creativetim' target='_blank' data-toggle='tooltip' data-original-title='Like us on Facebook')
-            i.fab.fa-facebook-square
-            span.nav-link-inner--text.d-lg-none Facebook
-        li.nav-item
-          a.nav-link.nav-link-icon(href='https://www.instagram.com/creativetimofficial' target='_blank' data-toggle='tooltip' data-original-title='Follow us on Instagram')
-            i.fab.fa-instagram
-            span.nav-link-inner--text.d-lg-none Instagram
-        li.nav-item
-          a.nav-link.nav-link-icon(href='https://twitter.com/creativetim' target='_blank' data-toggle='tooltip' data-original-title='Follow us on Twitter')
-            i.fab.fa-twitter-square
-            span.nav-link-inner--text.d-lg-none Twitter
-        li.nav-item
-          a.nav-link.nav-link-icon(href='https://github.com/creativetimofficial' target='_blank' data-toggle='tooltip' data-original-title='Star us on Github')
-            i.fab.fa-github
-            span.nav-link-inner--text.d-lg-none Github
-        li.nav-item.d-none.d-lg-block.ml-lg-4
-          a.btn.btn-neutral.btn-icon(href='https://www.creative-tim.com/product/argon-dashboard-pro?ref=ad_upgrade_pro' target='_blank')
-            span.btn-inner--icon
-              i.fas.fa-shopping-cart.mr-2
-            span.nav-link-inner--text Upgrade to PRO
 // Main content
 .main-content
   // Header
-  .header.bg-gradient-primary.py-7.py-lg-8.pt-lg-9
+  .header.bg-gradient-primary.py-7.py-lg-5.pt-lg-5
     .container
       .header-body.text-center.mb-7
         .row.justify-content-center
           .col-xl-5.col-lg-6.col-md-8.px-5
             h1.text-white Welcome!
-            p.text-lead.text-white Use these awesome forms to login or create new account in your project for free.
+            p.text-lead.text-white Login to the team manager application
     .separator.separator-bottom.separator-skew.zindex-100
       svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
         polygon.fill-default(points='2560 0 2560 100 0 100')
@@ -93,19 +64,7 @@ nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-e
         .card.bg-secondary.border-0.mb-0
           .card-header.bg-transparent.pb-5
             .text-muted.text-center.mt-2.mb-3
-              small Sign in with
-            .btn-wrapper.text-center
-              a.btn.btn-neutral.btn-icon(href='#')
-                span.btn-inner--icon
-                  img(src='../assets/img/icons/common/github.svg')
-                span.btn-inner--text Github
-              a.btn.btn-neutral.btn-icon(href='#')
-                span.btn-inner--icon
-                  img(src='../assets/img/icons/common/google.svg')
-                span.btn-inner--text Google
-          .card-body.px-lg-5.py-lg-5
-            .text-center.text-muted.mb-4
-              small Or sign in with credentials
+              small Fill in your company email to receive the authorization token for the application.
             form(role='form')
               .form-group.mb-3
                 .input-group.input-group-merge.input-group-alternative
@@ -113,25 +72,20 @@ nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-e
                     span.input-group-text
                       i.ni.ni-email-83
                   input.form-control(placeholder='Email' type='email')
+              .text-center
+                button.btn.btn-primary.my-4(type='button') Get token
               .form-group
                 .input-group.input-group-merge.input-group-alternative
                   .input-group-prepend
                     span.input-group-text
                       i.ni.ni-lock-circle-open
-                  input.form-control(placeholder='Password' type='password')
+                  input.form-control(placeholder='Token' type='password')
               .custom-control.custom-control-alternative.custom-checkbox
                 input.customCheckLogin.custom-control-input(type='checkbox')
                 label.custom-control-label(for=' customCheckLogin')
                   span.text-muted Remember me
               .text-center
                 button.btn.btn-primary.my-4(type='button') Sign in
-        .row.mt-3
-          .col-6
-            a.text-light(href='#')
-              small Forgot password?
-          .col-6.text-right
-            a.text-light(href='#')
-              small Create new account
 // Footer
 footer#footer-main.py-5
   .container
@@ -139,15 +93,11 @@ footer#footer-main.py-5
       .col-xl-6
         .copyright.text-center.text-xl-left.text-muted
           | &copy; 2020 
-          a.font-weight-bold.ml-1(href='https://www.creative-tim.com' target='_blank') Creative Tim
+          a.font-weight-bold.ml-1(href='#' target='_blank') Constantin Bogza
       .col-xl-6
         ul.nav.nav-footer.justify-content-center.justify-content-xl-end
           li.nav-item
-            a.nav-link(href='https://www.creative-tim.com' target='_blank') Creative Tim
-          li.nav-item
-            a.nav-link(href='https://www.creative-tim.com/presentation' target='_blank') About Us
-          li.nav-item
-            a.nav-link(href='http://blog.creative-tim.com' target='_blank') Blog
+            a.nav-link(href='https://github.com/tinel-c/vt-team-manager' target='_blank') Team manager gitgub page
           li.nav-item
             a.nav-link(href='https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md' target='_blank') MIT License
 // Argon Scripts
