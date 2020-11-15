@@ -25,6 +25,7 @@ install:
 - npm install pug
 - npm install nodemon
 - npm install browser-sync
+- npm install mollify
 - npm install
 deploy:
   provider: heroku
