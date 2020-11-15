@@ -17,8 +17,6 @@ var user = require("./routes/user");
  */
 const app = express();
 const port = process.env.PORT || "8000";
-const loginIdUser = "test";
-const loginIdComputer = "computerTest";
 const medicalCheckData = [
 							["Constantin Bogza","10/25/2020","10/25/2021","pending","Constantin Bogza","no"],
 						 	["Monica Vlad","09/12/2020","09/12/2021","pending","Constantin Bogza","no"],
@@ -66,10 +64,6 @@ function generateAccessToken(username) {
 	return jwt.sign(username, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1800s' });
   }
 // connect to mongoDB
-
-console.log(loginIdUser);
-console.log(loginIdComputer);
-
 dotenv.config();
 // connect to mongoose
 db.connect();
