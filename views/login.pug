@@ -1,19 +1,14 @@
 doctype html
 //
   =========================================================
-  * Argon Dashboard - v1.2.0
+  * VT Team manager
   =========================================================
-  * Product Page: https://www.creative-tim.com/product/argon-dashboard
-  * Copyright  Creative Tim (http://www.creative-tim.com)
-  * Coded by www.creative-tim.com
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
-  meta(name='description' content='Start your development with a Dashboard for Bootstrap 4.')
-  meta(name='author' content='Creative Tim')
-  title Argon Dashboard - Free Dashboard for Bootstrap 4
+  meta(name='description' content='Manage your team with the all in one dashboard')
+  meta(name='author' content='Constantin Bogza')
+  title VT Team Manager
   // Favicon
   link(rel='icon' href='../assets/img/brand/favicon.ico' type='image/ico')
   // Fonts
@@ -65,7 +60,7 @@ nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-e
           .card-header.bg-transparent.pb-5
             .text-muted.text-center.mt-2.mb-3
               small Fill in your company email to receive the authorization token for the application.
-            form(role='form')
+            form(role='form' action="/api/login" method="post")
               .form-group.mb-3
                 .input-group.input-group-merge.input-group-alternative
                   .input-group-prepend
@@ -73,7 +68,8 @@ nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-e
                       i.ni.ni-email-83
                   input.form-control(placeholder='Email' type='email')
               .text-center
-                button.btn.btn-primary.my-4(type='button') Get token
+                button#get-token.btn.btn-primary.my-4(type='submit') Get token
+            form(role='form' action="/api/login" method="post")
               .form-group
                 .input-group.input-group-merge.input-group-alternative
                   .input-group-prepend
@@ -81,11 +77,11 @@ nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-e
                       i.ni.ni-lock-circle-open
                   input.form-control(placeholder='Token' type='password')
               .custom-control.custom-control-alternative.custom-checkbox
-                input.customCheckLogin.custom-control-input(type='checkbox')
-                label.custom-control-label(for=' customCheckLogin')
+                input#remember-me.customCheckLogin.custom-control-input(type='checkbox' checked)
+                label.custom-control-label(for='remember-me')
                   span.text-muted Remember me
               .text-center
-                button.btn.btn-primary.my-4(type='button') Sign in
+                button#sign-in.btn.btn-primary.my-4(type='submit') Sign in
 // Footer
 footer#footer-main.py-5
   .container
@@ -109,3 +105,5 @@ script(src='../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js')
 script(src='../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')
 // Argon JS
 script(src='../assets/js/argon.js?v=1.2.0')
+// Add custom js
+script(src='../assets/js/auth.js')

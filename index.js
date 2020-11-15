@@ -43,8 +43,9 @@ function authenticateToken(req, res, next) {
 	// Gather the jwt access token from the request header
 	const token = req.cookies.authcookie;
 	if (token == null) {
-		return res.render("login", { title: "Login" });
-		// return res.sendStatus(401); // if there isn't any token
+		res.redirect('/');
+		//return res.render("login", { title: "Login" });
+		return res.sendStatus(401); // if there isn't any token
 	}
   
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -118,17 +119,22 @@ app.get("/medical-check", authenticateToken, (req, res) => {
 	  res.render("login", { title: "Profile", userProfile: loginIdUser, userComputer: loginIdComputer });
 	});
   
-  app.get('/api/login', (req, res) => {
+  app.post('/api/login', (req, res) => {
 	  // ...
 	  const token = generateAccessToken({ username: "test"}); //req.body.username });
-	  res.cookie('authcookie',token,{maxAge:900000,httpOnly:true}) 
-	  res.json(token);
+	  res.cookie('authcookie',token,{
+		expires: new Date(Date.now() + 365 * 24 * 3600000) // cookie will be removed after one year
+	  }) 
+	  res.redirect('/dashboard');
 	  // ...
 	});
   
-  app.get('/api/logout', (req, res) => {
+  app.post('/api/logout', (req, res) => {
 	  // ...
-	  res.cookie('authcookie',"0",{maxAge:0,httpOnly:true}) 
+	  res.cookie('authcookie',null,{
+		expires: new Date(Date.now()) // invalidate cookie will expire now
+	  }) 
+	  res.redirect('/');
 	  res.json("logout");
 	  // ...
 	});
