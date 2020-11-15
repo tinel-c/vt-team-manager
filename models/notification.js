@@ -54,14 +54,10 @@ NotificationSchema.pre('save', function(next) {
 NotificationSchema
   .virtual('getNotificationEntry')
   .get(function() {
-    return '<a class="list-group-item list-group-item-action" href="#">' +
-           '<div class="media"><img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">' + 
-           '<div class="media-body">' +
-           '<strong>' + this.name + '</strong>: ' +
-           this.notificationText +     
-           '<div class="text-muted smaller">' +
-           displayTime(Math.floor((Date.now() - this.date) / 1000)) + 
-           '</div></div></div></a>';
+    return '<a class="list-group-item list-group-item-action" href="#!"><div class="row align-items-center"><div class="col-auto"><!-- Avatar--><img class="avatar rounded-circle" alt="Image placeholder" src="assets/img/theme/team-1.jpg"></div><div class="col ml--2"><div class="d-flex justify-content-between align-items-center"><div><h4 class="mb-0 text-sm">' +
+            this.name + '</h4></div><div class="text-right text-muted"><small>' +
+            displayTime(Math.floor((Date.now() - this.date) / 1000)) + '</small></div></div><p class="text-sm mb-0">' +
+            this.notificationText + '</p></div></div></a>';
   });
 
 // Virtual for Notification's URL

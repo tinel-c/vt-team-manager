@@ -12,6 +12,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 // routes
 var user = require("./routes/user");
+var notification = require("./routes/notification");
 /**
  * App Variables
  */
@@ -87,6 +88,7 @@ app.set("view engine", "pug");
  * Routes Definitions for the database
  */
 app.use('/user', user);
+app.use('/notification', notification);
    
 /**  Real pages  **/
 /**  Static pages  **/

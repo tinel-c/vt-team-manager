@@ -1,3 +1,7 @@
+/* Function to delete the authentification cookie
+   releases the cookie from the browser
+   Redirect to the login page
+*/
 function logoutFromApp() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -11,6 +15,7 @@ function logoutFromApp() {
 }
 
 $(document).ready(function(){
+    // add the logout function to the logout button
     $('#logout').click(function() {
         logoutFromApp();
         });
