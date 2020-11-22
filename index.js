@@ -48,22 +48,25 @@ function authenticateToken(req, res, next) {
 		//return res.render("login", { title: "Login" });
 		return res.sendStatus(401); // if there isn't any token
 	}
-  
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-	  console.log(err);
-	  if (err) {
-		req.loginStatus = false;
-		return 
-	  };
+	try {
+		jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		if (err) {
+			console.log(err);
+			req.loginStatus = false;
+			return 
+		};
 	  req.user = user;
 	  req.loginStatus = true;
 	  next(); // pass the execution off to whatever request the client intended
 	});
+	} catch (err) {
+			// error to catch
+		}	
   };
 // Generate Access Token
 function generateAccessToken(username) {
 	// expires after half and hour (1800 seconds = 30 minutes)
-	return jwt.sign(username, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1800s' });
+	return jwt.sign(username, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_LIFE  });
   }
 // connect to mongoDB
 dotenv.config();
@@ -125,7 +128,7 @@ app.get("/medical-check", authenticateToken, (req, res) => {
 	  // ...
 	  const token = generateAccessToken({ username: "test"}); //req.body.username });
 	  res.cookie('authcookie',token,{
-		expires: new Date(Date.now() + 365 * 24 * 3600000) // cookie will be removed after one year
+		expires: new Date(Date.now() + process.env.ACCESS_TOKEN_LIFE * 999) // cookie will be removed after one year
 	  }) 
 	  res.redirect('/dashboard');
 	  // ...
