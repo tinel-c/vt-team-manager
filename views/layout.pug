@@ -1,0 +1,52 @@
+//
+  =========================================================
+  * Team manager
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='Create and manage your team for the safety and health related topics')
+  meta(name='author' content='Constantin Bogza')
+  meta(name='base-author' content='Creative Tim')
+  title VT Team Manager
+  // Favicon
+  link(rel='icon' href='assets/img/brand/favicon.ico' type='image/ico')
+  // Fonts
+  link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700')
+  // Icons
+  link(rel='stylesheet' href='assets/vendor/nucleo/css/nucleo.css' type='text/css')
+  link(rel='stylesheet' href='assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' type='text/css')
+  // Page plugins
+  link(rel='stylesheet' href='assets/css/toggle-button.css' type='text/css')
+  // Argon CSS
+  link(rel='stylesheet' href='assets/css/argon.css?v=1.2.0' type='text/css')
+ 
+  include side-navigation.pug
+
+// Main content
+  block notifications
+#panel.main-content
+  include top-nav.pug
+  include page-header.pug
+  block content
+    // Footer
+    include footer.pug
+// Argon Scripts
+// Core
+script(src='assets/vendor/jquery/dist/jquery.min.js')
+script(src='assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')
+script(src='assets/vendor/js-cookie/js.cookie.js')
+script(src='assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js')
+script(src='assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')
+// Optional JS
+script(src='assets/vendor/chart.js/dist/Chart.min.js')
+script(src='assets/vendor/chart.js/dist/Chart.extension.js')
+// Argon JS
+script(src='assets/js/argon.js?v=1.2.0')
+// Specific page JS
+script(src='assets/js/dashboard-vt.js')
+// Add buttons
+script(src='assets/js/toggle-button.js')
+script(src='assets/js/auth.js')
+script(src='assets/js/notification.js')
+script(src='./index.js')

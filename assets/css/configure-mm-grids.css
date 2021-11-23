@@ -1,0 +1,24 @@
+.add-new-appointment-day-wrapper{
+  margin: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 3rem;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.position-top{
+  top: 0.2rem;
+}
+
+.date-and-time{
+  width: 220px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(238, 246, 255);
+  font-size: 15px;
+  display: center;
+}

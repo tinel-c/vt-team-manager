@@ -1,0 +1,103 @@
+doctype html
+//
+  =========================================================
+  * VT Team manager
+  =========================================================
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='Manage your team with the all in one dashboard')
+  meta(name='author' content='Constantin Bogza')
+  meta(name='base-author' content='Creative Tim')
+  title VT Team Manager
+  // Favicon
+  link(rel='icon' href='../assets/img/brand/favicon.ico' type='image/ico')
+  // Fonts
+  link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700')
+  // Icons
+  link(rel='stylesheet' href='../assets/vendor/nucleo/css/nucleo.css' type='text/css')
+  link(rel='stylesheet' href='../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' type='text/css')
+  // Argon CSS
+  link(rel='stylesheet' href='../assets/css/argon.css?v=1.2.0' type='text/css')
+// Navbar
+nav#navbar-main.navbar.navbar-horizontal.navbar-transparent.navbar-main.navbar-expand-lg.navbar-light
+  .container
+    a.navbar-brand(href='./dashboard')
+      img(src='../assets/img/brand/vt-team-manager.png')
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-controls='navbar-collapse' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbar-collapse.navbar-collapse.navbar-custom-collapse.collapse
+      .navbar-collapse-header
+        .row
+          .col-6.collapse-brand
+            a(href='./dashboard')
+              img(src='../assets/img/brand/blue.png')
+          .col-6.collapse-close
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-collapse' aria-controls='navbar-collapse' aria-expanded='false' aria-label='Toggle navigation')
+              span
+              span
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href='dashboard')
+            span.nav-link-inner--text Dashboard
+// Main content
+.main-content
+  // Header
+  .header.bg-gradient-primary.py-7.py-lg-5.pt-lg-5
+    .container
+      .header-body.text-center.mb-7
+        .row.justify-content-center
+          .col-xl-5.col-lg-6.col-md-8.px-5
+            h1.text-white Welcome!
+            p.text-lead.text-white Register to the team manager application
+    .separator.separator-bottom.separator-skew.zindex-100
+      svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
+        polygon.fill-default(points='2560 0 2560 100 0 100')
+  // Page content
+  .container.mt--8.pb-5
+    .row.justify-content-center
+      .col-lg-5.col-md-7
+        .card.bg-secondary.border-0.mb-0
+          .card-header.bg-transparent.pb-5
+            .text-muted.text-center.mt-2.mb-3
+              small Fill in the fileds to create a new account.
+            .text-muted.text-center.mt-2.mb-3
+              small You will receive an e-mail with the access token
+            .text-center #{messages.error}
+            form(role='form' action="/add-user" method="post")
+              .form-group.mb-3
+                .input-group.input-group-merge.input-group-alternative
+                  .input-group-prepend
+                    span.input-group-text
+                      i.ni.ni-email-83
+                  input.form-control(placeholder='Email' name='email_angajat' type='email' required)
+              .text-center
+                button#get-token.btn.btn-primary.my-4(type='submit' value='submit') Register
+              br
+              br
+              br
+              br
+              br
+              a(href="/") Go back to login page
+// Footer
+footer#footer-main.py-5
+  .container
+    .row.align-items-center.justify-content-xl-between
+      .col-xl-6
+        .copyright.text-center.text-xl-left.text-muted
+          | &copy; 2020 
+          a.font-weight-bold.ml-1(href='#' target='_blank') Constantin Bogza
+      .col-xl-6
+        ul.nav.nav-footer.justify-content-center.justify-content-xl-end
+          li.nav-item
+            a.nav-link(href='https://github.com/tinel-c/vt-team-manager' target='_blank') Team manager - Github page        
+// Core
+script(src='../assets/vendor/jquery/dist/jquery.min.js')
+script(src='../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')
+script(src='../assets/vendor/js-cookie/js.cookie.js')
+script(src='../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js')
+script(src='../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')
+// Argon JS
+script(src='../assets/js/argon.js?v=1.2.0')
+// Add custom js
+script(src='../assets/js/auth.js')

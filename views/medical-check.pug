@@ -1,0 +1,180 @@
+extends layout
+block content
+
+  // Page content
+  link(rel='stylesheet' href='../assets/css/filter-buttons.css' type='text/css')
+  link(rel='stylesheet' href='../assets/css/scroll-table.css' type='text/css')
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+  //- script(src='./assets/js/table2excel.js')
+  //- script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
+  //- script(src='./assets/js/tableExport.js')
+  //- script(src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.min.js')
+  .container-fluid.mt--6
+    .row
+      .col
+        .card
+          // Card header
+          .card-header.border-0
+            h3.mb-0 Light table
+          // Light table
+          .table-responsive
+            table(id='example-table').table.align-items-center.table-flush.table-fixed
+              thead.thead-light
+                tr
+                  th.sort(scope='col' data-sort='name') Name
+                    br
+                    form(role='form' action="/medical-check" method="get") 
+                      //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?formalName=asc'")
+                      i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?formalName=asc'")
+                      //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?formalName=desc'" value!="&downarrow;") 
+                      i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?formalName=desc'" value!="&downarrow;")
+                      input.filter-button(type="text" name="searchName" value="" placeholder="Search employee..")
+                      //- input.filter-button(type="submit" value="find")
+                      //- i.fas.fa-search.big-loop(type="submit" value="find")
+                  th.sort(scope='col' data-sort='employee-e-mail') Employee's e-mail
+                    br
+                    form(role='form' action="/medical-check" method="get") 
+                      //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?employeeEmail=asc'" value!="&uparrow;")
+                      i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?employeeEmail=asc'" value!="&uparrow;")
+                      //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?employeeEmail=desc'" value!="&downarrow;")
+                      i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?employeeEmail=desc'" value!="&downarrow;")
+                      input.filter-button(type="text" name="searchEmail" value="" placeholder="Search employee..")
+                      //- input.filter-button(type="submit" value="find")
+                      //- i.fas.fa-search.big-loop(type="submit" value="find")
+                  th.sort(scope='col' data-sort='due-medical-check') Date Medical Check
+                    br
+                    //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?dateMedicalCheck=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?dateMedicalCheck=asc'" value!="&uparrow;")
+                    //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?dateMedicalCheck=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?dateMedicalCheck=desc'" value!="&downarrow;")
+                  th.sort(scope='col' data-sort='due-medical-check') Due Date Medical Check
+                    br
+                    //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?dueDateMedicalCheck=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?dueDateMedicalCheck=asc'" value!="&uparrow;")
+                    //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?dueDateMedicalCheck=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?dueDateMedicalCheck=desc'" value!="&downarrow;")
+                  th.sort(scope='col' data-sort='status') Medical Check Ok
+                    br
+                    //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?status=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?status=asc'" value!="&uparrow;")
+                    //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?status=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?status=desc'" value!="&downarrow;")
+                  th.sort(scope='col' data-sort='expiration') Days till expiration
+                    br
+                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?expiration=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?expiration=desc'" value!="&downarrow;")
+                  th.sort(scope='col' data-sort='manager') Manager
+                    br
+                    form(role='form' action="/medical-check" method="get") 
+                      input.filter-button(type="text" name="searchManager" value="" placeholder="Search manager..")
+                      //- input.filter-button(type="submit" value="find")
+                      //- i.fas.fa-search.big-loop(type="submit" value="find")
+                  th.sort(scope='col' data-sort='manager-e-mail') Manager's e-mail 
+                    br
+                    form(role='form' action="/medical-check" method="get") 
+                      input.filter-button(type="text" name="searchManagerEmail" value="" placeholder="Search email..")
+                      //- input.filter-button.fas.fa-search.iconnn(type="submit" value="find")
+                      //- i.fas.fa-search.big-loop.iconnn(type="submit" value="find")
+                  th.sort(scope='col' data-sort='completion') Restrictions
+                    br
+                    //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?restrictions=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?restrictions=asc'" value!="&uparrow;")
+                    //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?restrictions=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?restrictions=desc'" value!="&downarrow;")
+                  th(scope='col')
+              tbody.list.verticalScroll
+                each user in usersLists
+                  - var iCnt = 0
+                  - var edit = 0
+                  tr
+                  each val in user
+                    case iCnt
+                      when 0
+                        td(scope='row').three-dots
+                          form(role='form' action="/medical-check" method="post")
+                            if (sessionUser.medical_check_three_dots_popup == "1")
+                              .dropdown.treiPuncte
+                                  a.btn.btn-sm.btn-icon-only.text-light(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                    i.fas.fa-ellipsis-v
+                                  .dropdown-menu.dropdown-menu-right.dropdown-menu-arrow
+                                    label.popup-text(for='Last_MM') Last medical check:
+                                    br
+                                    input#start.form-control.popup-input(type='date' name='Last_MM' value=last_mm_date[iCnt])
+                                    br
+                                    label.popup-text(for='Next_MM') Next medical check:
+                                    br
+                                    input#start.form-control.popup-input(type='date' name='Next_MM' value=next_mm_date[iCnt])
+                                    input#start.form-control.popup-input.hidden-email-imput(type='email' name='email_angajat' value=user.email_angajat )
+                                    br
+                                    label.popup-text(for='Next_MM') Restrictions:
+                                    //- input.form-control.popup-input(type="text" name='Medical_limitations' value=user.Medical_limitations)
+                                    //- br
+                                    textarea.form-control.popup-input(name="Medical_limitations", cols="30", rows="4") #{user.Medical_limitations}
+                                    button#sign-in.btn.btn-primary.my-4.popup-edit-button.edit-button-padding(type='submit' value='Submit') Edit
+
+                          .media.align-items-center
+                            a.avatar.rounded-circle.mr-3
+                              img(alt='Image placeholder' src='../assets/img/theme/bootstrap.jpg')
+                            .media-body
+                              span.name.mb-0.text-sm #{user.Formal_Name}
+                              - var variabila = user.Formal_Name
+                      when 1
+                        td.emailAngajat 
+                          | #{user.email_angajat}
+                      when 2
+                        td.budget
+                          | #{user.Last_MM}
+                      when 3
+                        td.budget
+                          | #{user.Next_MM}
+                      when 4
+                        td
+                          span.badge.badge-dot.mr-4
+                            if user.Medical_check_ok == 1
+                              i.bg-warning-green
+                            else
+                              i.bg-warning
+                            span.status #{user.Medical_check_ok}
+                            //- .bg-warning-yellow
+                      when 5
+                        td
+                          span.badge.badge-dot.mr-4
+                            if user.days_until_next_MM <= 0
+                              i.bg-warning
+                            else if user.days_until_next_MM > 60
+                              i.bg-warning-green
+                            else if ((user.days_until_next_MM <= 60) && (user.days_until_next_MM > 0))
+                              i.bg-warning-yellow
+                            span.status #{user.days_until_next_MM}
+                      when 6
+                        td
+                          .th(scope='row')
+                          .media.align-items-center
+                            a.avatar.rounded-circle.mr-3(href='#')
+                              img(alt='Image placeholder' src='../assets/img/theme/bootstrap.jpg')
+                            .media-body
+                              span.name.mb-0.text-sm #{user.Supervisor}
+                      when 7
+                        td.emailSuperior
+                          | #{user.email_superior}
+                      when 8
+                        td.budget
+                          | #{user.Medical_limitations}
+                        //- td.text-right
+                        //-   .dropdown
+                        //-     a.btn.btn-sm.btn-icon-only.text-light(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                        //-       i.fas.fa-ellipsis-v
+                        //-     .dropdown-menu.dropdown-menu-right.dropdown-menu-arrow
+                        //-       a.dropdown-item(onclick=`edit=1`) Action
+                        //-       a.dropdown-item(onclick=`edit=1`) Another action
+                        //-       input(type="button" onclick=`edit=1` value="test button")
+                        //-       if(edit == 1)
+                        //-         tr
+                    - iCnt = iCnt + 1
+            
+          // Card footer
+          .card-footer.py-4
+            .three-dots
+              nav(aria-label='...')
+              form(role='form' action="/export-table" method="get")
+                button.btn.btn-primary.my-4.edit-button-padding(id="downloadexcel") Export data

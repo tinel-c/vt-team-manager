@@ -1,0 +1,36 @@
+language: node_js
+services: mongodb
+node_js:
+- 12.19.0
+before_install:
+- npm i -g npm@6.14.8
+install:
+- npm install chai
+- npm install mocha
+- npm install express
+- npm install body-parser
+- npm install cookie-parser
+- npm install multer
+- npm install stylus
+- npm install nib
+- npm install method-override
+- npm install express-session
+- npm install supervisor
+- npm install node-xlsx
+- npm install mongoose
+- npm install dotenv
+- npm install mongodb
+- npm install async
+- npm install mongoose-history
+- npm install pug
+- npm install nodemon
+- npm install browser-sync
+- npm install mollify
+- npm install
+deploy:
+  provider: heroku
+  api_key: $SECRET_KEY
+  app: vt-team-manager
+  on:
+    repo: tinel-c/vt-team-manager
+  strategy: git

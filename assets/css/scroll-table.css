@@ -1,0 +1,39 @@
+/* .verticalScroll {
+  display: block;
+  height: 30rem;
+  overflow-y: auto;
+} */
+
+/* .table-fixed tr {
+  display: block;
+} */
+
+.table-fixed tbody {
+  /* height: 20rem; */
+  overflow-y: scroll;
+}
+
+/* .table-fixed thead,
+.table-fixed tbody {
+  display: inline-block;
+} */
+
+.table-responsive{
+  height: 30rem;
+  overflow: auto;
+}
+
+.table-fixed th,
+.table-fixed td {
+  /* width: 12%; */
+  box-sizing: border-box;
+}
+
+.table-fixed th{
+  position: sticky;
+  top: 0;
+}
+
+.table-fixed{
+  position: relative;
+}

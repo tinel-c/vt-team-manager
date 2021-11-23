@@ -1,0 +1,14 @@
+.wrapper {
+  margin: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  grid-auto-rows: minmax(100px, 300px);
+}
+
+.smallMargin {
+  margin-right: 1rem;
+}

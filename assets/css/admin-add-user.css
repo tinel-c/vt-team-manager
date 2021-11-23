@@ -1,0 +1,78 @@
+* {box-sizing: border-box}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 2px 0;
+  display: inline-block;
+  border: none;
+  background: #f6f6f6;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f6f6f6;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.registerbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f6f6f6;
+  text-align: center;
+}
+
+.selector-bg-color {
+  background-color: #f6f6f6;
+  box-shadow: 0 0px 0px rgb(50 50 93 / 15%), 0 0px 0 rgb(0 0 0 / 2%);
+}
+
+.areaText {
+  border: none;
+}
+
+.addFirstAndFamilyName {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.manualSendEmailButton {
+  margin-top: 0rem !important; 
+}
+
+.manualSendEmailContainer {
+  padding-bottom: 0rem !important;
+}

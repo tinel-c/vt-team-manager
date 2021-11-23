@@ -1,0 +1,158 @@
+extends layout
+
+block content
+    // Page content
+    .container-fluid.mt--6
+        .row
+          .col-xl
+            .card
+              .card-header.border-0
+                .row.align-items-center
+                  .col
+                    h3.mb-0 Team status overview
+                  .col.text-right
+                    form#navbar-search-main.navbar-search.navbar-search-light.form-inline
+                      .form-group.mb-0
+                        .input-group.input-group-alternative.input-group-merge
+                          .input-group-prepend
+                            span.input-group-text
+                              i.fas.fa-search
+                          input.form-control(placeholder='Name filter' type='text')
+              .table-responsive
+                // Projects table
+                table.table.align-items-center.table-flush
+                  thead.thead-light
+                    tr
+                      th(scope='col') Formal name
+                      th(scope='col') Superior
+                      th(scope='col') Obs
+                      th(scope='col') Status on actions
+                  tbody
+                    tr
+                    tr.id#MoVl
+                      th(scope='row')
+                        | Test Employee
+                      td
+                        | Mister Manager
+                      td
+                        table.table.align-items-center.table-flush
+                          tr 
+                            td Comment:
+                            td
+                              input.form-control(placeholder='comment' type='text')
+                          tr 
+                            td Part of SU team:
+                            td.suTeam
+                              div.toggleButton
+                          tr 
+                            td SU training type:
+                            td
+                              .dropdown
+                                a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                  | Tesa
+                                .dropdown-menu(aria-labelledby='dropdownMenuLink')
+                                  a.dropdown-item(href='#') Tesa
+                                  a.dropdown-item(href='#') Tesa cu auto
+                                  a.dropdown-item(href='#') Electronist
+                      td
+                        table.table.align-items-center.table-flush
+                          tr 
+                            td
+                              | Medical check
+                            td.medicalCheck
+                              span.toggleButton.warning
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-warning
+                                span.status Planned: 21.12.2020
+                          tr 
+                            td
+                              | Medical limitations
+                            td.medicalLimitations
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status no
+                          tr 
+                            td
+                              | 2020 March: SSM SU 
+                            td.SSM-SU-2020-March
+                              span.toggleButton
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-danger
+                                span.status Training not done
+                          tr 
+                            td
+                              | 2020 October: SSM SU 
+                            td.SSM-SU-2020-October
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status Training done
+                    tr.id#CoBo
+                      th(scope='row')
+                        | Test Employee
+                      td
+                        | Mister Manager
+                      td
+                        table.table.align-items-center.table-flush
+                          tr 
+                            td Comment:
+                            td
+                              input.form-control(placeholder='comment' type='text')
+                          tr 
+                            td Part of SU team:
+                            td.suTeam
+                              div.toggleButton.active
+                          tr 
+                            td SU training type:
+                            td
+                              .dropdown
+                                a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                  | Tesa
+                                .dropdown-menu(aria-labelledby='dropdownMenuLink')
+                                  a.dropdown-item(href='#') Tesa
+                                  a.dropdown-item(href='#') Tesa cu auto
+                                  a.dropdown-item(href='#') Electronisttext')
+                      td
+                        table.table.align-items-center.table-flush
+                          tr 
+                            td
+                              | Medical check
+                            td.medicalCheck
+                              span.toggleButton.warning
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-warning
+                                span.status Planned: 21.12.2020
+                          tr 
+                            td
+                              | Medical limitations
+                            td.medicalLimitations
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status no
+                          tr 
+                            td
+                              | 2020 March: SSM SU 
+                            td.SSM-SU-2020-March
+                              span.toggleButton
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-danger
+                                span.status Training not done
+                          tr 
+                            td
+                              | 2020 October: SSM SU 
+                            td.SSM-SU-2020-October
+                              span.toggleButton.active
+                            td
+                              span.badge.badge-dot.mr-4
+                                i.bg-success
+                                span.status Training done
+                        
