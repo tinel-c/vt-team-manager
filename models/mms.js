@@ -9,6 +9,10 @@ let messageSchema = new mongoose.Schema({
       type: String,
       required: false
     },
+    emailHour:{
+      type: String,
+      required: false
+    },
     variable:{
       type: String,
       required: false

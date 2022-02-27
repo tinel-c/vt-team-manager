@@ -9,13 +9,16 @@ block content
   //- script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
   //- script(src='./assets/js/tableExport.js')
   //- script(src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.min.js')
-  .container-fluid.mt--6
+  .container-fluid.mt--6.table-scroller
     .row
       .col
         .card
           // Card header
-          .card-header.border-0
-            h3.mb-0 Light table
+          .card-header.border-0.top-card-header
+            //- h3.mb-0 Light table
+            nav(aria-label='...')
+              form(role='form' action="/export-table" method="get").export-button-form
+                button.btn.btn-primary.my-4.edit-button-padding(id="downloadexcel") Export data
           // Light table
           .table-responsive
             table(id='example-table').table.align-items-center.table-flush.table-fixed
@@ -23,7 +26,7 @@ block content
                 tr
                   th.sort(scope='col' data-sort='name') Name
                     br
-                    form(role='form' action="/medical-check" method="get") 
+                    form(role='form' action="/medical-check" method="get")
                       //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?formalName=asc'")
                       i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?formalName=asc'")
                       //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?formalName=desc'" value!="&downarrow;") 
@@ -101,9 +104,9 @@ block content
                                     br
                                     input#start.form-control.popup-input(type='date' name='Last_MM' value=last_mm_date[iCnt])
                                     br
-                                    label.popup-text(for='Next_MM') Next medical check:
+                                    label.popup-text(for='Next_MM') Next medical check: #{next_mm_date[iCnt]}
                                     br
-                                    input#start.form-control.popup-input(type='date' name='Next_MM' value=next_mm_date[iCnt])
+                                    //- input#start.form-control.popup-input(type='date' name='Next_MM' value=next_mm_date[iCnt])
                                     input#start.form-control.popup-input.hidden-email-imput(type='email' name='email_angajat' value=user.email_angajat )
                                     br
                                     label.popup-text(for='Next_MM') Restrictions:
@@ -173,8 +176,8 @@ block content
                     - iCnt = iCnt + 1
             
           // Card footer
-          .card-footer.py-4
-            .three-dots
-              nav(aria-label='...')
-              form(role='form' action="/export-table" method="get")
-                button.btn.btn-primary.my-4.edit-button-padding(id="downloadexcel") Export data
+          //- .card-footer.py-4
+          //-   .three-dots
+              //- nav(aria-label='...')
+              //- form(role='form' action="/export-table" method="get")
+              //-   button.btn.btn-primary.my-4.edit-button-padding(id="downloadexcel") Export data

@@ -12,3 +12,7 @@
 .smallMargin {
   margin-right: 1rem;
 }
+
+.hidden-email-imput{
+  display: none !important;
+}

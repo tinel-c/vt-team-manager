@@ -19,8 +19,12 @@
 } */
 
 .table-responsive{
-  height: 30rem;
-  overflow: auto;
+  /* height: 30rem; */
+  /* overflow: auto; */
+  /* flex-grow: 0;
+  flex-shrink: 0;
+  width: 120vw; */
+  /* scroll-direction: horizontal; */
 }
 
 .table-fixed th,
@@ -36,4 +40,19 @@
 
 .table-fixed{
   position: relative;
+}
+
+/* .table-scroller {
+  margin: auto !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: auto !important;
+} */
+
+.export-button-form{
+  height: 60px;
+}
+
+.top-card-header{
+  padding-top: 0 !important;
 }

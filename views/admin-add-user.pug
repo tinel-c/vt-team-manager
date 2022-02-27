@@ -104,7 +104,7 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
       h1 Add an employee
       p Please fill in this form to create a new employee account.
       hr
-      .addFirstAndFamilyName
+      .addFirstAndFamilyNameAndGid
         div
           label(for='First_Name')
             b First Name
@@ -115,19 +115,26 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
             b Family Name
           input.form-control(type='text' placeholder="Enter employee's family name" name='Family_Name' required='')
           br
+        div 
+          label(for='Gid')
+            b Gid
+          input.form-control(type='text' placeholder="Enter employee's Gid" name='Gid' required='')
+          br
       br
-      label(for='email_angajat')
-        b Email
-      input.form-control(type='text' placeholder="Enter employee's email" name='email_angajat' required='')
-      br
-      br
-      label(for='Supervisor')
-        b Supervisor
-      div(class="dropdownsearch")
-        div(class="options")
-          select.selector-bg-color(name="Supervisor" placeholder="Select your name" id="dynamic_select" required='')
-            each user in usersLists
-              option.text-center(value=user.Formal_Name) #{user.Formal_Name} 
+      .addEmailAndSupervisor
+        div
+          label(for='email_angajat')
+            b Email
+          input.form-control(type='text' placeholder="Enter employee's email" name='email_angajat' required='')
+        div
+          label(for='Supervisor')
+            b Supervisor
+          div(class="dropdownsearch")
+            div(class="options")
+              select.selector-bg-color.selector-top-position(name="Supervisor" placeholder="Select your name" id="dynamic_select" required='') //varful piramidei nu va avea superior
+                option.text-center(value="-")
+                each user in usersLists
+                  option.text-center(value=user.Formal_Name) #{user.Formal_Name} 
       hr
       button#sign-in.btn.btn-primary.my-4(type='submit' value="Submit") Create account
 

@@ -1,0 +1,27 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.td_delete_button{
+  text-align: center;
+}
+
+.td_delete_button_modal{
+  text-align: left !important;
+}
+
+tr:nth-child(even) {
+  background-color: #dceaee;
+}
+
+.hidden-email-imput{
+  display: none !important;
+}

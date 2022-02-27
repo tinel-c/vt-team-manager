@@ -42,7 +42,17 @@ function dateConversion (date){
   return finalDate;
 }
 
-// din 26-Aug-21 in 2021-09-21
+// from 26-Aug-21 to 2021-09-21
+
+function increaseNextMM (date){ //increments the year with one
+  //the date type must be like this yyyy-mm-dd
+  let year = `${date[2]}${date[3]}`;
+  year = +year + 1;
+  let year2 = year.toString();
+  let nextYear = date[0] + date[1] + year2;
+  let finalNextDate = date[8] + date[9] + "-" + date[5] + date[6] + "-" + nextYear;
+  return finalNextDate;
+}
 
 const nameSelector = document.getElementById("dynamic_select3");
 const email = document.getElementById("email2");
@@ -54,9 +64,6 @@ const supervisor2 = document.getElementById("supervisor2");
 const lastMM = document.getElementById("lastMM");
 const nextMM = document.getElementById("nextMM");
 
-// $( document ).ready(function() {
-//   $("#supervisor2").val("hatz").change();
-// });
 
 email.value = nameSelector.selectedOptions[0].getAttribute("email");
 restrictions.value = nameSelector.selectedOptions[0].getAttribute("restrictions");
@@ -65,10 +72,10 @@ familyName.value = nameSelector.selectedOptions[0].getAttribute("familyName");
 supervisorEmail.value = nameSelector.selectedOptions[0].getAttribute("supervisorEmail");
 supervisor2.value = nameSelector.selectedOptions[0].getAttribute("supervisor2");
 lastMM.value = dateConversion(nameSelector.selectedOptions[0].getAttribute("lastMM"));
-nextMM.value = dateConversion(nameSelector.selectedOptions[0].getAttribute("nextMM"));
+nextMM.value = increaseNextMM(dateConversion(nameSelector.selectedOptions[0].getAttribute("lastMM"))); //aici luam lastMM si ii incrementam anul cu 1
+nextMM.innerHTML = increaseNextMM(dateConversion(nameSelector.selectedOptions[0].getAttribute("lastMM")));
 
-// supervisor2.value = "Iftimoaia Mirela";
-// supervisor2.value = "Ghi Cat";
+
 nameSelector.onchange = (e) => {
   email.value = e.target.selectedOptions[0].getAttribute("email");
   restrictions.value = e.target.selectedOptions[0].getAttribute("restrictions");
@@ -77,9 +84,11 @@ nameSelector.onchange = (e) => {
   supervisorEmail.value = e.target.selectedOptions[0].getAttribute("supervisorEmail");
   supervisor2.value = e.target.selectedOptions[0].getAttribute("supervisor2");
   lastMM.value = dateConversion(e.target.selectedOptions[0].getAttribute("lastMM"));
-  nextMM.value = dateConversion(e.target.selectedOptions[0].getAttribute("nextMM"));
-  console.log(dateConversion(nextMM.value));
-  console.log(dateConversion(lastMM.value));
+  // nextMM.value = dateConversion(e.target.selectedOptions[0].getAttribute("nextMM"));
+  nextMM.innerHTML = increaseNextMM(dateConversion(e.target.selectedOptions[0].getAttribute("lastMM")));
+  // console.log(dateConversion(nextMM.value));
+  // console.log(dateConversion(lastMM.value));
+
   // console.log(supervisor2.value);
   // supervisor2.selectedIndex = 1;
   // supervisor2.value = "Ghi Cat";
@@ -93,3 +102,6 @@ nameSelector.onchange = (e) => {
   // $("#supervisor2").val(1);
 }
 
+lastMM.onchange = (e) => { //cand se schimba data din last mm check se incrementeaza si cea de la next mm check
+  nextMM.innerHTML = increaseNextMM(lastMM.value);
+}

@@ -103,11 +103,11 @@ nav.navbar.navbar-top.navbar-expand.navbar-dark.bg-primary.border-bottom
               span.avatar.avatar-sm.rounded-circle
                 img(alt='Image placeholder' src='assets/img/theme/team-4.jpg')
               .media-body.ml-2.d-none.d-lg-block
-                span.mb-0.text-sm.font-weight-bold Constantin Bogza
+                span.mb-0.text-sm.font-weight-bold #{sessionUser.formalName}
           .dropdown-menu.dropdown-menu-right
             .dropdown-header.noti-title
               h6.text-overflow.m-0 Welcome!
-            a.dropdown-item(href='#!')
+            a.dropdown-item(href='/edit-user')
               i.ni.ni-single-02
               span My profile
             a.dropdown-item(href='#!')

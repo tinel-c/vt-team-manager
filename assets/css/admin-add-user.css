@@ -58,11 +58,22 @@ a {
   box-shadow: 0 0px 0px rgb(50 50 93 / 15%), 0 0px 0 rgb(0 0 0 / 2%);
 }
 
+.selector-top-position {
+  bottom: 15px;
+}
+
 .areaText {
   border: none;
 }
 
-.addFirstAndFamilyName {
+.addFirstAndFamilyNameAndGid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.addEmailAndSupervisor {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;

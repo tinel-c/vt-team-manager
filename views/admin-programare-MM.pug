@@ -20,7 +20,7 @@ head
   link(rel='stylesheet' href='./assets/css/programari-grid.css')
   //- script(src='./assets/js/selectorEmail.js')
 
-  title Programare MM
+  title Admin Programare MM
   // Favicon
   link(rel='icon' href='../assets/img/brand/favicon.ico' type='image/ico')
   // Fonts
@@ -106,11 +106,16 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
       .col-lg-5.col-md-7
         .card.bg-secondary.border-0.mb-0
           .card-header.bg-transparent.pb-666
-            form(role='form' action="/delete-programare-MM" method="post")
-              - if(userIntervals)
-                - let jj = 0
-                h1 Next appointment:
-                  each userInterval in userIntervals
+            form(role='form' action="/admin-delete-programare-MM" method="post")
+              h1 user's next appointment:
+                div(id="hiddenOrNot")
+                  input.btn-check(type='radio' name='deleteTimeSlot' id="deleteTimeSlot" autocomplete='off' required)
+                  label.btn.btn-primary.c-list__link.c-media(for="deleteTimeSlot")
+                    .c-schedule
+                      .c-schedule__item.height.borderColor
+                        div(id="users")
+                  input.hidden-email-imput(id="formalNameForDeletedAppointment" type='text' name='formalNameForDeletedAppointment')
+                  //- each userInterval in userIntervals
                     -jj = new Date(userInterval.Starting_Hour)
                     - if (! (new Date(userInterval.Starting_Hour) < new Date())) //afisam doar programarile neexpirate
                       - let startingHour = userInterval.Starting_Hour.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false});
@@ -134,20 +139,19 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
       .col-lg-5.col-md-7
         .card.bg-secondary.border-0.mb-0
           .card-header.bg-transparent.pb-666
-            form(role='form' action="/programare-MM" method="post")
+            form(role='form' action="/admin-programare-MM" method="post")
               h1 Make a new appointment:
               div(class="dropdownsearch")
-                //- div(class="options")
-                  //- input.form-control(id="dynamic_select" placeholder='Email' value=sessionUser.userEmail type='email' name='Formal_Name' required)
-                  //- select(name="Formal_Name" placeholder="Select your name" id="dynamic_select")
-                  //-   each user in usersLists
-                  //-     option.text-center(id="selectedOption" email=user.email_angajat value=user.Formal_Name) #{user.Formal_Name}
+                div(class="options")
+                  select(name="Formal_Name" placeholder="Select your name" id="dynamic_select")
+                    each user in usersLists
+                      option.text-center(id="selectedOption" email=user.email_angajat value=user.Formal_Name) #{user.Formal_Name}
               .form-group
                 .input-group.input-group-merge.input-group-alternative
-                  //- .input-group-prepend
-                  //-   span.input-group-text
-                  //-     i.ni
-                  input.form-control.hidden-email-imput(id="email" placeholder='Email' value=sessionUser.userEmail type='email' name='email_angajat' required)
+                  .input-group-prepend
+                    span.input-group-text
+                      i.ni
+                  input.form-control(id="email" placeholder='Email' type='email' name='email_angajat' required)
               .l-layout
                 each appointment in appointments
                   .c-card
@@ -210,4 +214,6 @@ script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+
 script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM' crossorigin='anonymous')
 script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js')
 script(src='./assets/js/calendar.js')
+script(defer src='./assets/js/admin-programare-delete.js')
+
 //- script(src='./assets/js/selectorEmail.js')

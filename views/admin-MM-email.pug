@@ -31,6 +31,7 @@ head
   link(rel='stylesheet' href='../assets/css/argon.css?v=1.2.0' type='text/css')
   link(rel='stylesheet' href='../assets/css/search-box.css' type='text/css')
   link(rel='stylesheet' href='../assets/css/admin-add-user.css' type='text/css')
+  link(rel='stylesheet' href='../assets/css/admin-MM-email.css' type='text/css')
 // Sidenav
 nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navbar-light.bg-white
   .scrollbar-inner
@@ -102,22 +103,33 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
   form(role='form' action="/admin-MM-email" method="post")
     .container
       h1 Edit the medical check email
-      p Edit the fields in this form related to the medical check email
+      p Edit the fields in this form related to the medical check email. The users whose medical check will expire in less than 60 days will receive this email.
       hr
-      label(for='Supervisor')
-        b 
-          | Day of the week
-          small (currently set on #{mmDays} at 08:00)
-      div(class="dropdownsearch")
-        div(class="options")
-          select.selector-bg-color(name="weekDay" placeholder="Select the weekday" id="dynamic_select" required='')
-            option.text-center(value=MON) Monday
-            option.text-center(value=TUE) Tuesday
-            option.text-center(value=WED) Wednesday
-            option.text-center(value=THU) Thursday
-            option.text-center(value=FRI) Friday
-            option.text-center(value=SAT) Saturday
-            option.text-center(value=SUN) Sunday
+      div.twoColumnsGrid
+        div
+          label(for='Supervisor')
+            b 
+              | Day of the week
+              small  (currently set on #{mmDays})
+          div(class="dropdownsearch")
+            div(class="options")
+              select.selector-bg-color(name="weekDay" placeholder="Select the weekday" id="dynamic_select" required='')
+                option.text-center(value=MON) Monday
+                option.text-center(value=TUE) Tuesday
+                option.text-center(value=WED) Wednesday
+                option.text-center(value=THU) Thursday
+                option.text-center(value=FRI) Friday
+                option.text-center(value=SAT) Saturday
+                option.text-center(value=SUN) Sunday
+        div
+          label(for='hours')
+            b 
+              | Hour of the day
+              small  (currently set at #{mmHours})
+          div(class="dropdownsearch")
+            div.selector-bg-color(class="options")
+              <input class="date-and-time" type="time" name="hour">
+      br
       br
       label(for='Formal_Name')
         b 
@@ -125,6 +137,8 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
           small  (you can use the keywords ${name} and ${expirationDate} which will be replaced in the email with the actual emplyee name and medical check expiration date.)
         br
         small ex: ${name} == John Doe, ${expirationDate} == 01-Aug-21
+        br
+        br
       textarea.form-control.selector-bg-color.areaText(name="emailMessage", cols="30", rows="4") #{mmTexts}
       br
       hr

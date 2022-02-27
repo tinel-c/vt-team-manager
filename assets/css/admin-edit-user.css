@@ -69,3 +69,6 @@
   }
 }
 
+.hidden-formal-name-input{
+  display: none !important;
+}

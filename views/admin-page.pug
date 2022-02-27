@@ -113,6 +113,8 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
           input.box1-input.inline-buttons(type="submit" value="Assign roles")
         form(action="/admin-rights-to-roles")
           input.box1-input.inline-buttons(type="submit" value="Assign rights to roles")
+        form(action="/admin-programare-MM")
+          input.box1-input.inline-buttons(type="submit" value="Make an appointment for a user")
     div.box2.hover-effect2
       h1 Medical check
       .box-two-buttons
@@ -127,9 +129,11 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
         form(action="/admin-appointments-overview")
           input.box2-input(type="submit" value="Appointments overview")
     div.box3.hover-effect3
-      h1 dem cum umplem astea doua
+      h1 Update the database
+      form(action="/admin-import-table")
+        input.box2-input(type="submit" value="Import data")
     div.box4.hover-effect4
-      h1 Trebuie sa ve-
+      h1 blank so far
 
 // Core
 script(src='../assets/vendor/jquery/dist/jquery.min.js')

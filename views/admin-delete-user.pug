@@ -18,6 +18,8 @@ head
   link(rel='stylesheet' href='./assets/css/calendar.css')
   link(rel='stylesheet' href='./assets/css/error-too-many-apps.css')
   script(src='./assets/js/selectorEmail.js')
+  link(rel='stylesheet' href='../assets/css/popup-modal.css' type='text/css')
+  link(rel='stylesheet' href='../assets/css/popup-edit-modal.css' type='text/css')
 
   title Delete an employee
   // Favicon
@@ -31,6 +33,7 @@ head
   link(rel='stylesheet' href='../assets/css/argon.css?v=1.2.0' type='text/css')
   link(rel='stylesheet' href='../assets/css/search-box.css' type='text/css')
   link(rel='stylesheet' href='../assets/css/admin-add-user.css' type='text/css')
+  link(rel='stylesheet' href='../assets/css/admin-delete-user.css' type='text/css')
 // Sidenav
 nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navbar-light.bg-white
   .scrollbar-inner
@@ -99,24 +102,35 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
     .separator.separator-bottom.separator-skew.zindex-100
       svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
   // Page content
-  form(role='form' action="/admin-delete-user" method="post")
-    .container
-      h1 Delete an employee
-      p Carefully fill in this form to delete an emplyee's account.
-      hr
-      label(for='Formal_Name')
-        b Full Name
-      div(class="dropdownsearch")
-        div(class="options")
-          select.selector-bg-color(name="Formal_Name" placeholder="Select your name" id="dynamic_select")
-            each user in usersLists
-              option.text-center(id="selectedOption" email=user.email_angajat value=user.Formal_Name) #{user.Formal_Name}
-      br
-      label(for='email_angajat')
-        b Email
-      input.form-control(id="email" placeholder='Email' type='text' name='email_angajat' required)
-      hr
-      button#sign-in.btn.btn-primary.my-4(type='submit' value="Submit") Delete account
+  .container
+    h1 Delete an employee
+    hr
+    table
+      tr
+        th Full Name
+        th Email
+        th Supervisor
+        th
+      each user in usersLists
+        tr
+          td #{user.Formal_Name}
+          td #{user.email_angajat}
+          td #{user.Supervisor}
+          td.td_delete_button
+            form(role='form' action="/admin-delete-user" method="post")
+              //- button.btn.btn-primary.position-top(type='button' data-moodal-target='#moodal') Delete
+              input.hidden-email-imput(type='text' name='email_angajat' value=user.email_angajat)
+              input.hidden-email-imput(type='text' name="Formal_Name" value=user.Formal_Name)
+              button#sign-in.btn.btn-primary.my-4.position-top.td_delete_button_modal(type='submit' value="Submit") Delete
+              //- #moodal.moodal
+              //-   .moodal-header
+              //-     .title Are you sure you want to delete this user?
+              //-     button.close-button(type='button' data-close-button='') &times;
+              //-   .moodal-body
+              //-     //- div(id="users")
+              //-     button#sign-in.btn.btn-primary.my-4.position-top.td_delete_button_modal(type='submit' value="Submit") Delete
+              //- #overlay
+
 
 // Core
 script(src='../assets/vendor/jquery/dist/jquery.min.js')
@@ -136,3 +150,5 @@ script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundl
 script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js')
 script(src='./assets/js/calendar.js')
 script(src='./assets/js/selectorEmail.js')
+script(defer src='./assets/js/popup-delete-modal.js')
+script(defer src='./assets/js/popup-edit-modal.js')

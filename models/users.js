@@ -1,10 +1,14 @@
 let mongoose = require ('mongoose');
 //userList schema
 let usersSchema = new mongoose.Schema({
+    Gid:{
+    type: String,
+    required: false
+    },  
     First_Name:{
       type: String,
       required: false
-      },  
+    },  
     Family_Name:{
       type: String,
       required: false
@@ -25,6 +29,10 @@ let usersSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    supervising:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"user"
+    }],
     Medical_check_ok:{
         type: String,
         required: false

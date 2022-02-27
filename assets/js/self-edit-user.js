@@ -1,21 +1,21 @@
-function dateToDate( date ){
+function dateConversion (date){
   let day = date[0]+date[1];
+  let year = "20"+date[7]+date[8];
   let month = date[3]+date[4]+date[5];
-  let year = date[7]+date[8];
   if (month == "Jan" || month == "jan") {
-    month = "01";
+    month = '01';
   }
   if (month == "Feb" || month == "feb") {
-    month = "02";
+    month = '02';
   }
   if (month == "Mar" || month == "mar") {
-    month = "03";
+    month = '03';
   }
   if (month == "Apr" || month == "apr") {
-    month = "04";
+    month = '04';
   }
   if (month == "May" || month == "may") {
-    month = "05";
+    month = '05';
   }
   if (month == "Jun" || month == "jun") {
     month = '06';
@@ -38,21 +38,12 @@ function dateToDate( date ){
   if (month == "Dec" || month == "dec") {
     month = '12';
   }
-  let anFinal = "20" + year + "-" + month + "-" + day;
-  return anFinal;
-
+  let finalDate = year + "-" + month + "-" + day;
+  return finalDate;
 }
 
-function lastMMDateToDate( date ){
-  let day = date[0]+date[1];
-  let month = date[3]+date[4]+date[5];
-  let year = date[7]+date[8];
-  
-  let anFinal = day + "-" + month + "-" + "20" + year;
-  return anFinal;
+let variable = document.getElementById("lastMMinput").value;
 
-}
-// from: 26-Jan-22
-// to:   26-Jan-2022
+document.getElementById("lastMM").value = dateConversion(variable);
 
-module.exports = lastMMDateToDate;
+// lastMM.value = dateConversion(lastMM);

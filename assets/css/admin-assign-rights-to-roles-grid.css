@@ -5,7 +5,7 @@
   margin-bottom: 0rem;
   padding-bottom: 0rem;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 1rem;
   grid-auto-rows: minmax(100px, auto);
 }
@@ -38,6 +38,12 @@
 
 .box3 {
   background-color: #d4ffd1;
+  overflow-y: scroll;
+  display: block;
+}
+
+.boxESH {
+  background-color: #aaa4c5;
   overflow-y: scroll;
   display: block;
 }

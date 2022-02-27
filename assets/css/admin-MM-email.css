@@ -1,0 +1,17 @@
+.twoColumnsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.date-and-time{
+  /* width: max-width; */
+  width:550px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f6f6f6;
+  font-size: 15px;
+  display: center;
+}

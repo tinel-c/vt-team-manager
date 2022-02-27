@@ -152,15 +152,16 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
         div
           div
             label(for='Last_MM')
-              b Last medical check
+              b Last medical check (mm/dd/yyyy)
             input.form-control.popup-input.selector-bg-color.areaText(id="lastMM" type='date' name='Last_MM')
             br
           div 
-            label(for='Last_MM')
-              b Next medical check
-            input.form-control.popup-input.selector-bg-color.areaText(id="nextMM" type='date' name='Next_MM')
+            label(for='Next_MM')
+              b Next medical check (dd-mm-yyyy)
+            p.form-control.popup-input.selector-bg-color.areaText(id="nextMM" name='Next_MM')
+            //- input.form-control.popup-input.selector-bg-color.areaText(id="nextMM" type='date' name='Next_MM')
         div
-          div 
+          div
             label(for='Restrictions')
               b Medical restrictions
             textarea.form-control.selector-bg-color.areaText(id="restrictions", name="Restrictions", cols="30", rows="6") #{text}
