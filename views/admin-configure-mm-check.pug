@@ -133,81 +133,82 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
           button#sign-in.btn.btn-primary.my-4.position-top(type='submit' value="Submit") Create
     hr
     br
-    h3 delete an appointment date
-    p After deleting a date, those who made an appointment that day will be notified about the change.
-    form(role='form' action="/admin-delete-appointment-day" method="post")
-      - let changingDeleteDay = new Date();
-      div.add-new-appointment-day-wrapper
-        div
-          p select the date:
-          select.selector-bg-color(name="deleteAppointment" class="date-and-time" placeholder="Select the weekday" id="dynamic_select_delete" required='')
-            each appointment in appointments
-              - let startingHour = appointment.Starting_Hour.getUTCHours();
-              - let startingMinutes = appointment.Starting_Hour.getUTCMinutes();
-              - let endingHour = appointment.Ending_Hour.getUTCHours();
-              - let endingMinutes = appointment.Ending_Hour.getUTCMinutes();
-              - if (startingHour < 10) {startingHour = "0" + startingHour;}
-              - if (startingMinutes < 10) {startingMinutes = "0" + startingMinutes;}
-              - if (endingHour < 10) {endingHour = "0" + endingHour;}
-              - if (endingMinutes < 10) {endingMinutes = "0" + endingMinutes;}
-              option.u-text--info(value=appointment.Date name="deleteAppointment" p_1=appointment.Date) #{appointment.Date.toLocaleString('en-us', {weekday:'long'})+", "+appointment.Date.getUTCDate()+" "+appointment.Date.toLocaleString('en', { month: 'short' })+" "+appointment.Date.getUTCFullYear() + ", " + startingHour + ":" + startingMinutes + "-" + endingHour + ":" + endingMinutes}
-        div
-          p 
-          button.btn.btn-primary.my-4.position-top(type='button' data-moodal-target='#moodal') Delete
-          #moodal.moodal
-            .moodal-header
-              .title Are you sure you want to delete it?
-              button.close-button(type='button' data-close-button='') &times;
-            .moodal-body
-              p The following appointments will be deleted:
-              div(id="users")
-              button#sign-in.btn.btn-primary.my-4.position-top(type='submit' value="Submit") Delete
-          #overlay
-        div
-        div
-    hr
-    h3 edit an appointment date
-    p After editing a date, a new interval will be assigned. (if the new interval includes a part/the entire previous interval, the appointments that were made will be kept.)
-    p Note: The minutes of the new interval must be a multiple of 10. (00, 10, 20, 30, 40, 50)
-    p valid: 09:00, 11:20, 13:50
-    p invalid: 09:15, 11:21, 13:59
-    form(role='form' action="/admin-edit-appointment-day2" method="post")
-      div.add-new-appointment-day-wrapper
-        div
-          p select the date:
-          select.selector-bg-color(name="editAppointment" class="date-and-time" placeholder="Select the weekday" id="dynamic_select" required='')
-            each appointment in appointments
-              - let startingHour = appointment.Starting_Hour.getUTCHours();
-              - let startingMinutes = appointment.Starting_Hour.getUTCMinutes();
-              - let endingHour = appointment.Ending_Hour.getUTCHours();
-              - let endingMinutes = appointment.Ending_Hour.getUTCMinutes();
-              - if (startingHour < 10) {startingHour = "0" + startingHour;}
-              - if (startingMinutes < 10) {startingMinutes = "0" + startingMinutes;}
-              - if (endingHour < 10) {endingHour = "0" + endingHour;}
-              - if (endingMinutes < 10) {endingMinutes = "0" + endingMinutes;}
-              option.u-text--info(value=appointment.Date name="deleteAppointment") #{appointment.Date.toLocaleString('en-us', {weekday:'long'})+", "+appointment.Date.getUTCDate()+" "+appointment.Date.toLocaleString('en', { month: 'short' })+" "+appointment.Date.getUTCFullYear() + ", " + startingHour + ":" + startingMinutes + "-" + endingHour + ":" + endingMinutes}
-        div
-          p new starting hour:
-          <input class="date-and-time" id="edit-starting-hour" type="time" name="editStartingHour" required>
-        div
-          p new ending hour:
-          <input class="date-and-time" id="edit-ending-hour" type="time" name="editEndingHour" required>
-        div
-          p 
-          button.btn.btn-primary.my-4.position-top(type='button' data-moodal-target2='#moodal2') Edit
-          #moodal2.moodal2
-            .moodal-header2
-              .title2 Are you sure you want to edit it?
-              button.close-button2(type='button' data-close-button2='') &times;
-            .moodal-body2
-              p The following appointments will be deleted if you edit the interval:
-              div(id="users2")
-              button#sign-in.btn.btn-primary.my-4.position-top(type='submit' value="Submit") Edit
-          #overlay2
+    - if(appointments != "") //if there are no existing appointment dates, we wont show the edit or delete sections
+      h3 delete an appointment date
+      p After deleting a date, those who made an appointment that day will be notified about the change.
+      form(role='form' action="/admin-delete-appointment-day" method="post")
+        - let changingDeleteDay = new Date();
+        div.add-new-appointment-day-wrapper
+          div
+            p select the date:
+            select.selector-bg-color(name="deleteAppointment" class="date-and-time" placeholder="Select the weekday" id="dynamic_select_delete" required='')
+              each appointment in appointments
+                - let startingHour = appointment.Starting_Hour.getUTCHours();
+                - let startingMinutes = appointment.Starting_Hour.getUTCMinutes();
+                - let endingHour = appointment.Ending_Hour.getUTCHours();
+                - let endingMinutes = appointment.Ending_Hour.getUTCMinutes();
+                - if (startingHour < 10) {startingHour = "0" + startingHour;}
+                - if (startingMinutes < 10) {startingMinutes = "0" + startingMinutes;}
+                - if (endingHour < 10) {endingHour = "0" + endingHour;}
+                - if (endingMinutes < 10) {endingMinutes = "0" + endingMinutes;}
+                option.u-text--info(value=appointment.Date name="deleteAppointment" p_1=appointment.Date) #{appointment.Date.toLocaleString('en-us', {weekday:'long'})+", "+appointment.Date.getUTCDate()+" "+appointment.Date.toLocaleString('en', { month: 'short' })+" "+appointment.Date.getUTCFullYear() + ", " + startingHour + ":" + startingMinutes + "-" + endingHour + ":" + endingMinutes}
+          div
+            p 
+            button.btn.btn-primary.my-4.position-top(type='button' data-moodal-target='#moodal') Delete
+            #moodal.moodal
+              .moodal-header
+                .title Are you sure you want to delete it?
+                button.close-button(type='button' data-close-button='') &times;
+              .moodal-body
+                p The following appointments will be deleted:
+                div(id="users")
+                button#sign-in.btn.btn-primary.my-4.position-top(type='submit' value="Submit") Delete
+            #overlay
+          div
+          div
+      hr
+      h3 edit an appointment date
+      p After editing a date, a new interval will be assigned. (if the new interval includes a part/the entire previous interval, the appointments that were made will be kept.)
+      p Note: The minutes of the new interval must be a multiple of 10. (00, 10, 20, 30, 40, 50)
+      p valid: 09:00, 11:20, 13:50
+      p invalid: 09:15, 11:21, 13:59
+      form(role='form' action="/admin-edit-appointment-day2" method="post")
+        div.add-new-appointment-day-wrapper
+          div
+            p select the date:
+            select.selector-bg-color(name="editAppointment" class="date-and-time" placeholder="Select the weekday" id="dynamic_select" required='')
+              each appointment in appointments
+                - let startingHour = appointment.Starting_Hour.getUTCHours();
+                - let startingMinutes = appointment.Starting_Hour.getUTCMinutes();
+                - let endingHour = appointment.Ending_Hour.getUTCHours();
+                - let endingMinutes = appointment.Ending_Hour.getUTCMinutes();
+                - if (startingHour < 10) {startingHour = "0" + startingHour;}
+                - if (startingMinutes < 10) {startingMinutes = "0" + startingMinutes;}
+                - if (endingHour < 10) {endingHour = "0" + endingHour;}
+                - if (endingMinutes < 10) {endingMinutes = "0" + endingMinutes;}
+                option.u-text--info(value=appointment.Date name="deleteAppointment") #{appointment.Date.toLocaleString('en-us', {weekday:'long'})+", "+appointment.Date.getUTCDate()+" "+appointment.Date.toLocaleString('en', { month: 'short' })+" "+appointment.Date.getUTCFullYear() + ", " + startingHour + ":" + startingMinutes + "-" + endingHour + ":" + endingMinutes}
+          div
+            p new starting hour:
+            <input class="date-and-time" id="edit-starting-hour" type="time" name="editStartingHour" required>
+          div
+            p new ending hour:
+            <input class="date-and-time" id="edit-ending-hour" type="time" name="editEndingHour" required>
+          div
+            p 
+            button.btn.btn-primary.my-4.position-top(type='button' data-moodal-target2='#moodal2') Edit
+            #moodal2.moodal2
+              .moodal-header2
+                .title2 Are you sure you want to edit it?
+                button.close-button2(type='button' data-close-button2='') &times;
+              .moodal-body2
+                p The following appointments will be deleted if you edit the interval:
+                div(id="users2")
+                button#sign-in.btn.btn-primary.my-4.position-top(type='submit' value="Submit") Edit
+            #overlay2
 
-    hr
-    br
-    br
+      hr
+      br
+      br
     //- button.btn.btn-primary.my-4.position-top(data-moodal-target='#moodal') Open Modal
     //- #moodal.moodal
     //-   .moodal-header

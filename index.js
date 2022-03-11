@@ -6,7 +6,7 @@ const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 //const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");           
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
@@ -305,6 +305,72 @@ app.post("/login-failed", async (req, res) => {
   return res.redirect("/dashboard");
 });
 
+app.get("/forgot-password", async (req, res) => {
+  res.render("forgot-password");
+});
+
+app.post("/forgot-password", async (req, res) => {
+  let email_angajat = req.body.email_angajat;
+  if (!email_angajat.includes("vitesco")){
+    req.session.error = "Invalid email";
+    req.flash("error", "The email addres does not contain @vitesco");
+    return res.redirect("/forgot-password");
+  }
+
+  let user = await UsersList.findOne({ email_angajat: email_angajat });
+  if (!user){ //if the user does not exist in the database 
+    req.session.error = "Invalid email";
+    req.flash("error", "This email does not exist in the database");
+    return res.redirect("/forgot-password");
+  }
+  
+  let visibleToken = getPassword();
+
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(visibleToken, salt, function (err, hasdPsw) {
+      db.collection("users").updateOne(
+        { email_angajat: email_angajat },
+        {
+          $set: {
+            token: hasdPsw,
+            token_vizibil: visibleToken,
+            // Gid: gid,
+          },
+        }
+      );
+      sendForgotPasswordEmail(email_angajat, visibleToken);
+    })
+  });
+
+  req.flash("success", "The email was sent successfully!");
+  return res.redirect("/forgot-password");
+});
+
+function sendForgotPasswordEmail(sendTo, sendToken) {
+  const transporter = nodemailer.createTransport({
+    service: "Yahoo",
+    auth: {
+      user: "razvaniftimoaia20@yahoo.ro",
+      pass: "ajdudclsaxkhtudw",
+    },
+  });
+  const options = {
+    from: "razvaniftimoaia20@yahoo.ro",
+    to: sendTo,
+    subject: "The password was changed successfully!",
+    text: "Acesta este noul token unic pentru logarea pe site: " + sendToken,
+  };
+  transporter.sendMail(options, function (err, info) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log("sent:" + info.response);
+    console.log("The email was sent successfully !!");
+  });
+}
+
+
 app.get("/add-user", (req, res) => {
   const error = req.session.error;
   delete req.session.error;
@@ -488,7 +554,7 @@ function sendRegisterEmail(sendTo, sendToken) {
     service: "Yahoo",
     auth: {
       user: "razvaniftimoaia20@yahoo.ro",
-      pass: "_email_password_here_",
+      pass: "ajdudclsaxkhtudw",
     },
   });
   const options = {
@@ -552,6 +618,11 @@ app.get("/medical-check", isAuth, async (req, res) => {
       medical_check_three_dots_popup: "0",
     });
     newMedicRole.save();
+    const newESHManagerRole = new Roles({
+      role: "esh manager",
+      medical_check_three_dots_popup: "0",
+    });
+    newESHManagerRole.save();
     // nu merge sa asignam drepturile rolului respectiv sesiunii inca
     // baza de date trebuie creata intai
   }
@@ -1095,7 +1166,7 @@ async function sendMMEmail(sendTo, dueDate, name) {
     service: "Yahoo",
     auth: {
       user: "razvaniftimoaia20@yahoo.ro",
-      pass: "_email_password_here_",
+      pass: "ajdudclsaxkhtudw",
     },
   });
   const options = {
@@ -1123,7 +1194,7 @@ async function sendMMToSupervisorEmail(sendTo, dueDate, name) {
     service: "Yahoo",
     auth: {
       user: "razvaniftimoaia20@yahoo.ro",
-      pass: "_email_password_here_",
+      pass: "ajdudclsaxkhtudw",
     },
   });
   const options = {
@@ -1165,7 +1236,7 @@ function sendAppointmentEmail(sendTo, Formal_Name, appointmentDate) {
     service: "Yahoo",
     auth: {
       user: "razvaniftimoaia20@yahoo.ro",
-      pass: "_email_password_here_",
+      pass: "ajdudclsaxkhtudw",
     },
   });
   const options = {
@@ -1215,14 +1286,15 @@ schedule.scheduleJob(`* * * * *`, async () => {//it checks every minute
   let timeStar = "WED";
   let hourStar = "8";
   let minuteStar = "0";
-  let auxTimeStar = auxMMDay.emailDay; //it will store a value like MON / TUE / WED etc..
-  let auxHourStar = auxMMDay.emailHour;//it will store a value like 08:00
-  if (auxTimeStar) { //if the week day is not null
-    timeStar = auxTimeStar;
-  }
-  if (auxHourStar) { //if the hour and minutes are not null
-    hourStar = auxHourStar[0] + auxHourStar[1];
-    minuteStar = auxHourStar[3] + auxHourStar[4];
+  if (auxMMDay != null){
+    if (auxMMDay.emailDay != null) { //if the week day is not null
+      timeStar = auxMMDay.emailDay; //it will store a value like MON / TUE / WED etc..
+    }
+    if (auxMMDay.emailHour != null) { //if the hour and minutes are not null
+      let auxHourStar = auxMMDay.emailHour;//it will store a value like 08:00
+      hourStar = auxHourStar[0] + auxHourStar[1];
+      minuteStar = auxHourStar[3] + auxHourStar[4];
+    }
   }
 
   var d = new Date();//get current date and time
@@ -1438,6 +1510,23 @@ app.post("/edit-user", async (req, res) => {
   let gid = user2.Gid;
   let userId = user2._id; // pastram id-ul celui ce avea Formal_Name inainte sa se schimbe
 
+  let Supervisor = req.body.Supervisor;
+  let email_superior = req.body.email_superior;
+  if(user2.Supervisor != Supervisor){ //checking if the change of the supervisor is requested. If the answer is yes, we must check if the inputs match the users in the database otherwise an error message will be displayed.
+    let supervisorValidator = await UsersList.findOne({Formal_Name: Supervisor});
+    if (!supervisorValidator){
+      req.session.error = "The supervisor name does not exist in the database.";
+      req.flash("error", "The supervisor name does not exist in the database.");
+      return res.redirect("/admin-edit-user");
+    }
+    let supervisorEmailValidator = await UsersList.findOne({email_angajat: email_superior});
+    if (!supervisorEmailValidator){
+      req.session.error = "The supervisor email does not exist in the database.";
+      req.flash("error", "The supervisor email does not exist in the database.");
+      return res.redirect("/admin-edit-user");
+    }
+  }
+
   let firstName = req.body.firstName;
   let familyName = req.body.familyName;
   firstName = firstName.replace(/\s+/g, " ");
@@ -1531,8 +1620,6 @@ app.post("/edit-user", async (req, res) => {
 
 
   let email_angajat = req.body.email_angajat;
-  let Supervisor = req.body.Supervisor;
-  let email_superior = req.body.email_superior;
   let restrictions = req.body.Restrictions;
   let Last_MM = req.body.Last_MM;
   
@@ -2321,6 +2408,7 @@ app.get("/admin-edit-user", isAuth, async (req, res) => {
 });
 
 app.post("/admin-edit-user", isAuth, async (req, res) => {
+
   let Formal_Name = req.body.Formal_Name;
   let Old_Formal_Name = Formal_Name; //pastram vechiul Formal_Name
   let user2 = await UsersList.findOne({
@@ -2330,6 +2418,23 @@ app.post("/admin-edit-user", isAuth, async (req, res) => {
   });
   let gid = user2.Gid;
   let userId = user2._id; // pastram id-ul celui ce avea Formal_Name inainte sa se schimbe
+
+  let Supervisor = req.body.Supervisor;
+  let email_superior = req.body.email_superior;
+  if(user2.Supervisor != Supervisor){ //checking if the change of the supervisor is requested. If the answer is yes, we must check if the inputs match the users in the database otherwise an error message will be displayed. 
+    let supervisorValidator = await UsersList.findOne({Formal_Name: Supervisor});
+    if (!supervisorValidator){
+      req.session.error = "The supervisor name does not exist in the database.";
+      req.flash("error", "The supervisor name does not exist in the database.");
+      return res.redirect("/admin-edit-user");
+    }
+    let supervisorEmailValidator = await UsersList.findOne({email_angajat: email_superior});
+    if (!supervisorEmailValidator){
+      req.session.error = "The supervisor email does not exist in the database.";
+      req.flash("error", "The supervisor email does not exist in the database.");
+      return res.redirect("/admin-edit-user");
+    }
+  }
 
   let firstName = req.body.firstName;
   let familyName = req.body.familyName;
@@ -2424,13 +2529,9 @@ app.post("/admin-edit-user", isAuth, async (req, res) => {
     );
   }
 
-
   let email_angajat = req.body.email_angajat;
-  let Supervisor = req.body.Supervisor;
-  let email_superior = req.body.email_superior;
   let restrictions = req.body.Restrictions;
   let Last_MM = req.body.Last_MM;
-  
   let Next_MM = new Date(Last_MM);
   let Next_MM_String;
   Next_MM.setFullYear(Next_MM.getFullYear()+1);
@@ -2442,16 +2543,17 @@ app.post("/admin-edit-user", isAuth, async (req, res) => {
 
   // UNCOMMENT THIS FOR PRODUCTION
   // ❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
-  // if (!email_angajat.includes("vitesco")){
-  //   req.session.error = "Invalid email";
-  //   req.flash("error", "The email address is invalid. It must contain @vitesco.com");
-  //   return res.redirect("/admin-edit-user");
-  // }
+  if (!email_angajat.includes("vitesco")){
+    req.session.error = "Invalid email";
+    req.flash("error", "The email address is invalid. It must contain @vitesco.com");
+    return res.redirect("/admin-edit-user");
+  }
   // ❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
   // UNCOMMENT THIS FOR PRODUCTION
 
 
-  if(user2.Supervisor != Supervisor){ //verificam daca se doreste schimbarea superviser-ului
+
+  if(user2.Supervisor != Supervisor){ //checking if the change of the supervisor is requested
     // console.log("se doreste schimbarea superviser-ului");
     if((Supervisor == "-") || (Supervisor == "")){
       // console.log("userul nu va avea niciun superior");
@@ -3083,7 +3185,7 @@ function sendDeletedAppointmentEmail(sendTo) {
     service: "Yahoo",
     auth: {
       user: "razvaniftimoaia20@yahoo.ro",
-      pass: "_email_password_here_",
+      pass: "ajdudclsaxkhtudw",
     },
   });
   const options = {
@@ -3170,34 +3272,22 @@ app.get("/admin-send-email-MM-company", isAuth, async (req, res) => {
     mmText = medicalCheck.emailMessage;
   }
 
-  function changeTimezone(date, ianatz) {
-    var invdate = new Date(
-      date.toLocaleString("en-US", {
-        timeZone: ianatz,
-      })
-    );
-    var diff = date.getTime() - invdate.getTime();
-    return new Date(date.getTime() + diff);
-  }
-  let currentDate = changeTimezone(new Date(2021, 10, 12, 08, 00, 00), "UTC");
-  let futureDate = changeTimezone(new Date(2021, 10, 13, 00, 00, 00), "UTC");
-  if (
-    new Date(
-      currentDate.getTime() +
-        16 * 60 * 60 * 1000 +
-        (mmDay - 1) * (24 * 60 * 60 * 1000)
-    ).getTime() == futureDate.getTime()
-  ) {
-    console.log("functia merge bine");
-  } else {
-    console.log("funtia nu merge bine");
-  }
+  // function changeTimezone(date, ianatz) {
+  //   var invdate = new Date(
+  //     date.toLocaleString("en-US", {
+  //       timeZone: ianatz,
+  //     })
+  //   );
+  //   var diff = date.getTime() - invdate.getTime();
+  //   return new Date(date.getTime() + diff);
+  // }
 
   res.render("admin-send-email-MM-company", {
     day: mmDay,
     email: mmEmail,
     subject: mmSubject,
     text: mmText,
+    
   });
 });
 
@@ -3234,19 +3324,6 @@ app.post("/admin-send-email-MM-company", async (req, res) => {
   // await chooseEmailParticipants();
   return res.redirect("/admin-send-email-MM-company");
 });
-
-// async function sendEmailToMM(){
-//   let auxMMDay = await MMCompanyEmail.findOne({ variable: "1" });
-//   let timeStar = "WED";
-//   let auxTimeStar = auxMMDay.emailDay;
-//   if (auxTimeStar) {
-//     timeStar = auxTimeStar;
-//   }
-//   schedule.scheduleJob(`0 8 * * ${timeStar}`, async () => {
-//     await chooseEmailParticipants();
-//   });
-// };
-// sendEmailToMM();
 
 schedule.scheduleJob(`0 8 * * *`, async () => { //performs everyday at 08:00
   chooseEmailParticipants(); //creates the list of people that will be attached to the email that will be sent to the medical company
@@ -3376,7 +3453,6 @@ async function chooseEmailParticipants() {
               appointmentDate[k].Date.getTime()
             ); //<- app.date.gettime de verificat
           }
-          // console.log(MMtextMessage);
 
           let emails = auxMMDay.emailTo;
           let individualEmails = emails.split(", ");
@@ -3416,7 +3492,7 @@ async function sendMMEmailToCompany(
     service: "Yahoo",
     auth: {
       user: "razvaniftimoaia20@yahoo.ro",
-      pass: "_email_password_here_",
+      pass: "ajdudclsaxkhtudw",
     },
   });
   const template = path.join(__dirname, "emails", "MMcompany", "html");
@@ -3992,7 +4068,7 @@ app.post("/admin-import-table", async (req, res) => {
 
   
 
-  
+  req.flash("success", "The file was successfully updated!");
   // Delete the temp file
   fs.unlinkSync(req.files.file.tempFilePath);
   return res.redirect("/admin-import-table");
@@ -4059,6 +4135,11 @@ app.get(
         medical_check_three_dots_popup: "0",
       });
       newMedicRole.save();
+      const newESHManagerRole = new Roles({
+        role: "esh manager",
+        medical_check_three_dots_popup: "0",
+      });
+      newESHManagerRole.save();
       // nu merge sa asignam drepturile rolului respectiv sesiunii inca
       // baza de date trebuie creata intai
     }
