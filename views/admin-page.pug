@@ -36,7 +36,7 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
   .scrollbar-inner
     // Brand
     .sidenav-header.align-items-center
-      a.navbar-brand(href='javascript:void(0)')
+      a.navbar-brand(href='/dashboard')
         img.navbar-brand-img(src='assets/img/brand/vt-team-manager.png' alt='...')
     .navbar-inner
       // Collapse
@@ -63,6 +63,10 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
             a.nav-link(href='/competency-management')
               i.ni.ni-bullet-list-67.text-default
               span.nav-link-text Competecy management
+          li.nav-item
+            a.nav-link(href='/team-leader-page')
+              i.ni.team-leader-icon.text-primary
+              span.nav-link-text Team leader's page
           li#admin-page.nav-item
             a.nav-link(href='/admin-page')
               i.ni.admin-icon.text-primary
@@ -101,7 +105,7 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
 
   div.wrapper
     div.box1.hover-effect1
-      h1 User's actions
+      h1 Actions over users
       .box-one-buttons
         form(action="/admin-add-user")
           input.box1-input.inline-buttons(type="submit" value="Add a new employee")
@@ -121,13 +125,11 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
         form(action="/admin-MM-email")
           input.box2-input(type="submit" value="Mail MM expirat")
         form(action="/admin-configure-mm-check")
-          input.box2-input(type="submit" value="Configure MM check")
-        form(action="/")
-          input.box2-input(type="submit" value="Doctor information")
+          input.box2-input(type="submit" value="Configure medical check dates")
         form(action="/admin-send-email-MM-company")
           input.box2-input(type="submit" value="Mail to MM company")
         form(action="/admin-appointments-overview")
-          input.box2-input(type="submit" value="Appointments overview")
+          input.box2-input(type="submit" value="Appointments export")
     div.box3.hover-effect3
       h1 Update the database
       form(action="/admin-import-table")

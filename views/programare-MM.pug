@@ -36,7 +36,7 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
   .scrollbar-inner
     // Brand
     .sidenav-header.align-items-center
-      a.navbar-brand(href='javascript:void(0)')
+      a.navbar-brand(href='/dashboard')
         img.navbar-brand-img(src='assets/img/brand/vt-team-manager.png' alt='...')
     .navbar-inner
       // Collapse
@@ -63,6 +63,10 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
             a.nav-link(href='/competency-management')
               i.ni.ni-bullet-list-67.text-default
               span.nav-link-text Competecy management
+          li.nav-item
+            a.nav-link(href='/team-leader-page')
+              i.ni.team-leader-icon.text-primary
+              span.nav-link-text Team leader's page
           li.nav-item
             a.nav-link(href='/admin-page')
               i.ni.admin-icon.text-primary
@@ -101,93 +105,100 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
       svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
         polygon.fill-default(points='2560 0 2560 100 0 100')
   // Page content
-  .container.mt--8.pb-5
-    .row.justify-content-center
-      .col-lg-5.col-md-7
-        .card.bg-secondary.border-0.mb-0
-          .card-header.bg-transparent.pb-666
-            form(role='form' action="/delete-programare-MM" method="post")
-              - if(userIntervals)
-                - let jj = 0
-                h1 Next appointment:
-                  each userInterval in userIntervals
-                    -jj = new Date(userInterval.Starting_Hour)
-                    - if (! (new Date(userInterval.Starting_Hour) < new Date())) //afisam doar programarile neexpirate
-                      - let startingHour = userInterval.Starting_Hour.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false});
-                      - let endingHour = userInterval.Ending_Hour.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false});
-                      - if (startingHour < 10) {startingHour = "0" + startingHour;}
-                      - if (endingHour < 10) {endingHour = "0" + endingHour;}
-                      input.btn-check(type='radio' name='deleteTimeSlot' id=jj  value=jj autocomplete='off' required)
-                      label.btn.btn-primary.c-list__link.c-media(for=jj)
-                        .c-schedule
-                          .c-schedule__item.height.borderColor
-                            //- p #{userInterval.Starting_Hour}
-                            strong.u-text--info #{userInterval.Starting_Hour.toLocaleString('en-us', {weekday:'long'})+", "+userInterval.Starting_Hour.getUTCDate()+" "+userInterval.Starting_Hour.toLocaleString('en', { month: 'short' })+" "+userInterval.Starting_Hour.getUTCFullYear() + ", " + startingHour + "-" + endingHour}
-                .text-center
-                  button#sign-in.btn.btn-primary.my-4(type='submit' value='Submit') Delete
-  br
-  br
-  br
-  br
-  .container.mt--8.pb-5
-    .row.justify-content-center
-      .col-lg-5.col-md-7
-        .card.bg-secondary.border-0.mb-0
-          .card-header.bg-transparent.pb-666
-            form(role='form' action="/programare-MM" method="post")
-              h1 Make a new appointment:
-              div(class="dropdownsearch")
-                //- div(class="options")
-                  //- input.form-control(id="dynamic_select" placeholder='Email' value=sessionUser.userEmail type='email' name='Formal_Name' required)
-                  //- select(name="Formal_Name" placeholder="Select your name" id="dynamic_select")
-                  //-   each user in usersLists
-                  //-     option.text-center(id="selectedOption" email=user.email_angajat value=user.Formal_Name) #{user.Formal_Name}
-              .form-group
-                .input-group.input-group-merge.input-group-alternative
-                  //- .input-group-prepend
-                  //-   span.input-group-text
-                  //-     i.ni
-                  input.form-control.hidden-email-imput(id="email" placeholder='Email' value=sessionUser.userEmail type='email' name='email_angajat' required)
-              .l-layout
-                each appointment in appointments
-                  .c-card
-                    .c-card__body.u-padding-b--xs
-                      .c-schedule
-                        .arrow_prev
-                          i.fas.fa-long-arrow-alt-left.fa-2x
-                        strong.u-text--info #{appointment.Date.toLocaleString('en-us', {weekday:'long'})+", "+appointment.Date.getUTCDate()+" "+appointment.Date.toLocaleString('en', { month: 'short' })+" "+appointment.Date.getUTCFullYear()}
-                        .arrow_next
-                          i.fas.fa-long-arrow-alt-right.fa-2x
-                    ul#flightList.c-list
-                      -for(let i = new Date(appointment.Starting_Hour); i<new Date(appointment.Ending_Hour);)
-                        - let ok = 0
-                        - let Name = ""
-                        each interval in appointment.intervals 
-                          - let ddate = interval.Starting_Hour.toLocaleTimeString()
-                          - if(i.toLocaleTimeString([], {timeZone: 'UTC'}) == ddate){
-                          //- -   console.log("--- "+i.toLocaleTimeString([], {timeZone: 'UTC'})+" --- " +ddate +" ---")
-                          -   ok=1
-                          -   Name=interval.Name}
-                        - if(ok==0)
-                            input.btn-check(type='radio' name='timeSlot' id=i value=i autocomplete='off' required)
-                        - else
-                            input.btn-check.borderColor(type='radio' name='timeSlot' id=i value=i autocomplete='off' disabled='')
-                        //input.btn-check(type='radio' name='timeSlot' id=i value=i autocomplete='off')
-                        label.btn.btn-primary.c-list__link.c-media(for=i)
+  - if (userIntervals != "" )
+    .container.mt--8.pb-5
+      .row.justify-content-center
+        .col-lg-5.col-md-7
+          .card.bg-secondary.border-0.mb-0
+            .card-header.bg-transparent.pb-666
+              form(role='form' action="/delete-programare-MM" method="post")
+                - if(userIntervals)
+                  - let jj = 0
+                  h1 Next appointment:
+                    each userInterval in userIntervals
+                      -jj = new Date(userInterval.Starting_Hour)
+                      - if (! (new Date(userInterval.Starting_Hour) < new Date())) //afisam doar programarile neexpirate
+                        - let startingHour = userInterval.Starting_Hour.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false});
+                        - let endingHour = userInterval.Ending_Hour.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false});
+                        - if (startingHour < 10) {startingHour = "0" + startingHour;}
+                        - if (endingHour < 10) {endingHour = "0" + endingHour;}
+                        input.btn-check(type='radio' name='deleteTimeSlot' id=jj  value=jj autocomplete='off' required)
+                        label.btn.btn-primary.c-list__link.c-media(for=jj)
                           .c-schedule
                             .c-schedule__item.height.borderColor
-                              strong #{i.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false, timeZone: 'UTC'})}
-                            .c-schedule__item.height.borderColor
-                              - i.setTime(i.getTime()+10*60*1000)
-                              - j++
-                              strong #{i.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false, timeZone: 'UTC'})}
-                            - if ( ok == 1 )
-                                .c-schedule__item.height.borderColor
-                                  small #{Name}
-                            //- - if(currentUserName == Name)
-                            //-   button(type="submit")  Hatz
-              .text-center
-                button#sign-in.btn.btn-primary.my-4(type='submit' value='Submit') Submit
+                              //- p #{userInterval.Starting_Hour}
+                              strong.u-text--info #{userInterval.Starting_Hour.toLocaleString('en-us', {weekday:'long'})+", "+userInterval.Starting_Hour.getUTCDate()+" "+userInterval.Starting_Hour.toLocaleString('en', { month: 'short' })+" "+userInterval.Starting_Hour.getUTCFullYear() + ", " + startingHour + "-" + endingHour}
+                  .text-center
+                    button#sign-in.btn.btn-primary.my-4(type='submit' value='Submit') Delete
+  br
+  br
+  br
+  br
+  - if ( appointments != "" )
+    .container.mt--8.pb-5
+      .row.justify-content-center
+        .col-lg-5.col-md-7
+          .card.bg-secondary.border-0.mb-0
+            .card-header.bg-transparent.pb-666
+              form(role='form' action="/programare-MM" method="post")
+                h1 Make a new appointment:
+                div(class="dropdownsearch")
+                  //- div(class="options")
+                    //- input.form-control(id="dynamic_select" placeholder='Email' value=sessionUser.userEmail type='email' name='Formal_Name' required)
+                    //- select(name="Formal_Name" placeholder="Select your name" id="dynamic_select")
+                    //-   each user in usersLists
+                    //-     option.text-center(id="selectedOption" email=user.email_angajat value=user.Formal_Name) #{user.Formal_Name}
+                .form-group
+                  .input-group.input-group-merge.input-group-alternative
+                    //- .input-group-prepend
+                    //-   span.input-group-text
+                    //-     i.ni
+                    input.form-control.hidden-email-imput(id="email" placeholder='Email' value=sessionUser.userEmail type='email' name='email_angajat' required)
+                .l-layout
+                  each appointment in appointments
+                    .c-card
+                      .c-card__body.u-padding-b--xs
+                        .c-schedule
+                          .arrow_prev
+                            i.fas.fa-long-arrow-alt-left.fa-2x
+                          strong.u-text--info #{appointment.Date.toLocaleString('en-us', {weekday:'long'})+", "+appointment.Date.getUTCDate()+" "+appointment.Date.toLocaleString('en', { month: 'short' })+" "+appointment.Date.getUTCFullYear()}
+                          .arrow_next
+                            i.fas.fa-long-arrow-alt-right.fa-2x
+                      ul#flightList.c-list
+                        -for(let i = new Date(appointment.Starting_Hour); i<new Date(appointment.Ending_Hour);)
+                          - let ok = 0
+                          - let Name = ""
+                          each interval in appointment.intervals 
+                            - let ddate = interval.Starting_Hour.toLocaleTimeString()
+                            - if(i.toLocaleTimeString([], {timeZone: 'UTC'}) == ddate){
+                            //- -   console.log("--- "+i.toLocaleTimeString([], {timeZone: 'UTC'})+" --- " +ddate +" ---")
+                            -   ok=1
+                            -   Name=interval.Name}
+                          - if(ok==0)
+                              input.btn-check(type='radio' name='timeSlot' id=i value=i autocomplete='off' required)
+                          - else
+                              input.btn-check.borderColor(type='radio' name='timeSlot' id=i value=i autocomplete='off' disabled='')
+                          //input.btn-check(type='radio' name='timeSlot' id=i value=i autocomplete='off')
+                          label.btn.btn-primary.c-list__link.c-media(for=i)
+                            .c-schedule
+                              .c-schedule__item.height.borderColor
+                                strong #{i.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false, timeZone: 'UTC'})}
+                              .c-schedule__item.height.borderColor
+                                - i.setTime(i.getTime()+10*60*1000)
+                                - j++
+                                strong #{i.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12 : false, timeZone: 'UTC'})}
+                              - if ( ok == 1 )
+                                  .c-schedule__item.height.borderColor
+                                    small #{Name}
+                              //- - if(currentUserName == Name)
+                              //-   button(type="submit")  Hatz
+                .text-center
+                  button#sign-in.btn.btn-primary.my-4(type='submit' value='Submit') Submit
+  - else
+    div.no-appointments-wrapper
+      div.center-no-appointments-div
+        h4 There are no available days for appointments!
+        h4 Please contact the ESH responsible or the supervisor!
   br
   br
   br

@@ -16,9 +16,10 @@ block content
           // Card header
           .card-header.border-0.top-card-header
             //- h3.mb-0 Light table
-            nav(aria-label='...')
-              form(role='form' action="/export-table" method="get").export-button-form
-                button.btn.btn-primary.my-4.edit-button-padding(id="downloadexcel") Export data
+            - if ( sessionUser.role != "basic" )
+              nav(aria-label='...')
+                form(role='form' action="/export-table" method="get").export-button-form
+                  button.btn.btn-primary.my-4.edit-button-padding(id="downloadexcel") Export data
           // Light table
           .table-responsive
             table(id='example-table').table.align-items-center.table-flush.table-fixed
@@ -27,45 +28,47 @@ block content
                   th.sort(scope='col' data-sort='name') Name
                     br
                     form(role='form' action="/medical-check" method="get")
+                      <i class="fa-light fa-rotate"></i>
                       //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?formalName=asc'")
-                      i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?formalName=asc'")
+                      i.fas.fa-angle-up.big(type="button" title="ascending" name="asc" onclick="location.href='/medical-check?formalName=asc'")
                       //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?formalName=desc'" value!="&downarrow;") 
-                      i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?formalName=desc'" value!="&downarrow;")
+                      i.fas.fa-angle-down.big(type="button" name="desc" title="descending" onclick="location.href='/medical-check?formalName=desc'" value!="&downarrow;")
                       input.filter-button(type="text" name="searchName" value="" placeholder="Search employee..")
                       //- input.filter-button(type="submit" value="find")
                       //- i.fas.fa-search.big-loop(type="submit" value="find")
+                      i.fas.fa-eraser.big(type="button" title="remove filters" name="asc" onclick="location.href='/medical-check?searchName='")
                   th.sort(scope='col' data-sort='employee-e-mail') Employee's e-mail
                     br
                     form(role='form' action="/medical-check" method="get") 
                       //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?employeeEmail=asc'" value!="&uparrow;")
-                      i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?employeeEmail=asc'" value!="&uparrow;")
+                      i.fas.fa-angle-up.big(type="button" name="asc" title="ascending" onclick="location.href='/medical-check?employeeEmail=asc'" value!="&uparrow;")
                       //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?employeeEmail=desc'" value!="&downarrow;")
-                      i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?employeeEmail=desc'" value!="&downarrow;")
+                      i.fas.fa-angle-down.big(type="button" name="desc" title="descending" onclick="location.href='/medical-check?employeeEmail=desc'" value!="&downarrow;")
                       input.filter-button(type="text" name="searchEmail" value="" placeholder="Search employee..")
                       //- input.filter-button(type="submit" value="find")
                       //- i.fas.fa-search.big-loop(type="submit" value="find")
                   th.sort(scope='col' data-sort='due-medical-check') Date Medical Check
                     br
                     //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?dateMedicalCheck=asc'" value!="&uparrow;")
-                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?dateMedicalCheck=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" title="ascending" onclick="location.href='/medical-check?dateMedicalCheck=asc'" value!="&uparrow;")
                     //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?dateMedicalCheck=desc'" value!="&downarrow;")
-                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?dateMedicalCheck=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" title="descending" onclick="location.href='/medical-check?dateMedicalCheck=desc'" value!="&downarrow;")
                   th.sort(scope='col' data-sort='due-medical-check') Due Date Medical Check
                     br
                     //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?dueDateMedicalCheck=asc'" value!="&uparrow;")
-                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?dueDateMedicalCheck=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" title="ascending" onclick="location.href='/medical-check?dueDateMedicalCheck=asc'" value!="&uparrow;")
                     //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?dueDateMedicalCheck=desc'" value!="&downarrow;")
                     i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?dueDateMedicalCheck=desc'" value!="&downarrow;")
                   th.sort(scope='col' data-sort='status') Medical Check Ok
                     br
                     //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?status=asc'" value!="&uparrow;")
-                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?status=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" title="ascending" onclick="location.href='/medical-check?status=asc'" value!="&uparrow;")
                     //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?status=desc'" value!="&downarrow;")
-                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?status=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" title="descending" onclick="location.href='/medical-check?status=desc'" value!="&downarrow;")
                   th.sort(scope='col' data-sort='expiration') Days till expiration
                     br
-                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?expiration=asc'" value!="&uparrow;")
-                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?expiration=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" title="ascending" onclick="location.href='/medical-check?expiration=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" title="descending" onclick="location.href='/medical-check?expiration=desc'" value!="&downarrow;")
                   th.sort(scope='col' data-sort='manager') Manager
                     br
                     form(role='form' action="/medical-check" method="get") 
@@ -81,9 +84,9 @@ block content
                   th.sort(scope='col' data-sort='completion') Restrictions
                     br
                     //- input.filter-button.asc-desc(type="button" name="asc" onclick="location.href='/medical-check?restrictions=asc'" value!="&uparrow;")
-                    i.fas.fa-angle-up.big(type="button" name="asc" onclick="location.href='/medical-check?restrictions=asc'" value!="&uparrow;")
+                    i.fas.fa-angle-up.big(type="button" name="asc" title="ascending" onclick="location.href='/medical-check?restrictions=asc'" value!="&uparrow;")
                     //- input.filter-button.asc-desc(type="button" name="desc" onclick="location.href='/medical-check?restrictions=desc'" value!="&downarrow;")
-                    i.fas.fa-angle-down.big(type="button" name="desc" onclick="location.href='/medical-check?restrictions=desc'" value!="&downarrow;")
+                    i.fas.fa-angle-down.big(type="button" name="desc" title="descending" onclick="location.href='/medical-check?restrictions=desc'" value!="&downarrow;")
                   th(scope='col')
               tbody.list.verticalScroll
                 each user in usersLists
@@ -122,7 +125,7 @@ block content
                               span.name.mb-0.text-sm #{user.Formal_Name}
                               - var variabila = user.Formal_Name
                       when 1
-                        td.emailAngajat 
+                        td.emailAngajat
                           | #{user.email_angajat}
                       when 2
                         td.budget
@@ -153,8 +156,7 @@ block content
                         td
                           .th(scope='row')
                           .media.align-items-center
-                            a.avatar.rounded-circle.mr-3(href='#')
-                              img(alt='Image placeholder' src='../assets/img/theme/bootstrap.jpg')
+                            //- img.avatar.rounded-circle.mr-3(alt='Image placeholder' src='../assets/img/theme/bootstrap.jpg')
                             .media-body
                               span.name.mb-0.text-sm #{user.Supervisor}
                       when 7

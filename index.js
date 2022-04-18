@@ -1210,19 +1210,20 @@ function sendAppointmentEmail(sendTo, Formal_Name, appointmentDate) {
 //   await sendReminderEmail();
 // });
 
-schedule.scheduleJob(`* * * * *`, async () => {//it checks every minute 
+schedule.scheduleJob(`* * * * *`, async () => {//it checks every minute
   let auxMMDay = await MM.findOne({ variable: 1 });
   let timeStar = "WED";
   let hourStar = "8";
   let minuteStar = "0";
-  let auxTimeStar = auxMMDay.emailDay; //it will store a value like MON / TUE / WED etc..
-  let auxHourStar = auxMMDay.emailHour;//it will store a value like 08:00
-  if (auxTimeStar) { //if the week day is not null
-    timeStar = auxTimeStar;
-  }
-  if (auxHourStar) { //if the hour and minutes are not null
-    hourStar = auxHourStar[0] + auxHourStar[1];
-    minuteStar = auxHourStar[3] + auxHourStar[4];
+  if (auxMMDay != null){
+    if (auxMMDay.emailDay != null) { //if the week day is not null
+      timeStar = auxMMDay.emailDay;//it will store a value like MON / TUE / WED etc..
+    }
+    if (auxMMDay.emailHour != null) { //if the hour and minutes are not null
+      let auxHourStar = auxMMDay.emailHour; //it will store a value like 08:00
+      hourStar = auxHourStar[0] + auxHourStar[1];
+      minuteStar = auxHourStar[3] + auxHourStar[4];
+    }
   }
 
   var d = new Date();//get current date and time
@@ -1680,13 +1681,16 @@ app.post("/edit-user", async (req, res) => {
    }
 });
 
-
 app.get("/admin-page", isAuth, async (req, res) => {
   res.render("admin-page");
 });
 
 app.post("/admin-page", async (req, res) => {});
 
+
+app.get("/team-leader-page", isAuth, async (req, res) => {
+  res.render("team-leader-page");
+});
 
 
 app.get("/admin-programare-MM", isAuth, async (req, res) => {
@@ -1947,7 +1951,7 @@ app.post("/admin-add-user", async (req, res) => {
 
   // UNCOMMENT THIS FOR PRODUCTION
   // 🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
-  if (!email_angajat.includes("vitesco")){
+  if (!email_angajat.includes("vitesco")) {
     req.session.error = "Invalid email";
     req.flash("error", "The email address is invalid. It must contain @vitesco.com");
     return res.redirect("/admin-add-user");
@@ -2722,7 +2726,7 @@ app.post("/admin-add-appointment-day", async (req, res) => {
   let addStartingHour = req.body.addStartingHour;
   let addEndingHour = req.body.addEndingHour;
 
-  if(addStartingHour[4]!=0 || addEndingHour[4]!=0){
+  if( addStartingHour[4] != 0 || addEndingHour[4]!=0 ){
     req.flash("error", "The minutes of the new interval must be a multiple of 10. (00, 10, 20, 30, 40, 50)");
     console.log("teoretic trebuia afisat mesajul");
     return res.redirect("/admin-configure-mm-check");
@@ -2776,6 +2780,7 @@ app.post("/admin-add-appointment-day", async (req, res) => {
       Expired: expired,
     });
     newAppointment.save();
+
   }
   return res.redirect("/admin-configure-mm-check");
 });

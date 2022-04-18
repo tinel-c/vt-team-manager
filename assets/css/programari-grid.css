@@ -16,3 +16,20 @@
 .hidden-email-imput{
   display: none !important;
 }
+
+.no-appointments-wrapper {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+
+.center-no-appointments-div {
+  display: block;
+  margin: auto;
+}
+
+.center-no-appointments-div > h4 {
+  display: flex;
+  margin: auto;
+  font-size: 18px;
+}

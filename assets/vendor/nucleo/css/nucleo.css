@@ -200,6 +200,11 @@ License - nucleoapp.com/license/
   content: "\27A4";
 }
 
+.team-leader-icon::before {
+  content: "\10913";
+  font-weight :1000;
+}
+
 .ni-app::before {
     content: "\ea08";
 }
