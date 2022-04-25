@@ -5,9 +5,9 @@
   grid-auto-rows: minmax(100px, auto);
 }
 
-.threeColumnsGrid {
+.fourColumnsGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 1rem;
   grid-auto-rows: minmax(100px, auto);
 }
@@ -16,59 +16,58 @@
   background-color: #b1a8ff;
 }
 
-.dropdown{
-  height:70%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-      /* font-family: 'Ubuntu', sans-serif; */
-      color: #8898aa;
+.dropdown {
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* font-family: 'Ubuntu', sans-serif; */
+  color: #8898aa;
 }
 
-.supervisorSelector{
-  font-size: .875rem;
+.supervisorSelector {
+  font-size: 0.875rem;
   height: calc(1.5em + 1.25rem + 5px);
-  transition: all .15s ease-in-out;
-  font-size: .875rem;
+  transition: all 0.15s ease-in-out;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
   display: block;
   width: 100%;
   /* height: calc(1.5em + 1.25rem + 2px); */
-  padding: .625rem .75rem;
-  transition: all .15s cubic-bezier(.68, -.55, .265, 1.55);
+  padding: 0.625rem 0.75rem;
+  transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   color: #8898aa;
   border: none;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   background-clip: padding-box;
   box-shadow: 0 3px 2px rgb(233 236 239 / 5%);
   background-color: #f6f6f6;
   box-shadow: 0 0px 0px rgb(50 50 93 / 15%), 0 0px 0 rgb(0 0 0 / 2%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 0.3rem;
 }
 
-
 @media screen and (max-width: 1100px) {
   .box-one-buttons {
-    grid-template-columns: 1fr;;
+    grid-template-columns: 1fr;
   }
   .box-two-buttons {
     margin-top: 3rem;
   }
 }
 
-@media screen and (max-width: 1350px) and (min-width:1200px) {
+@media screen and (max-width: 1350px) and (min-width: 1200px) {
   .box-one-buttons {
-    grid-template-columns: 1fr;;
+    grid-template-columns: 1fr;
   }
   .box-two-buttons {
     margin-top: 3rem;
   }
 }
 
-.hidden-formal-name-input{
+.hidden-formal-name-input {
   display: none !important;
 }

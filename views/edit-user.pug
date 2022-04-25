@@ -48,10 +48,11 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
             a.nav-link(href='/dashboard')
               i.ni.ni-tv-2.text-primary
               span.nav-link-text Dashboard
-          li.nav-item
-            a.nav-link(href='/ssm-su')
-              i.ni.ni-support-16.text-orange
-              span.nav-link-text SSM and SU
+          - if (sessionUser.role == "admin" || sessionUser.role == "esh manager")
+            li.nav-item
+              a.nav-link(href='/ssm-su')
+                i.ni.ni-support-16.text-orange
+                span.nav-link-text SSM and SU
           li.nav-item
             a.nav-link(href='/medical-check')
               i.ni.ni-ambulance.text-primary
@@ -60,18 +61,21 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
             a.nav-link(href='/programare-MM')
               i.ni.ni-ambulance2.text-primary
               span.nav-link-text Programare MM
-          li.nav-item
-            a.nav-link(href='/competency-management')
-              i.ni.ni-bullet-list-67.text-default
-              span.nav-link-text Competecy management
-          li.nav-item
-            a.nav-link(href='/team-leader-page')
-              i.ni.team-leader-icon.text-primary
-              span.nav-link-text Team leader's page
-          li.nav-item
-            a.nav-link(href='/admin-page')
-              i.ni.admin-icon.text-primary
-              span.nav-link-text Admin's page
+          - if (sessionUser.role == "admin" || sessionUser.role == "esh manager")
+            li.nav-item
+              a.nav-link(href='/competency-management')
+                i.ni.ni-bullet-list-67.text-default
+                span.nav-link-text Competecy management
+          - if (sessionUser.role == "team leader" || sessionUser.role == "esh manager" || sessionUser.role == "admin")
+            li.nav-item
+              a.nav-link(href='/team-leader-page')
+                i.ni.team-leader-icon.text-primary
+                span.nav-link-text Team leader's page
+          - if (sessionUser.role == "admin" || sessionUser.role == "esh manager")
+            li.nav-item
+              a.nav-link(href='/admin-page')
+                i.ni.admin-icon.text-primary
+                span.nav-link-text Admin's page
         // Divider
         hr.my-3
         // Heading
@@ -111,7 +115,7 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
       hr
       input.form-control.hidden-formal-name-input(type='text' name='Formal_Name' value=currentUser.Formal_Name)
       input.form-control.hidden-formal-name-input(type='text' name='lastMMinput' value=currentUser.Last_MM id="lastMMinput")
-      .threeColumnsGrid
+      .fourColumnsGrid
         div
           label(for='First_Name')
             b First Name
@@ -124,6 +128,10 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
           label(for='email_angajat')
             b Email
           input.form-control(id="email2" type='text' placeholder="Enter employee's email" name='email_angajat' value=currentUser.email_angajat required)
+        div
+          label(for='gid')
+            b Gid
+          input.form-control(id="gid" type='text' placeholder="Enter employee's gid" name='Gid' value=currentUser.Gid required)
       br
       .twoColumnsGrid
         div

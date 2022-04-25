@@ -6,3 +6,12 @@
   align-content: center;
   text-align: center;
 }
+
+.confirmationMessage {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ccffbf;
+  margin: 20px;
+  align-content: center;
+  text-align: center;
+}

@@ -89,7 +89,7 @@ function isRole(role) {
         req.session.role == "medic" ||
         req.session.role == "esh manager")
     ) {
-      console.log("ramura basic");
+      // console.log("ramura basic");
       return next();
     }
     if (
@@ -97,12 +97,12 @@ function isRole(role) {
       (req.session.role == "admin" || req.session.role == "team leader" ||
       req.session.role == "esh manager")
     ) {
-      console.log("ramura team leader");
+      // console.log("ramura team leader");
       return next();
     }
     if (role == "admin" && (req.session.role == "admin" ||
     req.session.role == "esh manager")) {
-      console.log("ramura admin");
+      // console.log("ramura admin");
       return next();
     }
     if (
@@ -110,11 +110,11 @@ function isRole(role) {
       (req.session.role == "medic" || req.session.role == "admin" ||
       req.session.role == "esh manager")
     ) {
-      console.log("ramura medic"); //posibil sa trebuiasca sa modific astfel incat sa vada si team leader-ul
+      // console.log("ramura medic"); //posibil sa trebuiasca sa modific astfel incat sa vada si team leader-ul
       return next();
     }
     if (role == "esh manager" && (req.session.role == "esh manager")) {
-      console.log("ramura esh manager");
+      // console.log("ramura esh manager");
       return next();
     }
     res.status(401);
@@ -810,13 +810,40 @@ app.get("/medical-check", isAuth, async (req, res) => {
 app.post("/medical-check", async (req, res) => {
   // let Next_MM = req.body.Next_MM;
   let Last_MM = req.body.Last_MM;
-  console.log(Last_MM);
   let email_angajat = req.body.email_angajat;
-  let Medical_limitations = req.body.Medical_limitations;
-  let Next_MM = new Date(Last_MM);
-  let Next_MM_String;
-  Next_MM.setFullYear(Next_MM.getFullYear()+1);
-  Next_MM_String = Next_MM.getFullYear() + '-' + ('0' + (Next_MM.getMonth()+1)).slice(-2) + '-' + ('0' + Next_MM.getDate()).slice(-2);
+  if ( Last_MM == "" ) { // if the last medical check date was not changed, we will update only the medical limitations
+    let Medical_limitations = req.body.Medical_limitations;
+    db.collection("users").updateOne(
+      { email_angajat: email_angajat },
+      {
+        $set: {
+          Medical_limitations: Medical_limitations,
+        },
+      }
+    );
+    return res.redirect("/medical-check");
+  } else { // if the medical check date was also changed, we will update everything (restrictions, lastMM, nextMM)
+    let Medical_limitations = req.body.Medical_limitations;
+    let Next_MM = new Date(Last_MM);
+    let Next_MM_String;
+    Next_MM.setFullYear(Next_MM.getFullYear()+1);
+    Next_MM_String = Next_MM.getFullYear() + '-' + ('0' + (Next_MM.getMonth()+1)).slice(-2) + '-' + ('0' + Next_MM.getDate()).slice(-2);
+    const last_mm_date = reverseDateToDate(Last_MM);
+    const next_mm_date = reverseDateToDate(Next_MM_String);
+    db.collection("users").updateOne(
+      { email_angajat: email_angajat },
+      {
+        $set: {
+          Next_MM: next_mm_date,
+          Last_MM: last_mm_date,
+          Medical_limitations: Medical_limitations,
+        },
+      }
+    );
+    return res.redirect("/medical-check");
+  }
+  
+  
   // console.log(Next_MM);
   // Next_MM.setFullYear(Next_MM.getFullYear()+1);
   // console.log(Next_MM);
@@ -832,106 +859,117 @@ app.post("/medical-check", async (req, res) => {
   // console.log("---------");
 
 
-  const last_mm_date = reverseDateToDate(Last_MM);
-  const next_mm_date = reverseDateToDate(Next_MM_String);
+  
   // console.log(next_mm_date + " ------ " + last_mm_date + " ------ " + email_angajat);
-  db.collection("users").updateOne(
-    { email_angajat: email_angajat },
-    {
-      $set: {
-        Next_MM: next_mm_date,
-        Last_MM: last_mm_date,
-        Medical_limitations: Medical_limitations,
-      },
-    }
-  );
-  return res.redirect("/medical-check");
+  
 });
 
 async function sendReminderEmail() {
-  let today = new Date();
-  let yyyy = today.getFullYear() - 2000;
+  // console.log("we are in the email function");
+
+  let sixtyDaysBeforeCurrentDate = new Date();
+  let currentDate = new Date();
+  sixtyDaysBeforeCurrentDate.setDate(sixtyDaysBeforeCurrentDate.getDate() + 60);
+
+
+
+  // let today = new Date();
+  // let yyyy = today.getFullYear() - 2000;
   const users = await UsersList.find({});
   users.forEach((user) => {
-    let aux = user.Next_MM;
-    let expiration_yyyy = aux.slice(7 - 9);
-    let dif = expiration_yyyy - yyyy;
-    let luna = user.Next_MM[3] + user.Next_MM[4] + user.Next_MM[5];
-    if (dif === 0) {
-      if (luna == "Jan" || luna == "jan") {
-        luna = 1;
-      }
-      if (luna == "Feb" || luna == "feb") {
-        luna = 2;
-      }
-      if (luna == "Mar" || luna == "mar") {
-        luna = 3;
-      }
-      if (luna == "Apr" || luna == "apr") {
-        luna = 4;
-      }
-      if (luna == "May" || luna == "may") {
-        luna = 5;
-      }
-      if (luna == "Jun" || luna == "jun") {
-        luna = 6;
-      }
-      if (luna == "Jul" || luna == "jul") {
-        luna = 7;
-      }
-      if (luna == "Aug" || luna == "aug") {
-        luna = 8;
-      }
-      if (luna == "Sep" || luna == "sep") {
-        luna = 9;
-      }
-      if (luna == "Oct" || luna == "oct") {
-        luna = 10;
-      }
-      if (luna == "Nov" || luna == "nov") {
-        luna = 11;
-      }
-      if (luna == "Dec" || luna == "dec") {
-        luna = 12;
-      }
-      let luna_actuala = today.getMonth() + 1;
-      luna_actuala = 7; ////////////////////////////////
-      dif = luna - luna_actuala;
-      if (dif == 1) {
-        let ziuaActuala = today.getUTCDate();
-        let zileRamase = 31 - ziuaActuala;
-        let ziuaExpirarii = user.Next_MM[0] + user.Next_MM[1];
-        zileRamase += parseInt(ziuaExpirarii);
-        if (zileRamase <= 31) {
-          console.log("trimite mailul de pe ramura 1");
-          sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
-          sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
-        }
-      } else if (dif == 0) {
-        let ziuaActuala = today.getUTCDate();
-        let ziuaExpirarii = user.Next_MM[0] + user.Next_MM[1];
-        let zileRamase = parseInt(ziuaExpirarii) - ziuaActuala;
-        if (zileRamase <= 31) {
-          console.log("trimite mailul de pe ramura 2");
-          sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
-          sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
-        }
-      }
-    } else if (dif === 1 && (luna == "Jan" || luna == "jan")) {
-      if (/*(today.getMonth()+1)*/ 12 == 12) {
-        //daca e decembrie si MM expira in ianuarie
-        let ziuaActuala = today.getUTCDate();
-        ziuaActuala = 08; //////////////////////
-        let zileRamase = 31 - ziuaActuala;
-        let ziuaExpirarii = user.Next_MM[0] + user.Next_MM[1];
-        zileRamase += parseInt(ziuaExpirarii);
-        if (zileRamase <= 36) {
-          console.log("trimite mailul de pe ramura 3");
-          sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
-          sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
-        }
-      }
+
+
+
+    let userMedicalCheckDate = new Date(user.Next_MM);
+    if ( userMedicalCheckDate <= sixtyDaysBeforeCurrentDate && userMedicalCheckDate >= currentDate ) {
+      sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
+      sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
     }
+
+
+
+    // let aux = user.Next_MM;
+    // let expiration_yyyy = aux.slice(7 - 9);
+    // let dif = expiration_yyyy - yyyy;
+    // // console.log(dif);
+    // let luna = user.Next_MM[3] + user.Next_MM[4] + user.Next_MM[5];
+    // // console.log(luna);
+    // if (dif === 0) {
+    //   if (luna == "Jan" || luna == "jan") {
+    //     luna = 1;
+    //   }
+    //   if (luna == "Feb" || luna == "feb") {
+    //     luna = 2;
+    //   }
+    //   if (luna == "Mar" || luna == "mar") {
+    //     luna = 3;
+    //   }
+    //   if (luna == "Apr" || luna == "apr") {
+    //     luna = 4;
+    //   }
+    //   if (luna == "May" || luna == "may") {
+    //     luna = 5;
+    //   }
+    //   if (luna == "Jun" || luna == "jun") {
+    //     luna = 6;
+    //   }
+    //   if (luna == "Jul" || luna == "jul") {
+    //     luna = 7;
+    //   }
+    //   if (luna == "Aug" || luna == "aug") {
+    //     luna = 8;
+    //   }
+    //   if (luna == "Sep" || luna == "sep") {
+    //     luna = 9;
+    //   }
+    //   if (luna == "Oct" || luna == "oct") {
+    //     luna = 10;
+    //   }
+    //   if (luna == "Nov" || luna == "nov") {
+    //     luna = 11;
+    //   }
+    //   if (luna == "Dec" || luna == "dec") {
+    //     luna = 12;
+    //   }
+    //   let luna_actuala = today.getMonth() + 1;
+    //   luna_actuala = 7; ////////////////////////////////
+    //   dif = luna - luna_actuala;
+    //   console.log(dif);
+    //   if (dif == 1) {
+    //     let ziuaActuala = today.getUTCDate();
+    //     let zileRamase = 31 - ziuaActuala;
+    //     let ziuaExpirarii = user.Next_MM[0] + user.Next_MM[1];
+    //     zileRamase += parseInt(ziuaExpirarii);
+    //     if (zileRamase <= 31) {
+    //       console.log("trimite mailul de pe ramura 1");
+    //       sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
+    //       sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
+    //     }
+    //   } else if (dif == 0) {
+    //     let ziuaActuala = today.getUTCDate();
+    //     let ziuaExpirarii = user.Next_MM[0] + user.Next_MM[1];
+    //     let zileRamase = parseInt(ziuaExpirarii) - ziuaActuala;
+    //     if (zileRamase <= 31) {
+    //       console.log("trimite mailul de pe ramura 2");
+    //       sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
+    //       sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
+    //     }
+    //   }
+    // } else if (dif === 1 && (luna == "Jan" || luna == "jan")) {
+    //   if (/*(today.getMonth()+1)*/ 12 == 12) {
+    //     //daca e decembrie si MM expira in ianuarie
+    //     let ziuaActuala = today.getUTCDate();
+    //     ziuaActuala = 08; //////////////////////
+    //     let zileRamase = 31 - ziuaActuala;
+    //     let ziuaExpirarii = user.Next_MM[0] + user.Next_MM[1];
+    //     zileRamase += parseInt(ziuaExpirarii);
+    //     if (zileRamase <= 36) {
+    //       console.log("trimite mailul de pe ramura 3");
+    //       sendMMEmail(user.email_angajat, user.Next_MM, user.Formal_Name);
+    //       sendMMToSupervisorEmail(user.email_superior, user.Next_MM, user.Formal_Name);
+    //     }
+    //   }
+    // }
   });
 }
 
@@ -1536,6 +1574,12 @@ app.post("/edit-user", async (req, res) => {
   let email_superior = req.body.email_superior;
   let restrictions = req.body.Restrictions;
   let Last_MM = req.body.Last_MM;
+  let newGid = req.body.Gid;
+  if(!(/^\d+$/.test(newGid))){ //checking if the Gid has only numbers in its componence
+    console.log("ERROR: a Gid should not contain other characters except for numbers!");
+    req.flash("error", "ERROR: a Gid should not contain other characters except for numbers!");
+    return res.redirect("/edit-user");
+  }
   
   let Next_MM = new Date(Last_MM);
   let Next_MM_String;
@@ -1633,6 +1677,7 @@ app.post("/edit-user", async (req, res) => {
           Last_MM: real_last_mm,
           Next_MM: real_next_mm,
           Formal_Name: Formal_Name,
+          Gid: newGid
         },
       }
     );
@@ -1681,19 +1726,19 @@ app.post("/edit-user", async (req, res) => {
    }
 });
 
-app.get("/admin-page", isAuth, async (req, res) => {
+app.get("/admin-page", isAuth, isRole("admin"), async (req, res) => {
   res.render("admin-page");
 });
 
 app.post("/admin-page", async (req, res) => {});
 
 
-app.get("/team-leader-page", isAuth, async (req, res) => {
+app.get("/team-leader-page", isAuth, isRole("team leader"), async (req, res) => {
   res.render("team-leader-page");
 });
 
 
-app.get("/admin-programare-MM", isAuth, async (req, res) => {
+app.get("/admin-programare-MM", isAuth, isRole("admin"), async (req, res) => {
   let sessionEmail = req.session.userEmail;
   let currentUserName = await UsersList.findOne({email_angajat: sessionEmail});
   // console.log(currentUserName.Formal_Name);
@@ -1862,7 +1907,7 @@ app.post("/admin-delete-programare-MM", async (req, res) => {
   return res.redirect("/admin-programare-MM");
 });
 
-app.get("/get-users-appointments", isAuth, async (req, res) => {
+app.get("/get-users-appointments", isAuth, isRole("admin"), async (req, res) => {
   const {selectedName} = req.query;
   // console.log(selectedName);
   let today = new Date();
@@ -1896,7 +1941,7 @@ app.get("/get-users-appointments", isAuth, async (req, res) => {
 
 
 //isRole("team leader")
-app.get("/admin-add-user", isAuth, async (req, res) => {
+app.get("/admin-add-user", isAuth, isRole("team leader"), async (req, res) => {
   const usersList = await UsersList.find({register_verification: "1"});
   // pastram in supervisoriFinal toti supervisorii aparand o singura data
   let supervisori = [];
@@ -2125,7 +2170,7 @@ app.post("/admin-add-user", async (req, res) => {
   return res.redirect("/dashboard");
 });
 
-app.get("/admin-delete-user", isAuth, async (req, res) => {
+app.get("/admin-delete-user", isAuth, isRole("team leader"), async (req, res) => {
 
   //this part is for selecting only the inferior nodes
   let currentUserEmail =  req.session.userEmail;
@@ -2261,7 +2306,7 @@ app.post("/admin-delete-user", async (req, res) => {
 });
 
 let allIDs = [];
-app.get("/admin-edit-user", isAuth, async (req, res) => {
+app.get("/admin-edit-user", isAuth, isRole("team leader"), async (req, res) => {
   
   //this part is for selecting only the inferior nodes
   let currentUserEmail =  req.session.userEmail;
@@ -2434,6 +2479,12 @@ app.post("/admin-edit-user", isAuth, async (req, res) => {
   let email_superior = req.body.email_superior;
   let restrictions = req.body.Restrictions;
   let Last_MM = req.body.Last_MM;
+  let newGid = req.body.Gid;
+  if(!(/^\d+$/.test(newGid))){ //checking if the Gid has only numbers in its componence
+    console.log("ERROR: a Gid should not contain other characters except for numbers!");
+    req.flash("error", "ERROR: a Gid should not contain other characters except for numbers!");
+    return res.redirect("/admin-edit-user");
+  }
   
   let Next_MM = new Date(Last_MM);
   let Next_MM_String;
@@ -2531,6 +2582,7 @@ app.post("/admin-edit-user", isAuth, async (req, res) => {
           Last_MM: real_last_mm,
           Next_MM: real_next_mm,
           Formal_Name: Formal_Name,
+          Gid: newGid
         },
       }
     );
@@ -2580,7 +2632,7 @@ app.post("/admin-edit-user", isAuth, async (req, res) => {
 
 });
 
-app.get("/admin-appointments-overview", isAuth, async (req, res) => {
+app.get("/admin-appointments-overview", isAuth, isRole("admin"), async (req, res) => {
   //sorting the appointments chronologically
 
   // let appointments = await Appointments.find({ Expired: false }).populate({
@@ -2690,7 +2742,7 @@ app.post("/admin-appointments-overview", async (req, res) => {
   return res.redirect("/admin-appointments-overview");
 });
 
-app.get("/admin-configure-mm-check", isAuth, async (req, res) => {
+app.get("/admin-configure-mm-check", isAuth, isRole("team leader"), async (req, res) => {
   //sorting the appointments chronologically
   let appointments = await Appointments.find({ Expired: false }).populate({
     path: "intervals",
@@ -2782,6 +2834,7 @@ app.post("/admin-add-appointment-day", async (req, res) => {
     newAppointment.save();
 
   }
+  req.flash("confirmation", "The appointment day was created successfully !!");
   return res.redirect("/admin-configure-mm-check");
 });
 
@@ -2822,10 +2875,11 @@ app.post("/admin-delete-appointment-day", async (req, res) => {
       }
     );
   }
+  req.flash("confirmation", "The appointment day was deleted successfully !!");
   return res.redirect("/admin-configure-mm-check");
 });
 
-app.get("/get-users-interval", isAuth, async (req, res) => {
+app.get("/get-users-interval", isAuth, isRole("admin"), async (req, res) => {
   const {interval} = req.query;
   // console.log(interval);
   const tomorrow = new Date(interval);
@@ -2844,7 +2898,7 @@ app.get("/get-users-interval", isAuth, async (req, res) => {
 
 });
 
-app.get("/get-users-interval-edit", isAuth, async (req, res) => {
+app.get("/get-users-interval-edit", isAuth, isRole("admin"), async (req, res) => {
   // const { searchUser, searchTeamLeader, searchAdmin, searchMedic } = req.query;
   function changeTimezone(date, ianatz) {
     var invdate = new Date(
@@ -3079,6 +3133,7 @@ app.post("/admin-edit-appointment-day2", async (req, res) => {
       break;
     }
   }
+  req.flash("confirmation", "The appointment day was edited successfully !!");
   return res.redirect("/admin-configure-mm-check");
 });
 
@@ -3107,7 +3162,7 @@ function sendDeletedAppointmentEmail(sendTo) {
   });
 }
 
-app.get("/admin-MM-email", isAuth, async (req, res) => {
+app.get("/admin-MM-email", isAuth, isRole("admin"), async (req, res) => {
   let medicalCheck = await MM.findOne({ variable: 1 });
   let mmDay = "MON";
   let mmText = "Medicina muncii va expira curand";
@@ -3158,11 +3213,31 @@ app.post("/admin-MM-email", async (req, res) => {
     });
     newMessage.save();
   }
-
-  return res.redirect("/dashboard");
+  req.flash("confirmation", "The information was updated successfully !!");
+  return res.redirect("/admin-MM-email");
 });
 
-app.get("/admin-send-email-MM-company", isAuth, async (req, res) => {
+
+// it sends the reminder email to everybody who has less than 60 days till the medical check expires
+app.post("/admin-MM-send-email-now", async (req,res) => {
+  // let sixtyDaysBeforeCurrentDate = new Date();
+  // let currentDate = new Date();
+  // sixtyDaysBeforeCurrentDate.setDate(sixtyDaysBeforeCurrentDate.getDate() + 60);
+  // let allUsers = await UsersList.find({});
+  // for ( user in allUsers ) {
+    // let userMedicalCheckDate = new Date(allUsers[user].Next_MM);
+    // if ( userMedicalCheckDate <= sixtyDaysBeforeCurrentDate && userMedicalCheckDate >= currentDate ) {
+    //   console.log(allUsers[user].Formal_Name);
+    //   sendReminderEmail();
+    // }
+  // }
+  await sendReminderEmail();
+  req.flash("confirmation", "The emails were sent successfully !!");
+  return res.redirect("/admin-MM-email");
+});
+
+
+app.get("/admin-send-email-MM-company", isAuth, isRole("admin"), async (req, res) => {
   let medicalCheck = await MMCompanyEmail.findOne({ variable: "1" });
   let mmDay = "1";
   let mmEmail = "";
@@ -3186,17 +3261,17 @@ app.get("/admin-send-email-MM-company", isAuth, async (req, res) => {
   }
   let currentDate = changeTimezone(new Date(2021, 10, 12, 08, 00, 00), "UTC");
   let futureDate = changeTimezone(new Date(2021, 10, 13, 00, 00, 00), "UTC");
-  if (
-    new Date(
-      currentDate.getTime() +
-        16 * 60 * 60 * 1000 +
-        (mmDay - 1) * (24 * 60 * 60 * 1000)
-    ).getTime() == futureDate.getTime()
-  ) {
-    console.log("functia merge bine");
-  } else {
-    console.log("funtia nu merge bine");
-  }
+  // if (
+  //   new Date(
+  //     currentDate.getTime() +
+  //       16 * 60 * 60 * 1000 +
+  //       (mmDay - 1) * (24 * 60 * 60 * 1000)
+  //   ).getTime() == futureDate.getTime()
+  // ) {
+  //   console.log("functia merge bine");
+  // } else {
+  //   console.log("funtia nu merge bine");
+  // }
 
   res.render("admin-send-email-MM-company", {
     day: mmDay,
@@ -3454,17 +3529,25 @@ async function sendMMEmailToCompany(
 
 app.post("/admin-manual-send-email-MM-company", async (req, res) => {
   let auxMMDay = await MMCompanyEmail.findOne({ variable: "1" });
+  // console.log(auxMMDay);
   if (auxMMDay) {
+    // console.log("sunt in if");
     let appointmentsCount = await Appointments.find({
       Expired: false,
     }).countDocuments();
+    // TODO mesajul de eroare
+    if ( appointmentsCount == 0 ) {
+      req.flash("error", "ERROR: an email cannot be sent because no appointments were made!");
+      return res.redirect("/admin-send-email-MM-company");
+    }
     let appointmentDate = await Appointments.find({ Expired: false }).populate({
       path: "intervals",
     });
     let k = 0;
+    // console.log(appointmentsCount);
     let closestDate = appointmentDate[0].Date;
     console.log(closestDate);
-    console.log("------");
+    // console.log("------");
     for (let i = 0; i < appointmentsCount; i++) {
       if (appointmentDate[i].Date.getTime() < closestDate.getTime()) {
         closestDate = appointmentDate[i].Date;
@@ -3483,7 +3566,6 @@ app.post("/admin-manual-send-email-MM-company", async (req, res) => {
       return new Date(date.getTime() + diff);
     }
 
-    // DE AICI INCEPE PARTEA CARE SE APLICA LA MINE
     let namelist = appointmentDate[k].intervals;
     let listOfNames = [];
     let appointmentDay = [];
@@ -3499,6 +3581,7 @@ app.post("/admin-manual-send-email-MM-company", async (req, res) => {
     let auxMMDay = await MMCompanyEmail.findOne({ variable: "1" });
     let MMtextMessage = "";
     if (auxMMDay) {
+      
       MMtextMessage = auxMMDay.emailMessage;
       function countOccurences(string, word) {
         return string.split(word).length - 1;
@@ -3536,10 +3619,11 @@ app.post("/admin-manual-send-email-MM-company", async (req, res) => {
   }
 
   console.log("functia de manual send a fost apelata cu succes!!!");
+  req.flash("confirmation", "The email was sent successfully !!");
   return res.redirect("/admin-send-email-MM-company");
 });
 
-app.get("/admin-assign-roles", isAuth, async (req, res) => {
+app.get("/admin-assign-roles", isAuth, isRole("admin"), async (req, res) => {
   const usersList = await UsersList.find({});
   let basic = [];
   let teamLeader = [];
@@ -3680,7 +3764,7 @@ app.post("/admin-assign-roles", async (req, res) => {
   return res.redirect("/admin-assign-roles");
 });
 
-app.get("/admin-rights-to-roles", isAuth, async (req, res) => {
+app.get("/admin-rights-to-roles", isAuth, isRole("admin"), async (req, res) => {
   let roles = await Roles.find({});
   res.render("admin-rights-to-roles", {
     role: roles,
@@ -3749,7 +3833,7 @@ app.post("/admin-rights-to-roles", async (req, res) => {
   return res.redirect("/admin-rights-to-roles");
 });
 
-app.get("/admin-import-table", isAuth, async (req, res) => {
+app.get("/admin-import-table", isAuth, isRole("admin"), async (req, res) => {
   
   res.render("admin-import-table", {
     // usersLists: users,
@@ -4000,6 +4084,7 @@ app.post("/admin-import-table", async (req, res) => {
   
   // Delete the temp file
   fs.unlinkSync(req.files.file.tempFilePath);
+  req.flash("confirmation", "The information was imported successfully !!");
   return res.redirect("/admin-import-table");
 });
 
