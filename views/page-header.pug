@@ -1,86 +1,86 @@
 // Header
 // Header
 
-.header.bg-primary.pb-6
-  .container-fluid
-    .header-body
-      .row.align-items-center.py-4
-        .col-lg-6.col-7
-          h6.h2.text-white.d-inline-block.mb-0 Default
-          nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
-            ol.breadcrumb.breadcrumb-links.breadcrumb-dark
-              li.breadcrumb-item
-                a(href='./')
-                  i.fas.fa-home
-              li.breadcrumb-item
-                a#page-id(href= ' ./' + link) #{page}
-              li.breadcrumb-item.active(aria-current='page') Overview
-        .col-lg-6.col-5.text-right
-          a#update-button.btn.btn-sm.btn-neutral(href='#') Update
-          a#clear-button.btn.btn-sm.btn-neutral(href='#') Clear
-      // Card stats
-      .row#dashboard-vt
-        .col-xl-3.col-md-6
-          .card.card-stats
-            // Card body medical-check
-            .card-body
-              .row
-                .col
-                  h5.card-title.text-uppercase.text-muted.mb-0 Medical check
-                  span#medical-check.h2.font-weight-bold.mb-0 350 / 498
-                .col-auto
-                  .icon.icon-shape.bg-gradient-red.text-white.rounded-circle.shadow
-                    i.ni.ni-ambulance
-              p.mt-3.mb-0.text-sm
-                span#medical-check-percentage.text-success.mr-2
-                  i.fa.fa-arrow-up
-                  |  3.48%
-                span#medical-check-message.text-nowrap Since last month
-        .col-xl-3.col-md-6
-          .card.card-stats
-            // Card body su-training
-            .card-body
-              .row
-                .col
-                  h5.card-title.text-uppercase.text-muted.mb-0 SU Training
-                  span#su-training.h2.font-weight-bold.mb-0 234 / 498
-                .col-auto
-                  .icon.icon-shape.bg-gradient-orange.text-white.rounded-circle.shadow
-                    i.ni.ni-atom
-              p.mt-3.mb-0.text-sm
-                span#su-training-percentage.text-success.mr-2
-                  i.fa.fa-arrow-up
-                  |  3.48%
-                span#su-training-message.text-nowrap Since last month
-        .col-xl-3.col-md-6
-          .card.card-stats
-            // Card body ssm-training
-            .card-body
-              .row
-                .col
-                  h5.card-title.text-uppercase.text-muted.mb-0 SSM Training
-                  span#ssm-training.h2.font-weight-bold.mb-0 340 / 498
-                .col-auto
-                  .icon.icon-shape.bg-gradient-green.text-white.rounded-circle.shadow
-                    i.ni.ni-support-16
-              p.mt-3.mb-0.text-sm
-                span#ssm-training-percentage.text-success.mr-2
-                  i.fa.fa-arrow-up
-                  |  3.48%
-                span#ssm-training-message.text-nowrap Since last month
-        .col-xl-3.col-md-6
-          .card.card-stats
-            // Card body overall-view
-            .card-body
-              .row
-                .col
-                  h5.card-title.text-uppercase.text-muted.mb-0 Overall
-                  span#overall-view.h2.font-weight-bold.mb-0 89,65%
-                .col-auto
-                  .icon.icon-shape.bg-gradient-info.text-white.rounded-circle.shadow
-                    i.ni.ni-chart-bar-32
-              p.mt-3.mb-0.text-sm
-                span#overall-view-percentage.text-success.mr-2
-                  i.fa.fa-arrow-up
-                  |  3.48%
-                span#overall-view-message.text-nowrap Since last month
+//- .header.bg-primary.pb-6
+  //- .container-fluid
+    //- .header-body
+      //- .row.align-items-center.py-4
+        //- .col-lg-6.col-7
+        //-   h6.h2.text-white.d-inline-block.mb-0 Default
+        //-   nav.d-none.d-md-inline-block.ml-md-4(aria-label='breadcrumb')
+        //-     ol.breadcrumb.breadcrumb-links.breadcrumb-dark
+        //-       li.breadcrumb-item
+        //-         a(href='./')
+        //-           i.fas.fa-home
+        //-       li.breadcrumb-item
+        //-         a#page-id(href= ' ./' + link) #{page}
+        //-       li.breadcrumb-item.active(aria-current='page') Overview
+        //- .col-lg-6.col-5.text-right
+        //-   a#update-button.btn.btn-sm.btn-neutral(href='#') Update
+        //-   a#clear-button.btn.btn-sm.btn-neutral(href='#') Clear
+      //- // Card stats
+      //- .row#dashboard-vt
+      //-   .col-xl-3.col-md-6
+      //-     .card.card-stats
+      //-       // Card body medical-check
+      //-       .card-body
+      //-         .row
+      //-           .col
+      //-             h5.card-title.text-uppercase.text-muted.mb-0 Medical check
+      //-             span#medical-check.h2.font-weight-bold.mb-0 350 / 498
+      //-           .col-auto
+      //-             .icon.icon-shape.bg-gradient-red.text-white.rounded-circle.shadow
+      //-               i.ni.ni-ambulance
+      //-         p.mt-3.mb-0.text-sm
+      //-           span#medical-check-percentage.text-success.mr-2
+      //-             i.fa.fa-arrow-up
+      //-             |  3.48%
+      //-           span#medical-check-message.text-nowrap Since last month
+      //-   .col-xl-3.col-md-6
+      //-     .card.card-stats
+      //-       // Card body su-training
+      //-       .card-body
+      //-         .row
+      //-           .col
+      //-             h5.card-title.text-uppercase.text-muted.mb-0 SU Training
+      //-             span#su-training.h2.font-weight-bold.mb-0 234 / 498
+      //-           .col-auto
+      //-             .icon.icon-shape.bg-gradient-orange.text-white.rounded-circle.shadow
+      //-               i.ni.ni-atom
+      //-         p.mt-3.mb-0.text-sm
+      //-           span#su-training-percentage.text-success.mr-2
+      //-             i.fa.fa-arrow-up
+      //-             |  3.48%
+      //-           span#su-training-message.text-nowrap Since last month
+      //-   .col-xl-3.col-md-6
+      //-     .card.card-stats
+      //-       // Card body ssm-training
+      //-       .card-body
+      //-         .row
+      //-           .col
+      //-             h5.card-title.text-uppercase.text-muted.mb-0 SSM Training
+      //-             span#ssm-training.h2.font-weight-bold.mb-0 340 / 498
+      //-           .col-auto
+      //-             .icon.icon-shape.bg-gradient-green.text-white.rounded-circle.shadow
+      //-               i.ni.ni-support-16
+      //-         p.mt-3.mb-0.text-sm
+      //-           span#ssm-training-percentage.text-success.mr-2
+      //-             i.fa.fa-arrow-up
+      //-             |  3.48%
+      //-           span#ssm-training-message.text-nowrap Since last month
+      //-   .col-xl-3.col-md-6
+      //-     .card.card-stats
+      //-       // Card body overall-view
+      //-       .card-body
+      //-         .row
+      //-           .col
+      //-             h5.card-title.text-uppercase.text-muted.mb-0 Overall
+      //-             span#overall-view.h2.font-weight-bold.mb-0 89,65%
+      //-           .col-auto
+      //-             .icon.icon-shape.bg-gradient-info.text-white.rounded-circle.shadow
+      //-               i.ni.ni-chart-bar-32
+      //-         p.mt-3.mb-0.text-sm
+      //-           span#overall-view-percentage.text-success.mr-2
+      //-             i.fa.fa-arrow-up
+      //-             |  3.48%
+      //-           span#overall-view-message.text-nowrap Since last month

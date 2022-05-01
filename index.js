@@ -26,6 +26,11 @@ const fileUpload = require("express-fileupload");
 const readXlsxFile = require("read-excel-file/node");
 const fs = require("fs");
 const Email = require("email-templates");
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOverride = require('method-override');
 connectDB();
 
 const dateToDate = require("./assets/js/medical-check-three-dots-form.js");
@@ -61,9 +66,14 @@ db.on("error", function (err) {
   console.log(err);
 });
 
+// init gfs
+let gfs;
+
 //Check connection
 db.once("open", function () {
   console.log("Connected to MongoDB");
+  gfs = Grid(db.db, mongoose.mongo);
+  // gfs.collection("")
 });
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -223,6 +233,8 @@ app.use(
   })
 );
 app.use(cors());
+app.use(methodOverride('_method'));
+
 
 /** expose the assets folders **/
 app.use("/assets", express.static(path.join(__dirname, "assets")));
@@ -556,8 +568,53 @@ app.get("/medical-check", isAuth, async (req, res) => {
     // baza de date trebuie creata intai
   }
 
-  let usersLists = await UsersList.find({});
-  let usersCount = await UsersList.find({}).countDocuments();
+
+  
+  //this part is for selecting only the inferior nodes
+  let currentUserEmail =  req.session.userEmail;
+  let currentUser = await UsersList.findOne({
+    email_angajat: currentUserEmail
+  });
+  //this function will store the IDs of the inferior nodes in an array which we will use later
+  allIDs.push(currentUser._id);
+  async function parseTree(userId){
+    let user = await UsersList.findOne({
+      _id: userId
+    }).populate({
+      path: "supervising",
+    });
+    let numberOfSupervisedUsers =  user.supervising.length;
+    if (numberOfSupervisedUsers == 0){ 
+      return;
+    }
+
+    // console.log(numberOfSupervisedUsers);
+    for( let i = 0; i < numberOfSupervisedUsers ; i++ ){
+      // console.log(user.supervising[i]._id);
+      allIDs.push(user.supervising[i]._id);
+      await parseTree(user.supervising[i]._id);
+    }
+  }
+  await parseTree(currentUser._id);
+  // console.log(allIDs);
+  let users = await UsersList.find({
+    '_id':{
+      $in: allIDs
+    }
+  });
+  
+
+
+  let usersLists = await UsersList.find({
+    '_id':{
+      $in: allIDs
+    }
+  });
+  let usersCount = await UsersList.find({
+    '_id':{
+      $in: allIDs
+    }
+  }).countDocuments();
   let date1 = new Date();
   for (let i = 0; i < usersCount; i++) {
     let aux = usersLists[i].email_angajat;
@@ -601,7 +658,11 @@ app.get("/medical-check", isAuth, async (req, res) => {
       }
     }
   }
-  usersLists = await UsersList.find({});
+  usersLists = await UsersList.find({
+    '_id':{
+      $in: allIDs
+    }
+  });
   // days_until_next_MM
 
   for (let i = 0; i < usersCount; i++) {
@@ -652,45 +713,80 @@ app.get("/medical-check", isAuth, async (req, res) => {
   } = req.query;
   let usersLists2 = 0;
   if (formalName) {
-    usersLists = await UsersList.find({}).sort({
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).sort({
       Formal_Name: formalName === "asc" ? 1 : -1,
     });
   }
   if (employeeEmail) {
-    usersLists = await UsersList.find({}).sort({
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).sort({
       email_angajat: employeeEmail === "asc" ? 1 : -1,
     });
   }
   if (searchManager && searchManager != "") {
     const regex = new RegExp(searchManager, "i");
-    usersLists = await UsersList.find({ Supervisor: { $regex: regex } });
+    usersLists = await UsersList.find({ '_id':{
+      $in: allIDs
+    },
+    'Supervisor': { $regex: regex } });
   }
   if (searchManagerEmail) {
     const regex = new RegExp(searchManagerEmail, "i");
-    usersLists = await UsersList.find({ email_superior: { $regex: regex } });
+    usersLists = await UsersList.find({ '_id':{
+      $in: allIDs
+    }, 
+    'email_superior': { $regex: regex } });
   }
   if (searchName) {
     const regex = new RegExp(searchName, "i");
-    usersLists = await UsersList.find({ Formal_Name: { $regex: regex } });
+    usersLists = await UsersList.find({ '_id':{
+      $in: allIDs
+    }, 'Formal_Name': { $regex: regex } });
   }
   if (searchEmail) {
     const regex = new RegExp(searchEmail, "i");
-    usersLists = await UsersList.find({ email_angajat: { $regex: regex } });
+    usersLists = await UsersList.find({ '_id':{
+      $in: allIDs
+    },
+    'email_angajat': { $regex: regex } });
   }
   if (status) {
-    usersLists = await UsersList.find({}).sort({
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).sort({
       Medical_check_ok: status === "asc" ? 1 : -1,
     });
   }
   if (expiration) {
-    usersLists = await UsersList.find({}).sort({
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).sort({
       days_until_next_MM: expiration === "asc" ? 1 : -1,
     });
   }
   if (dateMedicalCheck === "asc") {
     let pivotCounter = 0;
-    usersLists = await UsersList.find({});
-    usersCount = await UsersList.find({}).countDocuments();
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    });
+    usersCount = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).countDocuments();
     usersLists2 = usersLists;
     while (pivotCounter < usersCount - 1) {
       let ok = true; // consideram ca pivotul e chiar minimul din sir
@@ -715,8 +811,16 @@ app.get("/medical-check", isAuth, async (req, res) => {
     usersLists = usersLists2;
   } else if (dateMedicalCheck === "desc") {
     let pivotCounter = 0;
-    usersLists = await UsersList.find({});
-    usersCount = await UsersList.find({}).countDocuments();
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    });
+    usersCount = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).countDocuments();
     usersLists2 = usersLists;
     while (pivotCounter < usersCount - 1) {
       let ok = true; // consideram ca pivotul e chiar maximul din sir
@@ -742,8 +846,16 @@ app.get("/medical-check", isAuth, async (req, res) => {
   }
   if (dueDateMedicalCheck === "asc") {
     let pivotCounter = 0;
-    usersLists = await UsersList.find({});
-    usersCount = await UsersList.find({}).countDocuments();
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    });
+    usersCount = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).countDocuments();
     usersLists2 = usersLists;
     while (pivotCounter < usersCount - 1) {
       let ok = true; // consideram ca pivotul e chiar minimul din sir
@@ -768,8 +880,16 @@ app.get("/medical-check", isAuth, async (req, res) => {
     usersLists = usersLists2;
   } else if (dueDateMedicalCheck === "desc") {
     let pivotCounter = 0;
-    usersLists = await UsersList.find({});
-    usersCount = await UsersList.find({}).countDocuments();
+    usersLists = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    });
+    usersCount = await UsersList.find({
+      '_id':{
+        $in: allIDs
+      }
+    }).countDocuments();
     usersLists2 = usersLists;
     while (pivotCounter < usersCount - 1) {
       let ok = true; // consideram ca pivotul e chiar maximul din sir
@@ -799,11 +919,26 @@ app.get("/medical-check", isAuth, async (req, res) => {
   const next_mm_dates = usersLists.map((user) => {
     return lastMMDateToDate(user.Next_MM);
   });
+  allIDs = []; //resetting the value of the global variable "allIDs"
   // console.log(last_mm_dates);
+  let allUsers = await UsersList.find({}).countDocuments(); //the number of users
+  let validUsers = await UsersList.find({});
+  let numberOfValidUsers = 0;
+  for ( user in validUsers ) { // parsing the whole users list
+    if (validUsers[user].Medical_check_ok == 1) numberOfValidUsers++; // incrementing the number of users who have their medical check valid
+  }
+  let validSubordinates = 0;
+  for ( user in usersLists ) { // parsing the subordinates list
+    if ( usersLists[user].Medical_check_ok == 1 ) validSubordinates++; // incrementing the number of subordinates who have their medical check valid
+  }
   res.render("medical-check", {
     usersLists: usersLists,
     last_mm_date: last_mm_dates,
     next_mm_date: next_mm_dates,
+    allSubalternes: usersCount,
+    allUsers: allUsers,
+    validUsers: numberOfValidUsers,
+    validSubordinates: validSubordinates,
   });
 });
 
@@ -1319,6 +1454,7 @@ app.get("/programare-MM", isAuth, async (req, res) => {
     }
     pivotCounter++;
   }
+  console.log(userIntervals);
   res.render("programare-MM", {
     userIntervals: userIntervals,
     currentUserName: currentUserName.Formal_Name,
@@ -2178,6 +2314,7 @@ app.get("/admin-delete-user", isAuth, isRole("team leader"), async (req, res) =>
     email_angajat: currentUserEmail
   });
   //this function will store the IDs of the inferior nodes in an array which we will use later
+  allIDs.push(currentUser._id);
   async function parseTree(userId){
     let user = await UsersList.findOne({
       _id: userId
@@ -2188,6 +2325,7 @@ app.get("/admin-delete-user", isAuth, isRole("team leader"), async (req, res) =>
     if (numberOfSupervisedUsers == 0){ 
       return;
     }
+
     // console.log(numberOfSupervisedUsers);
     for( let i = 0; i < numberOfSupervisedUsers ; i++ ){
       // console.log(user.supervising[i]._id);

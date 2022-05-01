@@ -5,6 +5,34 @@ block content
   link(rel='stylesheet' href='../assets/css/filter-buttons.css' type='text/css')
   link(rel='stylesheet' href='../assets/css/scroll-table.css' type='text/css')
   link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+  .header.bg-primary.pb-6
+    .container-fluid
+      .header-body
+        .row#dashboard-vt
+          .col-xl-3.col-md-6
+            .card.card-stats
+              .card-body
+                .row
+                  .col
+                    h5.card-title.text-uppercase.text-muted.mb-0 Medical check
+                    span#medical-check.h2.font-weight-bold.mb-0 #{validUsers} / #{allUsers}
+                  .col-auto
+                    .icon.icon-shape.bg-gradient-red.text-white.rounded-circle.shadow
+                      i.ni.ni-ambulance
+                p.mt-3.mb-0.text-sm
+                  span#medical-check-message.text-nowrap (all users)
+          .col-xl-3.col-md-6
+            .card.card-stats
+              .card-body
+                .row
+                  .col
+                    h5.card-title.text-uppercase.text-muted.mb-0 Medical check
+                    span#medical-check.h2.font-weight-bold.mb-0 #{validSubordinates} / #{allSubalternes}
+                  .col-auto
+                    .icon.icon-shape.bg-gradient-orange.text-white.rounded-circle.shadow
+                      i.ni.ni-ambulance
+                p.mt-3.mb-0.text-sm
+                  span#medical-check-message.text-nowrap (subordinates + self)
   //- script(src='./assets/js/table2excel.js')
   //- script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
   //- script(src='./assets/js/tableExport.js')

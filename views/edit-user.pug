@@ -108,14 +108,14 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
     .separator.separator-bottom.separator-skew.zindex-100
       svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
   // Page content
-  form(role='form' action="/edit-user" method="post")
+  form(role='form' action="/edit-user" method="post" enctype="multipart/form-data")
     .container
       h1 Edit your profile
       p Hello, #{currentUser.Formal_Name}, here you can edit your profile
       hr
       input.form-control.hidden-formal-name-input(type='text' name='Formal_Name' value=currentUser.Formal_Name)
       input.form-control.hidden-formal-name-input(type='text' name='lastMMinput' value=currentUser.Last_MM id="lastMMinput")
-      .fourColumnsGrid
+      .threeColumnsGrid
         div
           label(for='First_Name')
             b First Name
@@ -128,11 +128,19 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
           label(for='email_angajat')
             b Email
           input.form-control(id="email2" type='text' placeholder="Enter employee's email" name='email_angajat' value=currentUser.email_angajat required)
+      br
+      .twoColumnsGrid
+        // TODO sa fac choose file sa arate la fel ca gid
         div
           label(for='gid')
             b Gid
           input.form-control(id="gid" type='text' placeholder="Enter employee's gid" name='Gid' value=currentUser.Gid required)
-      br
+        div
+          label(for='file')
+            b Profile picture
+          div.custom-file.mb-3
+            input.custom-file-input.selector-bg-color.supervisorSelector(type="file" name="file" id="file" hidden)
+            label.custom-file-label.selector-bg-color.supervisorSelector(for="file") Choose file
       .twoColumnsGrid
         div
           label(for='meh')

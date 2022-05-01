@@ -12,6 +12,13 @@
   grid-auto-rows: minmax(100px, auto);
 }
 
+.threeColumnsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  grid-auto-rows: minmax(100px, auto);
+}
+
 .wrapper > div {
   background-color: #b1a8ff;
 }
