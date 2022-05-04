@@ -28,7 +28,7 @@ const fs = require("fs");
 const Email = require("email-templates");
 const crypto = require('crypto');
 const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
+const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 connectDB();
@@ -61,11 +61,47 @@ let Interval = require("./models/interval");
 let MM = require("./models/mms");
 let Roles = require("./models/roles");
 let MMCompanyEmail = require("./models/mmcompanyemails");
+let imageModel = require("./models/uploads")
 //check for db errors
 db.on("error", function (err) {
   console.log(err);
 });
 
+db.once("open", function () {
+  console.log("Connected to MongoDB");
+});
+
+
+
+// SET STORAGE
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now())
+//   }
+// })
+
+// var upload = multer({ storage: storage })
+
+
+
+// storage
+// const Storage = multer.diskStorage({
+//   destination: 'uploads',
+//   filename:(req,file,cb) => {
+//     cb(null, file.originalname);
+//   },
+// })
+
+// const upload = multer ({
+//   storage: Storage
+// }).single("file");
+
+
+
+/*
 // init gfs
 let gfs;
 
@@ -73,8 +109,31 @@ let gfs;
 db.once("open", function () {
   console.log("Connected to MongoDB");
   gfs = Grid(db.db, mongoose.mongo);
-  // gfs.collection("")
+  gfs.collection("uploads");
 });
+
+// create storage engine
+const storage = new GridFsStorage({
+  url: mongoURI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
+*/
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 const isAuth = (req, res, next) => {
@@ -1602,7 +1661,88 @@ app.get("/edit-user", isAuth, async (req, res) => {
   });
 });
 
+
+
+
+
+// var storage = multer.diskStorage({
+
+//     //Setting up destination and filename for uploads
+//     destination: function (req, file, cb) {  
+//         cb(null, 'uploads/');
+//     },
+//     filename: function (req, file, cb) {  
+//         cb(null, Date.now() + file.originalname);
+//     }
+
+// });
+
+// var upload = multer({
+//     storage: storage,
+//     limits:{
+//         fieldSize: 1024*1024*6,
+//     }
+// });
+
+// app.post('/designer', upload.single('designerImage'), async (req, res) => {
+//   console.log(req.file);
+//   res.redirect("/admin-test");
+//   //rest of the code which is not needed for my query
+// })
+
+
+
+
+// app.post("/uploadphoto",upload.single('myImage'),(req,res)=>{
+//   // var img = fs.readFileSync(req.file.path);
+//   console.log(req);
+//   // var encode_img = img.toString('base64');
+//   // var final_img = {
+//   //     contentType:req.file.mimetype,
+//   //     image:new Buffer(encode_img,'base64')
+//   // };
+//   // imageModel.create(final_img,function(err,result){
+//   //     if(err){
+//   //         console.log(err);
+//   //     }else{
+//   //         console.log(result.img.Buffer);
+//   //         console.log("Saved To database");
+//   //         res.contentType(final_img.contentType);
+//   //         res.send(final_img.image);
+//   //     }
+//   // })
+//   res.redirect("/admin-test");
+// })
+
+
+// app.post("/upload", async (req, res) => {
+//   // let name = 
+//   // console.log(req.body.name);
+//   let file = req.body;
+//   console.log(file);
+
+//   upload(req,res,(err)=>{
+//     if(err) {
+//       console.log(err);
+//     } else {
+//       const newImage = new ImageModel({
+//         name: req.body.name,
+//         image: {
+//           data: req.file.filename,
+//           contentType: 'image/png'
+//         }
+//       })
+//       newImage.save();
+//     }
+//   })
+//   res.redirect('/admin-test');
+// });
+
+
 app.post("/edit-user", async (req, res) => {
+  // console.log(res.json({ file: req.file }));
+  // let file = req.body.file;
+  // console.log(file);
   let Formal_Name = req.body.Formal_Name;
   let Old_Formal_Name = Formal_Name; //pastram vechiul Formal_Name
   let user2 = await UsersList.findOne({

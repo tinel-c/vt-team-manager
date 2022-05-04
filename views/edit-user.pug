@@ -108,6 +108,14 @@ nav#sidenav-main.sidenav.navbar.navbar-vertical.fixed-left.navbar-expand-xs.navb
     .separator.separator-bottom.separator-skew.zindex-100
       svg(x='0' y='0' viewbox='0 0 2560 100' preserveaspectratio='none' version='1.1' xmlns='http://www.w3.org/2000/svg')
   // Page content
+  //- form(action="/upload" method="post" enctype="multipart/form-data")
+  //-   .container
+  //-     label(for='file')
+  //-           b Profile picture
+  //-     div.custom-file.mb-3
+  //-       input.custom-file-input.selector-bg-color.supervisorSelector(type="file" name="file" id="file" accept="image/png, image/jpeg" hidden)
+  //-       label.custom-file-label.selector-bg-color.supervisorSelector(for="file") Choose file
+  //-     button#sign-in.btn.btn-primary.my-4(type='submit' value="Submit") Upload picture
   form(role='form' action="/edit-user" method="post" enctype="multipart/form-data")
     .container
       h1 Edit your profile
