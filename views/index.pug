@@ -5,39 +5,44 @@ block content
     .header.bg-primary.pb-6
     .container-fluid.mt--6
         .row
-          .col-xl-8
-            .card.bg-default
-              .card-header.bg-transparent
-                .row.align-items-center
-                  .col
-                    h6.text-light.text-uppercase.ls-1.mb-1 Overview
-                    h5.h3.text-white.mb-0 Sales value
-                  .col
-                    ul.nav.nav-pills.justify-content-end
-                      li.nav-item.mr-2.mr-md-0(data-toggle='chart' data-target='#chart-sales-dark' data-update='{"data":{"datasets":[{"data":[0, 10, 50, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix='$' data-suffix='k')
-                        a.nav-link.py-2.px-3.active(href='#' data-toggle='tab')
-                          span.d-none.d-md-block Month
-                          span.d-md-none M
-                      li.nav-item(data-toggle='chart' data-target='#chart-sales-dark' data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix='$' data-suffix='k')
-                        a.nav-link.py-2.px-3(href='#' data-toggle='tab')
-                          span.d-none.d-md-block Week
-                          span.d-md-none W
-              .card-body
-                // Chart
-                .chart
-                  // Chart wrapper
-                  canvas#chart-sales-dark.chart-canvas
-          .col-xl-4
+          //- .col-xl-8
+            //- .card.bg-default
+            //-   .card-header.bg-transparent
+            //-     .row.align-items-center
+            //-       .col
+            //-         h6.text-light.text-uppercase.ls-1.mb-1 Overview
+            //-         h5.h3.text-white.mb-0 Sales value
+            //-       .col
+            //-         ul.nav.nav-pills.justify-content-end
+            //-           li.nav-item.mr-2.mr-md-0(data-toggle='chart' data-target='#chart-sales-dark' data-update='{"data":{"datasets":[{"data":[0, 10, 50, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix='$' data-suffix='k')
+            //-             a.nav-link.py-2.px-3.active(href='#' data-toggle='tab')
+            //-               span.d-none.d-md-block Month
+            //-               span.d-md-none M
+            //-           li.nav-item(data-toggle='chart' data-target='#chart-sales-dark' data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix='$' data-suffix='k')
+            //-             a.nav-link.py-2.px-3(href='#' data-toggle='tab')
+            //-               span.d-none.d-md-block Week
+            //-               span.d-md-none W
+            //-   .card-body
+            //-     // Chart
+            //-     .chart
+            //-       // Chart wrapper
+            //-       canvas#chart-sales-dark.chart-canvas
+          .col
             .card
               .card-header.bg-transparent
                 .row.align-items-center
                   .col
-                    h6.text-uppercase.text-muted.ls-1.mb-1 Performance
-                    h5.h3.mb-0 Total orders
+                    h6.text-uppercase.text-muted.ls-1.mb-1 Chart
+                    h5.h3.mb-0 Appointments dashboard
               .card-body
                 // Chart
                 .chart
-                  canvas#chart-bars.chart-canvas
+                  canvas#myChart.canvas-wrapper
+                  input.hidden-inputs(type="text" id="allUsersCount" value=allUsersCount)
+                  input.hidden-inputs(type="text" id="subordinatesCount" value=subordinatesCount)
+                  input.hidden-inputs(type="text" id="subordinatesExpired" value=subordinatesExpired)
+                  input.hidden-inputs(type="text" id="allUsersExpired" value=allUsersExpired)
+                  //- canvas#chart-bars.chart-canvas
         //- .row
         //-   .col-xl-8
         //-     .card

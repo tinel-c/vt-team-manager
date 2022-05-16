@@ -2,6 +2,7 @@ const formalNameSelector = document.getElementById("dynamic_select");
 const deleteAppointment = document.getElementById("deleteTimeSlot");
 const formalName = document.getElementById("formalNameForDeletedAppointment");
 const hiddenOrNot = document.getElementById("hiddenOrNot");
+const hiddenDeleteTimeSlot = document.getElementById("hiddenDeleteTimeSlot");
 
 // function HiddenIteration(date){
 //   if(date != ""){
@@ -34,6 +35,7 @@ async function firstIteration(){
     p.innerHTML = text;
     users.appendChild(p);
     deleteAppointment.value = sh;
+    hiddenDeleteTimeSlot.value = sh;
     formalName.value = name;
   }
 }
@@ -63,6 +65,7 @@ formalNameSelector.onchange = async (e) => {
     p.innerHTML = text;
     users.appendChild(p);
     deleteAppointment.value = sh;
+    hiddenDeleteTimeSlot.value = sh;
     formalName.value = name;
   }
 }

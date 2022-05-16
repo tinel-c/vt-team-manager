@@ -623,6 +623,11 @@ app.get("/medical-check", isAuth, async (req, res) => {
       medical_check_three_dots_popup: "0",
     });
     newMedicRole.save();
+    const newEshRole = new Roles({
+      role: "esh manager",
+      medical_check_three_dots_popup: "0",
+    });
+    newEshRole.save();
     // nu merge sa asignam drepturile rolului respectiv sesiunii inca
     // baza de date trebuie creata intai
   }
@@ -1513,7 +1518,7 @@ app.get("/programare-MM", isAuth, async (req, res) => {
     }
     pivotCounter++;
   }
-  console.log(userIntervals);
+  // console.log(userIntervals);
   res.render("programare-MM", {
     userIntervals: userIntervals,
     currentUserName: currentUserName.Formal_Name,
@@ -1525,7 +1530,7 @@ app.get("/programare-MM", isAuth, async (req, res) => {
 app.post("/programare-MM", async (req, res) => {
   
   // const Formal_Name = req.body.Formal_Name;
-
+  
   const email_angajat = req.body.email_angajat;
   let user = await UsersList.findOne({email_angajat: email_angajat});
   // console.log(user);
@@ -1606,14 +1611,22 @@ app.post("/programare-MM", async (req, res) => {
       " s-a programat pentru MM pe data de " +
       timeSlot
   );
-  return res.redirect("/dashboard");
+  return res.redirect("/programare-MM");
 });
 
 app.post("/delete-programare-MM", async (req, res) => {
-  let deleteInterval = new Date(req.body.deleteTimeSlot);
+  console.log(req.body.deleteTimeSlot);
+  let deleteInterval = null;
+  if ( req.body.deleteTimeSlot == null ) {
+    deleteInterval = new Date(req.body.hiddenDeleteTimeSlot);
+  } else {
+    deleteInterval = new Date(req.body.deleteTimeSlot);
+  }
+
+  //TODO sa ia intervalul automat fara sa se selecteze ceva
   let deleteIntervalEmail = req.session.userEmail;
-  let username = await UsersList.findOne({email_angajat: deleteIntervalEmail})
-  Formal_Name = username.Formal_Name;
+  let employee = await UsersList.findOne({email_angajat: deleteIntervalEmail})
+  Formal_Name = employee.Formal_Name;
 
   function changeTimezone(date, ianatz) {
     var invdate = new Date(
@@ -1629,10 +1642,13 @@ app.post("/delete-programare-MM", async (req, res) => {
   let userIntervals = await Interval.findOne({Name: Formal_Name , Starting_Hour:finalDate});
   appointmentId = userIntervals._id;
   Interval.findOne({ Name: Formal_Name , Starting_Hour:finalDate }, function (error, person) {
-    console.log("This interval will get deleted " + person);
+    // console.log("This interval will get deleted " + person);
     person.remove();
   });
   
+  deletedAppointmentWarningMail(employee.email_angajat, finalDate, employee.Formal_Name);
+  deletedAppointmentWarningMail(employee.email_superior, finalDate, employee.Formal_Name);
+
   // console.log(appointmentId);
   // console.log("-_-_-_-_-");
   // let midnight = new Date(req.body.deleteTimeSlot);
@@ -1645,6 +1661,43 @@ app.post("/delete-programare-MM", async (req, res) => {
 // ramane ID ul de la interval in appointments.intervals chiar si dupa ce este sters!! (insa nu afecteaza cu nimic aplicatia)
   return res.redirect("/programare-MM");
 });
+
+// TODO functia pentru 
+async function deletedAppointmentWarningMail(sendTo, dueDate, employeeName) {
+  let month = dueDate.getMonth()+1;
+  if ( month < 10 ) {
+    month = `0${month}`;
+  }
+  let day = dueDate.getDate();
+  if ( day < 10 ) {
+    day = `0${day}`;
+  }
+
+  let emailMessage = `Programarea lui ${employeeName} din data de ${day}-${month}-${dueDate.getFullYear()} a fost stearsa.`;
+
+  console.log("The email function has been reached !!");
+  const transporter = nodemailer.createTransport({
+    service: "Yahoo",
+    auth: {
+      user: "razvaniftimoaia20@yahoo.ro",
+      pass: "_email_password_here_",
+    },
+  });
+  const options = {
+    from: "razvaniftimoaia20@yahoo.ro",
+    to: sendTo,
+    subject: "Despre medicina muncii",
+    text: emailMessage,
+  };
+  transporter.sendMail(options, function (err, info) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log("sent:" + info.response);
+    console.log("The email was sent successfully !!");
+  });
+}
 
 
 app.get("/edit-user", isAuth, async (req, res) => {
@@ -2014,7 +2067,7 @@ app.get("/team-leader-page", isAuth, isRole("team leader"), async (req, res) => 
 });
 
 
-app.get("/admin-programare-MM", isAuth, isRole("admin"), async (req, res) => {
+app.get("/admin-programare-MM", isAuth, isRole("team leader"), async (req, res) => {
   let sessionEmail = req.session.userEmail;
   let currentUserName = await UsersList.findOne({email_angajat: sessionEmail});
   // console.log(currentUserName.Formal_Name);
@@ -2054,6 +2107,9 @@ app.get("/admin-programare-MM", isAuth, isRole("admin"), async (req, res) => {
     }
     pivotCounter++;
   }
+  // console.log("------------");
+  // console.log(appointments);
+  // console.log("------------");
   res.render("admin-programare-MM", {
     userIntervals: userIntervals,
     currentUserName: currentUserName.Formal_Name,
@@ -2144,11 +2200,28 @@ app.post("/admin-programare-MM", isAuth, async (req, res) => {
 });
 
 app.post("/admin-delete-programare-MM", async (req, res) => {
-  let deleteInterval = new Date(req.body.deleteTimeSlot);
-  console.log("am primit intervalul care trebuie sters:");
-  console.log(deleteInterval);
+  console.log(req.body.deleteTimeSlot);
+  console.log(req.body.hiddenDeleteTimeSlot);
+
+  if (req.body.deleteTimeSlot == null && req.body.hiddenDeleteTimeSlot == "on") {
+    console.log("nu a fost selectat ABSOLUT NIMIC");
+    res.redirect("admin-programare-MM");
+  }
+
+
+  let deleteInterval = null;
+  if ( req.body.deleteTimeSlot == null ) {
+    deleteInterval = new Date(req.body.hiddenDeleteTimeSlot);
+  } else {
+    deleteInterval = new Date(req.body.deleteTimeSlot);
+  }
+
+
+ 
   // let deleteIntervalEmail = req.body.formalNameForDeletedAppointment;
   let Formal_Name = req.body.formalNameForDeletedAppointment;
+  let employee = await UsersList.findOne({Formal_Name: Formal_Name});
+
   // let username = await UsersList.findOne({email_angajat: deleteIntervalEmail})
   // Formal_Name = username.Formal_Name;
 
@@ -2166,9 +2239,12 @@ app.post("/admin-delete-programare-MM", async (req, res) => {
   let userIntervals = await Interval.findOne({Name: Formal_Name , Starting_Hour:finalDate});
   appointmentId = userIntervals._id;
   Interval.findOne({ Name: Formal_Name , Starting_Hour:finalDate }, function (error, person) {
-    console.log("This interval will get deleted " + person);
+    // console.log("This interval will get deleted " + person);
     person.remove();
   });
+
+  deletedAppointmentWarningMail(employee.email_angajat, finalDate, employee.Formal_Name);
+  deletedAppointmentWarningMail(employee.email_superior, finalDate, employee.Formal_Name);
   
   // console.log(appointmentId);
   // console.log("-_-_-_-_-");
@@ -2183,7 +2259,7 @@ app.post("/admin-delete-programare-MM", async (req, res) => {
   return res.redirect("/admin-programare-MM");
 });
 
-app.get("/get-users-appointments", isAuth, isRole("admin"), async (req, res) => {
+app.get("/get-users-appointments", isAuth, isRole("team leader"), async (req, res) => {
   const {selectedName} = req.query;
   // console.log(selectedName);
   let today = new Date();
@@ -2448,6 +2524,15 @@ app.post("/admin-add-user", async (req, res) => {
 
 app.get("/admin-delete-user", isAuth, isRole("team leader"), async (req, res) => {
 
+  let query = req.query;
+  let fullNameQuery = "";
+  if ( query ) {
+    // console.log("s-a trimis un query");
+    console.log(query.filterUsers);
+    fullNameQuery = query.filterUsers;
+  }
+  const regex = new RegExp(fullNameQuery, "i");
+
   //this part is for selecting only the inferior nodes
   let currentUserEmail =  req.session.userEmail;
   let currentUser = await UsersList.findOne({
@@ -2478,7 +2563,7 @@ app.get("/admin-delete-user", isAuth, isRole("team leader"), async (req, res) =>
   let users = await UsersList.find({
     '_id':{
       $in: allIDs
-    }
+    }, 'Formal_Name': { $regex: regex }
   });
   allIDs = []; //resetting the value of the global variable "allIDs"
 
@@ -4394,52 +4479,105 @@ app.get(
   }
 );
 
-app.get(
-  "/dashboard",
-  isAuth,
-  /*isLoggedIn ,*/ /*authenticateToken,*/ async (req, res) => {
-    let roles = await Roles.find({});
-    if (roles != "") {
-      //daca roles exista
-      // console.log("roles exista");
-      let sessionRole = req.session.role;
-      let roles2 = await Roles.findOne({ role: sessionRole });
-      req.session.medical_check_three_dots_popup =
-        roles2.medical_check_three_dots_popup;
-    } else {
-      const newBasicRole = new Roles({
-        role: "basic",
-        medical_check_three_dots_popup: "0",
-      });
-      newBasicRole.save();
-      const newAdminRole = new Roles({
-        role: "admin",
-        medical_check_three_dots_popup: "0",
-      });
-      newAdminRole.save();
-      const newTeamLeaderRole = new Roles({
-        role: "team leader",
-        medical_check_three_dots_popup: "0",
-      });
-      newTeamLeaderRole.save();
-      const newMedicRole = new Roles({
-        role: "medic",
-        medical_check_three_dots_popup: "0",
-      });
-      newMedicRole.save();
-      // nu merge sa asignam drepturile rolului respectiv sesiunii inca
-      // baza de date trebuie creata intai
-    }
+app.get("/dashboard", isAuth, /*isLoggedIn ,*/ /*authenticateToken,*/ async (req, res) => {
 
-    res.render("index", {
-      title: "Dashboard",
-      userLogin: req.user,
-      userLoggedIn: req.loginStatus,
-      page: "Dashboard",
-      link: "dashboard",
+  // updating the roles
+  let roles = await Roles.find({});
+  if (roles != "") { // if the roles already exist, we mult only update them
+    let sessionRole = req.session.role;
+    let roles2 = await Roles.findOne({ role: sessionRole });
+    req.session.medical_check_three_dots_popup =
+      roles2.medical_check_three_dots_popup;
+  } else {
+    const newBasicRole = new Roles({
+      role: "basic",
+      medical_check_three_dots_popup: "0",
     });
+    newBasicRole.save();
+    const newAdminRole = new Roles({
+      role: "admin",
+      medical_check_three_dots_popup: "0",
+    });
+    newAdminRole.save();
+    const newTeamLeaderRole = new Roles({
+      role: "team leader",
+      medical_check_three_dots_popup: "0",
+    });
+    newTeamLeaderRole.save();
+    const newMedicRole = new Roles({
+      role: "medic",
+      medical_check_three_dots_popup: "0",
+    });
+    newMedicRole.save();
+    // nu merge sa asignam drepturile rolului respectiv sesiunii inca
+    // baza de date trebuie creata intai
   }
-);
+
+
+
+   //this part is for selecting only the inferior nodes
+   let currentUserEmail =  req.session.userEmail;
+   let currentUser = await UsersList.findOne({
+     email_angajat: currentUserEmail
+   });
+   //this function will store the IDs of the inferior nodes in an array which we will use later
+   allIDs.push(currentUser._id);
+   async function parseTree(userId){
+     let user = await UsersList.findOne({
+       _id: userId
+     }).populate({
+       path: "supervising",
+     });
+     let numberOfSupervisedUsers =  user.supervising.length;
+     if (numberOfSupervisedUsers == 0){ 
+       return;
+     }
+ 
+     // console.log(numberOfSupervisedUsers);
+     for( let i = 0; i < numberOfSupervisedUsers ; i++ ){
+       // console.log(user.supervising[i]._id);
+       allIDs.push(user.supervising[i]._id);
+       await parseTree(user.supervising[i]._id);
+     }
+   }
+   await parseTree(currentUser._id);
+   // console.log(allIDs);
+   let users = await UsersList.find({
+     '_id':{
+       $in: allIDs
+     }
+   });
+   allIDs = []; //resetting the value of the global variable "allIDs"
+   console.log(users.length);
+   let allUsersCount = await UsersList.find({});
+   console.log(allUsersCount.length);
+  
+
+  let expiredSubordinates = 0;
+  for ( user in users ) { // parsing the subordinates list
+    if ( users[user].Medical_check_ok == 0 ) expiredSubordinates++; // incrementing the number of subordinates who have their medical check valid
+  }
+  console.log(expiredSubordinates);
+
+  let expiredAllUsers = 0;
+  for ( user in allUsersCount ) { // parsing the subordinates list
+    if ( allUsersCount[user].Medical_check_ok == 0 ) expiredAllUsers++; // incrementing the number of subordinates who have their medical check valid
+  }
+  console.log(expiredAllUsers);
+
+
+  res.render("index", {
+    title: "Dashboard",
+    userLogin: req.user,
+    userLoggedIn: req.loginStatus,
+    page: "Dashboard",
+    link: "dashboard",
+    subordinatesCount: users.length,
+    allUsersCount: allUsersCount.length,
+    subordinatesExpired: expiredSubordinates,
+    allUsersExpired: expiredAllUsers
+  });
+});
 
 app.get(
   "/profile",

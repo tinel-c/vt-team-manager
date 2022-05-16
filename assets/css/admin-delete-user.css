@@ -25,3 +25,12 @@ tr:nth-child(even) {
 .hidden-email-imput{
   display: none !important;
 }
+
+.delete-user-container {
+  margin: 0 0 1.5rem 0;
+}
+
+.delete-user-search-bar {
+  border-radius: 20px;
+  color: rgb(0, 0, 0);
+}

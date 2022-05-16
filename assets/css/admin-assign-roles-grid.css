@@ -152,3 +152,7 @@ div > .tabele-din-carduri {
   font-size: 150%;
   font-weight: bold;
 }
+
+.pop-up-width {
+  width: 30px !important;
+}

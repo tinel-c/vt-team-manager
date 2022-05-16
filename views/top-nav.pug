@@ -3,15 +3,15 @@ nav.navbar.navbar-top.navbar-expand.navbar-dark.bg-primary.border-bottom
   .container-fluid
     #navbarSupportedContent.collapse.navbar-collapse
       // Search form
-      form#navbar-search-main.navbar-search.navbar-search-light.form-inline.mr-sm-3
-        .form-group.mb-0
-          .input-group.input-group-alternative.input-group-merge
-            .input-group-prepend
-              span.input-group-text
-                i.fas.fa-search
-            input.form-control(placeholder='Search' type='text')
-        button.close(type='button' data-action='search-close' data-target='#navbar-search-main' aria-label='Close')
-          span(aria-hidden='true') &times;
+      //- form#navbar-search-main.navbar-search.navbar-search-light.form-inline.mr-sm-3
+      //-   .form-group.mb-0
+      //-     .input-group.input-group-alternative.input-group-merge
+      //-       .input-group-prepend
+      //-         span.input-group-text
+      //-           i.fas.fa-search
+      //-       input.form-control(placeholder='Search' type='text')
+        //- button.close(type='button' data-action='search-close' data-target='#navbar-search-main' aria-label='Close')
+        //-   span(aria-hidden='true') &times;
       // Navbar links
       ul.navbar-nav.align-items-center.ml-md-auto
         li.nav-item.d-xl-none
@@ -101,7 +101,7 @@ nav.navbar.navbar-top.navbar-expand.navbar-dark.bg-primary.border-bottom
           a.nav-link.pr-0(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
             .media.align-items-center
               span.avatar.avatar-sm.rounded-circle
-                img(alt='Image placeholder' src='assets/img/theme/team-4.jpg')
+                img(alt='Image placeholder' src='assets/img/theme/profile-pic.jpg')
               .media-body.ml-2.d-none.d-lg-block
                 span.mb-0.text-sm.font-weight-bold #{sessionUser.formalName}
           .dropdown-menu.dropdown-menu-right
@@ -110,15 +110,15 @@ nav.navbar.navbar-top.navbar-expand.navbar-dark.bg-primary.border-bottom
             a.dropdown-item(href='/edit-user')
               i.ni.ni-single-02
               span My profile
-            a.dropdown-item(href='#!')
-              i.ni.ni-settings-gear-65
-              span Settings
-            a.dropdown-item(href='#!')
-              i.ni.ni-calendar-grid-58
-              span Activity
-            a.dropdown-item(href='#!')
-              i.ni.ni-support-16
-              span Support
+            //- a.dropdown-item(href='#!')
+            //-   i.ni.ni-settings-gear-65
+            //-   span Settings
+            //- a.dropdown-item(href='#!')
+            //-   i.ni.ni-calendar-grid-58
+            //-   span Activity
+            //- a.dropdown-item(href='#!')
+            //-   i.ni.ni-support-16
+            //-   span Support
             .dropdown-divider
             a#logout.dropdown-item(href='/logout')
               i.ni.ni-user-run
