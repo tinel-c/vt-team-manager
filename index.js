@@ -408,15 +408,11 @@ app.post("/add-user", async (req, res) => {
     return res.redirect("/add-user");
   }
 
-  // UNCOMMENT THIS FOR PRODUCTION
-  // 🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
   if (!email_angajat.includes("vitesco")){
     req.session.error = "Invalid email";
     req.flash("error", "The email address is invalid. It must contain @vitesco.com");
     return res.redirect("/add-user");
   }
-  // 🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
-  // UNCOMMENT THIS FOR PRODUCTION
 
   //we will take razvan-stefan.iftimoaia11@vitesco.com as an example
   let firstName = email_angajat.substring(0, email_angajat.indexOf("."));
@@ -558,12 +554,12 @@ function sendRegisterEmail(sendTo, sendToken) {
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: "User registered successfully !!",
     text: "Acesta este tokenul unic pentru logarea pe site: " + sendToken,
@@ -1331,12 +1327,12 @@ async function sendMMEmail(sendTo, dueDate, name) {
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: "Despre medicina muncii",
     text: MMtextMessage,
@@ -1359,12 +1355,12 @@ async function sendMMToSupervisorEmail(sendTo, dueDate, name) {
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: "Despre medicina muncii",
     text: MMtextMessage,
@@ -1401,12 +1397,12 @@ function sendAppointmentEmail(sendTo, Formal_Name, appointmentDate) {
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: "Programare medicina muncii",
     text:
@@ -1679,12 +1675,12 @@ async function deletedAppointmentWarningMail(sendTo, dueDate, employeeName) {
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: "Despre medicina muncii",
     text: emailMessage,
@@ -3505,12 +3501,12 @@ function sendDeletedAppointmentEmail(sendTo) {
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: "Programarea pentru medicina muncii a fost anulata",
     text: "Buna ziua, cu parere de rau va informam ca programarea dumneavoastra pentru controlul medical a fost stearsa datorita modificarii intervalului / anularii zilei pentru control. Va multumim pentru intelegere si va asteptam sa faceti o noua programare!",
@@ -3722,7 +3718,6 @@ async function checkExpiredAppointmentDays() { //updates the expired appointment
 }
 
 async function chooseEmailParticipants() {
-  // ❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
   //verificam intai daca avem programare saptamana asta
 
   //   function isDateInThisWeek(date) {
@@ -3804,7 +3799,6 @@ async function chooseEmailParticipants() {
             getInterval(`${val.Starting_Hour}`)
           );
         }
-        //❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
         let auxMMDay = await MMCompanyEmail.findOne({ variable: "1" });
         let MMtextMessage = "";
         if (auxMMDay) {
@@ -3858,7 +3852,7 @@ async function sendMMEmailToCompany(
   const transporter = nodemailer.createTransport({
     service: "Yahoo",
     auth: {
-      user: "razvaniftimoaia20@yahoo.ro",
+      user: "_email_address_here_",
       pass: "_email_password_here_",
     },
   });
@@ -3874,7 +3868,7 @@ async function sendMMEmailToCompany(
   const html = await email.render(template, locals);
 
   const options = {
-    from: "razvaniftimoaia20@yahoo.ro",
+    from: "_email_address_here_",
     to: sendTo,
     subject: sendSubject,
     // text: sendText,
@@ -3940,7 +3934,6 @@ app.post("/admin-manual-send-email-MM-company", async (req, res) => {
       );
       let decoy3 = listOfIntervals.push(getInterval(`${val.Starting_Hour}`));
     }
-    //❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
     let auxMMDay = await MMCompanyEmail.findOne({ variable: "1" });
     let MMtextMessage = "";
     if (auxMMDay) {
