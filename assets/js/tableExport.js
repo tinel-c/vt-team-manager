@@ -7,6 +7,5 @@
 $(document).ready
 (function(){
   $("#downloadexcel").click(function(){
-    console.log("hatz cu cretuleanu");
   })
 })
